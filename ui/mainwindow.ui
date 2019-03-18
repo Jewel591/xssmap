@@ -17,7 +17,7 @@
    <widget class="QComboBox" name="comboBox">
     <property name="geometry">
      <rect>
-      <x>10</x>
+      <x>0</x>
       <y>10</y>
       <width>71</width>
       <height>31</height>
@@ -38,7 +38,7 @@
     </property>
     <property name="geometry">
      <rect>
-      <x>80</x>
+      <x>70</x>
       <y>10</y>
       <width>571</width>
       <height>31</height>
@@ -69,7 +69,7 @@
    <widget class="QLineEdit" name="input_arg">
     <property name="geometry">
      <rect>
-      <x>80</x>
+      <x>70</x>
       <y>50</y>
       <width>571</width>
       <height>31</height>
@@ -85,7 +85,7 @@
    <widget class="QComboBox" name="comboBox_2">
     <property name="geometry">
      <rect>
-      <x>10</x>
+      <x>0</x>
       <y>50</y>
       <width>71</width>
       <height>31</height>

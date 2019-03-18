@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 4.8.2, 2019-03-16T15:42:07. -->
+<!-- Written by QtCreator 4.8.2, 2019-03-18T10:16:14. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -294,8 +294,8 @@
     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">xss</value>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName"></value>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:/Users/liaolin/Library/Mobile Documents/com~apple~CloudDocs/Personal/Coding/qt/xss/xss.pro</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">xss2</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:/Users/liaolin/Library/Mobile Documents/com~apple~CloudDocs/Personal/Coding/PycharmProjects/AutoVeriXSS/ui/xss.pro</value>
     <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.ProFile">xss.pro</value>
     <value type="QString" key="RunConfiguration.Arguments"></value>
     <value type="uint" key="RunConfiguration.QmlDebugServerPort">3768</value>
