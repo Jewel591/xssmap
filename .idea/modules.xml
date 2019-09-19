@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/AutoVeriXSS.iml" filepath="$PROJECT_DIR$/.idea/AutoVeriXSS.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/CheckXSS.iml" filepath="$PROJECT_DIR$/.idea/CheckXSS.iml" />
     </modules>
   </component>
 </project>

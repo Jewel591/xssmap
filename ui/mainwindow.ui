@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>650</width>
+    <width>964</width>
     <height>709</height>
    </rect>
   </property>
@@ -40,7 +40,7 @@
      <rect>
       <x>70</x>
       <y>10</y>
-      <width>571</width>
+      <width>891</width>
       <height>31</height>
      </rect>
     </property>
@@ -71,7 +71,7 @@
      <rect>
       <x>70</x>
       <y>50</y>
-      <width>571</width>
+      <width>891</width>
       <height>31</height>
      </rect>
     </property>
@@ -122,7 +122,7 @@ font: 12 13pt &quot;PingFang SC&quot;;</string>
      <rect>
       <x>0</x>
       <y>120</y>
-      <width>651</width>
+      <width>981</width>
       <height>571</height>
      </rect>
     </property>
@@ -206,7 +206,7 @@ font: 12 13pt &quot;PingFang SC&quot;;</string>
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>650</width>
+     <width>964</width>
      <height>22</height>
     </rect>
    </property>
