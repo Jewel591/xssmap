@@ -98,7 +98,7 @@ class Worker(QThread):
 class CheckStart():
 
     def check_close(self):
-        print("闭合测试...".center(160))
+        print("正在进行闭合测试".center(160))
         while url_data.HTTP_METHON == "GET":
             CheckPrepare.isurlok(self, url_data.get_url)
             if url_data.urlok == "no":
@@ -149,8 +149,13 @@ class CheckStart():
                     else:
                         url_data.sensitive['close_tag'].append(i)
 
-            [print("未过滤：", e.replace("591", ""))
-             for e in url_data.unsensitive['close']]
+            [print("未过滤：", e.replace("591", "")) for e in url_data.unsensitive['close']]
+            # 将未过滤的闭合字符整体输出
+            str591=""
+            for e in url_data.unsensitive['close']:
+                str591+=e.replace("591", "")
+            print("未过滤闭合字符串：", str591)
+
             # str1 = mymodule.list_to_str(
             #     url_data.unsensitive['close']).replace(
             #     "591", "")
@@ -164,6 +169,8 @@ class CheckStart():
                     mymodule.list_to_str(
                         url_data.unsensitive['close_tag']).replace("591", ''))
             break
+
+
         while url_data.HTTP_METHON == "POST":
             CheckPrepare.isurlok(self, url_data.post_url)
             if url_data.urlok == "no":
