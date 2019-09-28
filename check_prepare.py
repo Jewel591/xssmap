@@ -1,78 +1,87 @@
 import re
-
+import os
 import requests
-
-import url_data
-import human_read
+import subprocess
+import urldata
+import format
 from noquote import NoQuoteSession
 
 
 class CheckPrepare():
-    def isurlok(self, url):
-        try:
-            header = {
-                'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:65.0) Gecko/20100101 Firefox/65.0',
-                'Content-Type': 'application/x-www-form-urlencoded'}
-            requests.get(url, headers=header, verify=False, timeout=3)
-        except BaseException:
-            print("站点不可达...".center(160))
-            url_data.urlok = "no"
+    def isurlok(self):
+        while urldata.HTTP_METHON == "GET":
+            try:
+                header = {
+                    'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:65.0) Gecko/20100101 Firefox/65.0',
+                    'Content-Type': 'application/x-www-form-urlencoded'}
+                requests.get(urldata.get_url, headers=header, verify=False, timeout=3)
+            except BaseException:
+                print("站点不可达...".center(170))
+                urldata.urlok = "no"
+                return
+
+        while urldata.HTTP_METHON == "POST":
+            try:
+                header = {
+                    'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:65.0) Gecko/20100101 Firefox/65.0',
+                    'Content-Type': 'application/x-www-form-urlencoded'}
+                requests.post(urldata.post_url,data=urldata.post_data, headers=header, verify=False, timeout=3)
+            except BaseException:
+                print("站点不可达...".center(170))
+                urldata.urlok = "no"
+                return 
+
 
         # 重构 url 和 keyword
 
     def rebuild(self):
         # payload.keyword_expand("<>")#重构 keyword
-        word = url_data.word#去除参数末尾的空格——输入1
-        # word="PAGE_ID"
-        # word = "serachType2"
+        word = urldata.word#去除参数末尾的空格——输入1
         if word=="":
             word = "style"
         re_word = word + ".*?&"
         re_word_2 = word + ".*"
         # print(re_word)
-        if not re.search("(POST)", url_data.targeturl):
-            url_data.HTTP_METHON = "GET"
-            # print("Test Get".center(160))
-            # Dividing_line()
-            # print(re_word)
-            if re.search(re_word, url_data.targeturl):
-                url_data.get_url = re.sub(
-                    re_word, word + "=" + "abcdef1234&", url_data.targeturl)
-                print("<<<清除敏感字符>>>".center(170), "\n","\n", url_data.get_url)
-                human_read.Dividing_line()
+        if not re.search("(POST)", urldata.targeturl):
+            urldata.HTTP_METHON = "GET"
+            if re.search(re_word, urldata.targeturl):
+                urldata.get_url = re.sub(
+                    re_word, word + "=" + "abcdef1234&", urldata.targeturl)
+                print("清除敏感字符".center(170), "\n","\n", urldata.get_url)
+                format.breakline()
             else:
-                url_data.get_url = re.sub(
-                    re_word_2, word + "=" + "abcdef1234", url_data.targeturl)
-                print("<<<清除敏感字符>>>".center(170),"\n","\n", url_data.get_url)
-                human_read.Dividing_line()
+                urldata.get_url = re.sub(
+                    re_word_2, word + "=" + "abcdef1234", urldata.targeturl)
+                print("清除敏感字符".center(170),"\n","\n", urldata.get_url)
+                format.breakline()
         else:
-            url_data.HTTP_METHON = "POST"
-            # print("Test Post".center(160))
+            urldata.HTTP_METHON = "POST"
+            # print("Test Post".center(170))
             # Dividing_line()
-            url_split_list = re.split(re.escape("(POST)"), url_data.targeturl)
-            url_data.post_url = url_split_list[0]
-            print("PostURL".center(160), "\n", url_data.post_url)
-            human_read.Dividing_line()
-            print("PostData".center(160), "\n", url_split_list[1])
-            human_read.Dividing_line()
+            url_split_list = re.split(re.escape("(POST)"), urldata.targeturl)
+            urldata.post_url = url_split_list[0]
+            print("PostURL".center(170), "\n", urldata.post_url)
+            format.breakline()
+            print("PostData".center(170), "\n", url_split_list[1])
+            format.breakline()
 
             if re.search(re_word, url_split_list[1]):
-                url_data.post_data = re.sub(
+                urldata.post_data = re.sub(
                     re_word,
                     word + "=" + "abcdef1234&",
                     url_split_list[1])
-                print("Payload Replace".center(160), url_data.post_data)
-                human_read.Dividing_line()
+                print("Payload Replace".center(170),"\n", urldata.post_data)
+                format.breakline()
             else:
-                url_data.post_data = re.sub(
+                urldata.post_data = re.sub(
                     re_word_2,
                     word + "=" + "abcdef1234",
                     url_split_list[1])
-                print("Payload Replace".center(160), url_data.post_data)
-                human_read.Dividing_line()
+                print("Payload Replace".center(170), urldata.post_data)
+                format.breakline()
 
     def get_response(self, url):
-        print("Geting：", url)
+        print("[测试中]-Get:", url)
         # Dividing_line()
         r = NoQuoteSession()
         header = {
@@ -88,7 +97,7 @@ class CheckPrepare():
             return "get no Response"
 
     def post_response(self, data):
-        # print("Posting:",data)
+        print("[测试中]-Post:",data)
         r = NoQuoteSession()
         header = {
             'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:65.0) Gecko/20100101 Firefox/65.0',
@@ -97,7 +106,7 @@ class CheckPrepare():
                  "https": "http://127.0.0.1:8080"}
         try:
             s2=r.post(
-                url_data.post_url,
+                urldata.post_url,
                 data=data,
                 headers=header,
                 verify=False,
@@ -138,7 +147,7 @@ class CheckPrepare():
                  "https": "http://127.0f.0.1:8080"}
         try:
             return r.post(
-                url_data.post_url,
+                urldata.post_url,
                 data=data,
                 headers=header,
                 proxies=proxy,

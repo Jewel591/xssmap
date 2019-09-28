@@ -1,24 +1,26 @@
 import re
-import url_data
+import urldata
 
 def allclear():
-    url_data.sensitive = {
+    urldata.sensitive = {
         'close': [],
         'close_tag': [],
         'action': [],
         'onevent': [],
         'tag': [],
         'others': [],
-        'illusion':[]}
-    url_data.unsensitive = {
+        'illusion':[],
+        'combination_close_no': []}
+    urldata.unsensitive = {
         'close': [],
         'close_tag': [],
         'action': [],
         'onevent': [],
         'tag': [],
         'others': [],
-    'illusion':[]}
-    url_data.signal = {
+        'illusion':[],
+        'combination_close_no': []}
+    urldata.signal = {
         'close': 'no',
         'close_tag': 'no',
         'action': 'no',
@@ -35,5 +37,5 @@ def human_read1(list):  # 此方法用于提醒<>都被过滤
         print("<>都被过滤...")
 
 
-def Dividing_line():
+def breakline():
     print("———————————————————————————————————————————————")

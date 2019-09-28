@@ -12,7 +12,8 @@ sensitive = {
     'onevent': [],
     'tag': [],
     'others': [],
-    'illusion': []}
+    'illusion': [],
+    'combination_close_no': []}
 unsensitive = {
     'close': [],
     'close_tag': [],
@@ -20,7 +21,8 @@ unsensitive = {
     'onevent': [],
     'tag': [],
     'others': [],
-    'illusion': []}
+    'illusion': [],
+    'combination_close_no': []}
 signal = {
     'close': 'no',
     'close_tag': 'no',

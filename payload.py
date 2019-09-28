@@ -6,7 +6,8 @@ keyword = {
     'onevent': [],
     'tag': [],
     'others': [],
-    'illusion': []}
+    'illusion': [],
+    'combination_close_no':[]}
 
 
 def keyword_init():
@@ -81,9 +82,14 @@ def keyword_init():
         "%20auTofoCus%20onFoCus=prompt`591`",
         "<BoDy oNloAd=prompt(591)>"
     ]
+
     keyword['illusion'] = [
         "<A/OnwHeEl=prompt(591)>591</A>",
         "<BoDy oNloAd=prompt(591)>",
+
+    ]
+
+    keyword['combination_close_no'] = [
 
     ]
     # [print(e) for e in keyword]
