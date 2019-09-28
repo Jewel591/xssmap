@@ -26,7 +26,7 @@ class CheckPrepare():
         # word="PAGE_ID"
         # word = "serachType2"
         if word=="":
-            word = "contentno"
+            word = "style"
         re_word = word + ".*?&"
         re_word_2 = word + ".*"
         # print(re_word)
@@ -38,12 +38,12 @@ class CheckPrepare():
             if re.search(re_word, url_data.targeturl):
                 url_data.get_url = re.sub(
                     re_word, word + "=" + "abcdef1234&", url_data.targeturl)
-                print("url replace".center(170), "\n", url_data.get_url)
+                print("<<<清除敏感字符>>>".center(170), "\n","\n", url_data.get_url)
                 human_read.Dividing_line()
             else:
                 url_data.get_url = re.sub(
                     re_word_2, word + "=" + "abcdef1234", url_data.targeturl)
-                print("url replace".center(170), url_data.get_url)
+                print("<<<清除敏感字符>>>".center(170),"\n","\n", url_data.get_url)
                 human_read.Dividing_line()
         else:
             url_data.HTTP_METHON = "POST"
