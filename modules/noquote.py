@@ -1,3 +1,5 @@
+# 重写 requests send 方法，解决 requests 对发送的请求强行 urlencode 的问题
+
 import urllib.parse
 
 import requests
@@ -14,10 +16,11 @@ class NoQuoteSession(requests.Session):
             urllib.parse.quote('>'): '>',
             urllib.parse.quote('"'): '"',
             urllib.parse.quote('`'): '`',
-            # urllib.parse.quote(' '): ' ',
+            urllib.parse.quote('/'): '/',
+            urllib.parse.quote('\\'): '\\',
+            urllib.parse.quote(' '): ' '
             # urllib.parse.quote('%3e'): '>'
         }
         for old, new in table.items():
             prep.url = prep.url.replace(old, new)
-        # print("+++正在测试：", prep.url)
         return super().send(prep, **send_kwargs)

@@ -1,6 +1,5 @@
 # 队列转换为字符串
-import payload
-import urldata
+from data import payload, urldata
 import re
 
 keyword={'illusion':""}
@@ -91,9 +90,9 @@ def iilusion_replace():
             else:
                 if not re.search(
                         str(
-                        "\"",urldata.unsensitive['close'])) and re.search("%27",
-                                                                          str(urldata.unsensitive['close'])
-                                                                          ):
+                        "\"", urldata.unsensitive['close'])) and re.search("%27",
+                                                                           str(urldata.unsensitive['close'])
+                                                                           ):
                     keyword['illusion']=list_replace_two(keyword['illusion'], "\"", "%27")
                 else:  # 如果找不到代替的字符，就将该 payload 删除
 

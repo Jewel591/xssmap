@@ -1,10 +1,8 @@
 import re
-import os
 import requests
-import subprocess
-import urldata
-import format
-from noquote import NoQuoteSession
+from data import urldata
+from modules import format
+from modules.noquote import NoQuoteSession
 
 
 class CheckPrepare():
@@ -15,6 +13,7 @@ class CheckPrepare():
                     'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:65.0) Gecko/20100101 Firefox/65.0',
                     'Content-Type': 'application/x-www-form-urlencoded'}
                 requests.get(urldata.get_url, headers=header, verify=False, timeout=3)
+                break
             except BaseException:
                 print("站点不可达...".center(170))
                 urldata.urlok = "no"
@@ -25,7 +24,8 @@ class CheckPrepare():
                 header = {
                     'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:65.0) Gecko/20100101 Firefox/65.0',
                     'Content-Type': 'application/x-www-form-urlencoded'}
-                requests.post(urldata.post_url,data=urldata.post_data, headers=header, verify=False, timeout=3)
+                requests.post(urldata.post_url, data=urldata.post_data, headers=header, verify=False, timeout=3)
+                break
             except BaseException:
                 print("站点不可达...".center(170))
                 urldata.urlok = "no"
@@ -38,7 +38,7 @@ class CheckPrepare():
         # payload.keyword_expand("<>")#重构 keyword
         word = urldata.word#去除参数末尾的空格——输入1
         if word=="":
-            word = "style"
+            word = "var"
         re_word = word + ".*?&"
         re_word_2 = word + ".*"
         # print(re_word)

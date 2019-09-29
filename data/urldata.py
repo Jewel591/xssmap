@@ -13,7 +13,8 @@ sensitive = {
     'tag': [],
     'others': [],
     'illusion': [],
-    'combination_close_no': []}
+    'combination_close_no': [],
+    'combination_close_yes': []}
 unsensitive = {
     'close': [],
     'close_tag': [],
@@ -22,7 +23,8 @@ unsensitive = {
     'tag': [],
     'others': [],
     'illusion': [],
-    'combination_close_no': []}
+    'combination_close_no': [],
+    'combination_close_yes': []}
 signal = {
     'close': 'no',
     'close_tag': 'no',

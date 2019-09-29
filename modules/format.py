@@ -1,5 +1,6 @@
 import re
-import urldata
+from data import urldata
+
 
 def allclear():
     urldata.sensitive = {
@@ -10,7 +11,8 @@ def allclear():
         'tag': [],
         'others': [],
         'illusion':[],
-        'combination_close_no': []}
+        'combination_close_no': [],
+        'combination_close_yes': []}
     urldata.unsensitive = {
         'close': [],
         'close_tag': [],
@@ -19,7 +21,8 @@ def allclear():
         'tag': [],
         'others': [],
         'illusion':[],
-        'combination_close_no': []}
+        'combination_close_no': [],
+        'combination_close_yes': []}
     urldata.signal = {
         'close': 'no',
         'close_tag': 'no',
