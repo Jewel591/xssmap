@@ -5,12 +5,18 @@
 `
 pip3 install -r requirement.txt`
 
+# 使用方法
+1. 默认进行请求为 GET ，如果目标参数在 POST 请求中，请使用如下格式输入: url(POST)postdata, 例如：www.example.com/example.do(POST)targatvar=xss
+2. 默认不输出测试细节，如果想查看更详细的输出，可在 /data/urldata.py 中修改verbose = "yes"
 # 介绍
 
 1. 支持 url 编码绕过
 2. 支持对 HTML 标签属性的值进行 unicode 编码绕过
 3. 支持对 HTML 标签属性的值进行 HTML 编码绕过（未上线）
 4. 支持对 ( ) ' " 进行灵活替换进行绕过
+
+![CheckXSS1.png](https://i.loli.net/2019/09/30/P5g2NWklJ4mEoqF.png)
+![CheckXSS2.png](https://i.loli.net/2019/09/30/hldfzKnNu9D2twC.png)
 
 ### CLOSE
 ```
