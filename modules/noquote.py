@@ -18,7 +18,8 @@ class NoQuoteSession(requests.Session):
             urllib.parse.quote('`'): '`',
             urllib.parse.quote('/'): '/',
             urllib.parse.quote('\\'): '\\',
-            urllib.parse.quote(' '): ' '
+            # urllib.parse.quote(' '): '%20',
+            # urllib.parse.quote(' '): ' ',
             # urllib.parse.quote('%3e'): '>'
         }
         for old, new in table.items():

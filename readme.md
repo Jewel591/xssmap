@@ -7,9 +7,9 @@ pip3 install -r requirement.txt`
 
 # 介绍
 
-1. 支持对所有 payload 进行 url 编码绕过
+1. 支持 url 编码绕过
 2. 支持对 HTML 标签属性的值进行 unicode 编码绕过
-3. 支持对 HTML 标签属性的值进行 HTML 编码绕过（待支持）
+3. 支持对 HTML 标签属性的值进行 HTML 编码绕过（未上线）
 4. 支持对 ( ) ' " 进行灵活替换进行绕过
 
 ### CLOSE

@@ -146,12 +146,12 @@ def payload2unicode():
                 s2+=hex(ord(s)).replace("0x", "\\u00")
             else:
                 s2+=s
-        print(s2)
+        # print(s2)
         keyword['action'].append(s2)
 
 
-if __name__ == '__main__':
-    keyword_init()
-    payload2unicode()
-    for p3 in keyword['action']:
-        print(p3)
+# if __name__ == '__main__':
+#     keyword_init()
+#     payload2unicode()
+#     for p3 in keyword['action']:
+#         print(p3)

