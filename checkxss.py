@@ -432,11 +432,7 @@ class CheckStart():
                         re.escape("abcdef1234"),
                         pd,
                                 urldata.get_url),urldata.verbose)):  # 使用 re.escape()
-                    # print("^^^".center(170))
-                    # print(pd.center(170))
-                    # print("GET测试：", re.sub(re.escape("abcdef1234"), pd, url_data.get_url))
-                    # human_read.Dividing_line()
-                    print(urldata.unsensitive['tag'])
+                    # print(urldata.unsensitive['tag'])
                     urldata.unsensitive['tag'].append(pd)
                 else:
                     urldata.sensitive['tag'].append(pd)
@@ -517,7 +513,7 @@ class CheckStart():
                     payload.keyword['combination_close_no'].append(str591 + " " + e2.replace("591", "") + e1 + " "+"nsf="+str591)
                     iiss += 1
         # print("输出组合测试（不闭合标签）生成 payload:")
-        print("---------组合测试(不闭合标签)payload---------".rjust(100, " "))
+        print(">>> 组合测试(不闭合标签)payload:")
         # print("payload.keyword['combination_close_no']:")
         for erer in payload.keyword['combination_close_no']:
             print(">>> "+erer)
@@ -649,9 +645,9 @@ class CheckStart():
                 #     iiss += 1
                 #     while iiss > 10:
                 #         break  # return 会跳出整个函数,break 跳出单层循环
-            print("---------组合测试(闭合标签)payload---------".rjust(100, " "))
+            print(">>> 组合测试(闭合标签)payload: ")
             for erer in payload.keyword['combination_close_yes']:
-                print(erer)
+                print(">>> ",erer)
                 time.sleep(0.1)
 
 
