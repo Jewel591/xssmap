@@ -16,18 +16,15 @@ def keyword_init():
     keyword.clear()
     keyword['close'] = [
         "%22591",
-        "%27591",  # 以上，测试>"'是否过滤
-        ">591",
+        "\"591",
+        "%27591",
+        "\'591",
         "<591",
-        "%3e591",
         "%3c591",
         "/591",
         "%2f591",
-        "\"591",
-        "\'591"
-        # "</IfrAme>591",
-        # "</A>591",
-        # "/>591"
+        ">591",
+        "%3e591"
     ]
     keyword['close_tag'] = [
         "\"591",
@@ -65,7 +62,8 @@ def keyword_init():
                           "SrC=591",
                           # "eval(\""+''.join((r'\x%2x'%ord(c)for c in 'alert(591)'))+"\")", 会报错：bad escape \x at position 6，查询了下貌似是 python3 的问题
                           # eval("\x61\\x6c\\x65\\x72\\x74\\x28\\x27\\x78\\x73\\x73\\x27\\x29 \"), #这个动作可以和 onerror 搭配使用
-                          "HReF=jAvAScRipt:591"]  # <A HReF=jAvAScRipt:591>aaaa</a>
+                          "HReF=jAvAScRipt:591",
+                          "AcCESsKeY=591"]  # <A HReF=jAvAScRipt:591>aaaa</a>
     keyword['tag'] = ["<IfrAme>591</IfrAme>",
                       "<A>591</A>",
                       "<ScRipt>591</ScRipt>",
