@@ -6,6 +6,9 @@ import sys
 import threading
 import time
 import urllib.parse
+import requests
+from requests.packages.urllib3.exceptions import InsecureRequestWarning
+requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 from PyQt5.QtWidgets import QApplication, QMainWindow
 
 from modules import format
@@ -705,10 +708,10 @@ class CheckStart():
                 def get_start(pd):
                     # debug
 
-                    print(pd)
-                    print("urllib.parse.unquote(pd):" + urllib.parse.unquote(pd))
-                    # print("urllib.parse.unquote(urllib.parse.unquote(pd)))"+urllib.parse.unquote(urllib.parse.unquote(pd)))
-                    print("after re.escape" + re.escape(urllib.parse.unquote(urllib.parse.unquote(pd))))
+                    # print(pd)
+                    # print("urllib.parse.unquote(pd):" + urllib.parse.unquote(pd))
+                    # # print("urllib.parse.unquote(urllib.parse.unquote(pd)))"+urllib.parse.unquote(urllib.parse.unquote(pd)))
+                    # print("after re.escape" + re.escape(urllib.parse.unquote(urllib.parse.unquote(pd))))
                     if re.search(
                             re.escape(
                                 urllib.parse.unquote(
@@ -743,9 +746,9 @@ class CheckStart():
             while urldata.HTTP_METHON == "POST":
                 def post_start(pd):
                     #debug
-                    print(pd)
-                    print("urllib.parse.unquote(pd):"+urllib.parse.unquote(pd))
-                    print("after re.escape"+re.escape(urllib.parse.unquote(urllib.parse.unquote(pd))))
+                    # print(pd)
+                    # print("urllib.parse.unquote(pd):"+urllib.parse.unquote(pd))
+                    # print("after re.escape"+re.escape(urllib.parse.unquote(urllib.parse.unquote(pd))))
                     if re.search(
                             re.escape(
                                 urllib.parse.unquote(
