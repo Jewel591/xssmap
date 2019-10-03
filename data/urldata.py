@@ -1,13 +1,11 @@
-# 创建 url 相关变量，并在每次运行之前初始化
-
 urlsuccess = "yes"
-post_url = "post请求的url"
-get_url = "get请求的url"
-post_data = "post请求的data"
-targeturl = "目标链接"
-targetvar = "目标参数"
-HTTP_METHON = "NotKown" # http 请求方法
-verbose = "no" #yes 输出请求详情，no 简化输出
+post_url = "url"
+get_url = "url"
+post_data = "data"
+targeturl = "url"
+targetvar = "var"
+HTTP_METHON = "nk"
+verbose = "no" # 如果要更详细的输出，可将此处设为 yes
 
 sensitive = {
     'close': [],
@@ -52,11 +50,10 @@ def urldata_init():
     urlsuccess = "yes"
     targeturl = ""
     targetvar = ""
-    HTTP_METHON = "not know"
-    post_url = "post 请求的 url"
-    post_data = "post 请求的 data"
-    get_url = "get 请求的 url"
-    verbose = "no"
+    HTTP_METHON = "nk"
+    post_url = "url"
+    post_data = "data"
+    get_url = "url"
     sensitive = {
         'close': [],
         'close_tag': [],

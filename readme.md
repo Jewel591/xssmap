@@ -8,6 +8,11 @@ pip3 install -r requirement.txt`
 # 使用方法
 1. 默认进行请求为 GET ，如果目标参数在 POST 请求中，请使用如下格式输入: url(POST)postdata, 例如：www.example.com/example.do(POST)targatvar=xss
 2. 默认不输出测试细节，如果想查看更详细的输出，可在 /data/urldata.py 中修改verbose = "yes"
+
+# 注意点
+1. 使用 Burp Suite 配合进行 url解码
+2. 工具不解析执行 JS 代码，不会检测 payload 是否能弹窗，所以仍然存在误报，请手工测试。
+3. 如果  ---------组合测试（闭合标签）--------- 有结果，可优先测试该 payload，准确性最高。
 # 介绍
 
 1. 支持 url 编码绕过
@@ -33,7 +38,7 @@ pip3 install -r requirement.txt`
 2. confirm()
 3. alert()
 4. window['ale'+'rt']()
-5. eval()
+5. eval("\x61\x6c\x65\x72\x74\x28\x27\x78\x73\x73\x27\x29")
 ```
 ### EVENT(后续再增加)
 ```

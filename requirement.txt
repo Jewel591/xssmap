@@ -1,4 +1,4 @@
 requests
 threading
 urllib
-pyqt
+PyQt5

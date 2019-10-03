@@ -38,7 +38,7 @@ class PreCheck():
     def rebuildurl(self):
         targetvar = urldata.targetvar #去除参数末尾的空格——输入1
         if targetvar=="":
-            targetvar = "publishTime"
+            targetvar = "height"
         revar1 = targetvar + ".*?&"
         revar2 = targetvar + ".*"
         if not re.search("(POST)", urldata.targeturl):

