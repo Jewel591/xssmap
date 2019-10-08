@@ -6,6 +6,9 @@
 pip3 install -r requirement.txt`
 
 # 使用方法
+CheckXSS 提供图形化和命令行两种启动方式（图形界面基于 PyQt5）
+- 图形化界面启动：`python3.6 checkxss.py -x`
+- 命令行模式：`python3.6 checkxss.py`
 1. 默认进行请求为 GET ，如果目标参数在 POST 请求中，请使用如下格式输入: url(POST)postdata, 例如：www.example.com/example.do(POST)targatvar=xss
 2. 默认不输出测试细节，如果想查看更详细的输出，可在 /data/urldata.py 中修改verbose = "yes"
 
@@ -19,11 +22,12 @@ pip3 install -r requirement.txt`
 2. 支持对 HTML 标签属性的值进行 unicode 编码绕过
 3. 支持对 HTML 标签属性的值进行 HTML 编码绕过（未上线）
 4. 支持对 ( ) ' " 进行灵活替换进行绕过
+5. 大小写绕过
 
 ![CheckXSS1.png](https://i.loli.net/2019/09/30/P5g2NWklJ4mEoqF.png)
 ![CheckXSS2.png](https://i.loli.net/2019/09/30/hldfzKnNu9D2twC.png)
 
-### CLOSE
+### 闭合字符
 ```
 1. >
 2. <
@@ -32,15 +36,15 @@ pip3 install -r requirement.txt`
 5. /
 ```
 
-### ACTION
+### 动作
 ```
 1. prompt()
 2. confirm()
 3. alert()
-4. window['ale'+'rt']()
-5. eval("\x61\x6c\x65\x72\x74\x28\x27\x78\x73\x73\x27\x29")
+4. window[action]()
+5. eval(action)
 ```
-### EVENT(后续再增加)
+### 事件
 ```
 1. onwheel
 2. onclick
@@ -50,13 +54,20 @@ pip3 install -r requirement.txt`
 6. onerror
 7. src
 8. href=javascript:
+9. ontoggle
 ```
-### TAG
+### HTML 标签
 ```
-1. <iframe>
-2. <a>
-3. <script>
+1. <a>
+2. <script>
+3. <iframe>
 4. <input>
 5. <body>
 6. <img>
+7. <details>
+8. <svg>
+9. <select>
+10. <video>
+11. <audio>
+12. <textarea> 
 ```
