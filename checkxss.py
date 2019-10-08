@@ -646,6 +646,9 @@ class CheckStart():
             for e in urldata.unsensitive['close']:
                 if e == "%22591" or e == "%27591" or e == "\"591" or e == "\'591" or e=="/591" or e =="%2f591" or e == ">591" or e =="%3e591":
                     str592 += e.replace("591", "")
+            if re.search(re.escape("script"), "".join(urldata.unsensitive['tag']), re.IGNORECASE):
+                str592="</ScRipt>"+str592
+
 
             iiss = 1
             for e1 in urldata.unsensitive['tag']:
@@ -659,43 +662,43 @@ class CheckStart():
 
                 if re.search(re.escape("input"), e1, re.IGNORECASE):
                     payload.keyword['combination_close_yes'].append(
-                        str592+"<iNpUt"+" "+urldata.unsensitive['onevent'][0].replace("591", "")+urldata.unsensitive['action'][0]+" ")
+                        str592+"<iNpUt"+" "+urldata.unsensitive['onevent'][0].replace("591", "")+urldata.unsensitive['action'][0]+">")
 
                 if re.search(re.escape("textarea"), e1, re.IGNORECASE):
                     payload.keyword['combination_close_yes'].append(
-                        str592+"<teXtaReA"+" "+urldata.unsensitive['onevent'][0].replace("591", "")+urldata.unsensitive['action'][0]+" ")
+                        str592+"<teXtaReA"+" "+urldata.unsensitive['onevent'][0].replace("591", "")+urldata.unsensitive['action'][0]+">")
 
                 if re.search(re.escape("select"), e1, re.IGNORECASE):
                     payload.keyword['combination_close_yes'].append(
-                        str592+"<select"+" "+urldata.unsensitive['onevent'][0].replace("591", "")+urldata.unsensitive['action'][0]+" ")
+                        str592+"<select"+" "+urldata.unsensitive['onevent'][0].replace("591", "")+urldata.unsensitive['action'][0]+">")
 
                 if re.search(re.escape("video"), e1, re.IGNORECASE)and re.search(re.escape("onerror"), "".join(urldata.unsensitive['onevent']), re.IGNORECASE):
                     payload.keyword['combination_close_yes'].append(
-                        str592 + "<video><source" + " " + "oNErroR=" +urldata.unsensitive['action'][0] + " ")
+                        str592 + "<video><source" + " " + "oNErroR=" +urldata.unsensitive['action'][0] + ">")
 
                 if re.search(re.escape("img"), e1, re.IGNORECASE) and re.search(re.escape("src"), "".join(urldata.unsensitive['onevent']), re.IGNORECASE) and re.search(re.escape("onerror"), "".join(urldata.unsensitive['onevent']), re.IGNORECASE):
                     payload.keyword['combination_close_yes'].append(
-                        str592 + "<ImG" + " " + "src=x" + " " + "OnErrOr=" + urldata.unsensitive['action'][0] + " ")
+                        str592 + "<ImG" + " " + "src=x" + " " + "OnErrOr=" + urldata.unsensitive['action'][0] + ">")
 
                 if re.search(re.escape("audio"), e1, re.IGNORECASE) and re.search(re.escape("src"), "".join(urldata.unsensitive['onevent']), re.IGNORECASE) and re.search(re.escape("onerror"), "".join(urldata.unsensitive['onevent']), re.IGNORECASE):
                     payload.keyword['combination_close_yes'].append(
-                        str592 + "<AuDiO" + " " + "src=x" + " " + "OnErrOr=" + urldata.unsensitive['action'][0] + " ")
+                        str592 + "<AuDiO" + " " + "src=x" + " " + "OnErrOr=" + urldata.unsensitive['action'][0] + ">")
 
                 if re.search(re.escape("details"), e1, re.IGNORECASE) and re.search(re.escape("ontoggle"), "".join(urldata.unsensitive['onevent']), re.IGNORECASE):
                     payload.keyword['combination_close_yes'].append(
-                        str592 + "<DeTaIlS" + " " + "oNToGgle=" + urldata.unsensitive['action'][0] + " ")
+                        str592 + "<DeTaIlS" + " " + "oNToGgle=" + urldata.unsensitive['action'][0] + ">")
 
                 if re.search(re.escape("body"), e1, re.IGNORECASE) and re.search(re.escape("onload"), "".join(urldata.unsensitive['onevent']), re.IGNORECASE):
                     payload.keyword['combination_close_yes'].append(
-                        str592 + "<BoDy" + " " + "oNLoAd=" + urldata.unsensitive['action'][0] + " ")
+                        str592 + "<BoDy" + " " + "oNLoAd=" + urldata.unsensitive['action'][0] + ">")
 
                 if re.search(re.escape("svg"), e1, re.IGNORECASE) and re.search(re.escape("onload"), "".join(urldata.unsensitive['onevent']), re.IGNORECASE):
                     payload.keyword['combination_close_yes'].append(
-                        str592 + "<SvG" + " " + "oNLoAd=" + urldata.unsensitive['action'][0] + " ")
+                        str592 + "<SvG" + " " + "oNLoAd=" + urldata.unsensitive['action'][0] + ">")
 
                 if re.search(re.escape("iframe"), e1, re.IGNORECASE) and re.search(re.escape("onload"), "".join(urldata.unsensitive['onevent']), re.IGNORECASE):
                     payload.keyword['combination_close_yes'].append(
-                        str592 + "<IfrAme" + " " + "oNLoAd=" + urldata.unsensitive['action'][0] + " ")
+                        str592 + "<IfrAme" + " " + "oNLoAd=" + urldata.unsensitive['action'][0] + ">")
 
             print(">>> 组合测试(闭合标签)payload: ")
             for erer in payload.keyword['combination_close_yes']:
@@ -773,7 +776,7 @@ class CheckStart():
                 print("<<<<<自动验证可能存在误差，建议对所有组合测试的 payload 做人工验证！>>>>>".rjust(100, " "))
                 print("\n")
                 for e in urldata.unsensitive['combination_close_yes']:
-                    print("可利用 payload(请手工测试)：", "(POST)", re.sub(re.escape("abcdef1234"), e, urldata.post_data))
+                    print("可利用 payload(请手工测试)：", "(POST)", re.sub(re.escape("abcdef1234"), e, urldata.post_data)+"\n")
                     time.sleep(0.1)
 
                 break
