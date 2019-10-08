@@ -11,8 +11,7 @@ from requests.packages.urllib3.exceptions import InsecureRequestWarning
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
 
-from modules import format
-# from backup import lists
+from modules import format, lists
 from modules.precheck import PreCheck
 from ui.start import Ui_MainWindow
 try:
