@@ -743,6 +743,7 @@ class CheckStart():
                 print("\n")
                 for e in urldata.unsensitive['combination_close_yes']:
                     print("可利用 payload(请手工测试)：", re.sub(re.escape("abcdef1234"), e, urldata.get_url))
+                    print("\n")
                     time.sleep(0.1)
 
                 break
