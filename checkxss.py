@@ -9,14 +9,18 @@ import urllib.parse
 import requests
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
-from PyQt5.QtWidgets import QApplication, QMainWindow
+
 
 from modules import format
-from backup import lists
+# from backup import lists
 from modules.precheck import PreCheck
 from ui.start import Ui_MainWindow
-from PyQt5 import QtCore, QtGui
-from PyQt5.QtCore import *
+try:
+    from PyQt5 import QtCore, QtGui
+    from PyQt5.QtCore import *
+    from PyQt5.QtWidgets import QApplication, QMainWindow
+except:
+    print("未安装 PyQt5，无法启动图形化工具")
 from data import payload, urldata
 
 time_start = time_end = ""
@@ -776,7 +780,8 @@ class CheckStart():
                 print("<<<<<自动验证可能存在误差，建议对所有组合测试的 payload 做人工验证！>>>>>".rjust(100, " "))
                 print("\n")
                 for e in urldata.unsensitive['combination_close_yes']:
-                    print("可利用 payload(请手工测试)：", "(POST)", re.sub(re.escape("abcdef1234"), e, urldata.post_data)+"\n")
+                    print("可利用 payload(请手工测试)：", "(POST)", re.sub(re.escape("abcdef1234"), e, urldata.post_data))
+                    print("\n")
                     time.sleep(0.1)
 
                 break
