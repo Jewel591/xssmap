@@ -37,12 +37,12 @@ def keyword_init():
         "<%2fA>591"
     ]
 
-    keyword['action'] = ["prompt(591)",
-                         "prompt`591`",
+    keyword['action'] = ["prompt`591`",
+                         "prompt(591)",
                          "confirm(591)",
                          "confirm`591`",
-                         "alert(591)",
                          "alert`591`",
+                         "alert(591)",
                          "window[`ale`+`rt`]`591`",
                          "window[`ale`%2b`rt`]`591`",
                          "window[`ale`%252b`rt`]`591`",
