@@ -84,6 +84,7 @@ class Worker(QThread):
                 print("\033[1;30;41mCanceled by the user\033[0m")
                 sys.exit()
             urldata.targetvar = input("请输出目标参数：")
+            urldata.targetvar = urldata.targetvar.replace(" ","")
         if urldata.targeturl== "":
             print(">>> 未检测到输入，使用内置链接进行测试")
             urldata.targeturl = "https://elib.nblib.cn/SSO/PictureCheckCode(POST)width=84&nocache=1563580576513&height=<ScRipt>dsqkhs(6958);</ScRipt>"
