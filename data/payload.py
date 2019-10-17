@@ -15,6 +15,7 @@ def keyword_init():
     global keyword
     keyword.clear()
     keyword['close'] = [
+        "%df591",
         "%22591",
         "\"591",
         "%27591",
@@ -73,7 +74,14 @@ def keyword_init():
                       "<ImG 591",
                       "<DeTaIlS 591",
                       "<SvG 591",
-                      "<SEleCt 591","<video><source 591","<audio 591","<textarea 591"
+                      "<SEleCt 591","<video><source 591","<audio 591","<textarea 591",
+                      "<IfrAme/591",
+                      "<iNpUt/591",
+                      "<BoDy/591",
+                      "<ImG/591",
+                      "<DeTaIlS/591",
+                      "<SvG/591",
+                      "<SEleCt/591", "<video><source 591", "<audio 591", "<textarea 591"
                       ]
 
     keyword['others'] = [
