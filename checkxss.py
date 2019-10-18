@@ -560,7 +560,7 @@ class CheckStart():
             pass
 
         # print("输出组合测试（不闭合标签）生成 payload:")
-        print(">>> 组合测试(不闭合标签)payload:")
+        print("\033[1;31;8m>>> 组合测试(不闭合标签)payload（可能需要使用 BurpSuite URL解码）:\033[0m")
         # print("payload.keyword['combination_close_no']:")
         for erer in payload.keyword['combination_close_no']:
             print(">>> "+erer)
@@ -592,12 +592,11 @@ class CheckStart():
                 mythread = threading.Thread(target=get_start(i))
                 mythread.start()
 
-            # print(">>> "+"组合测试完成，输出组合 payload 结果：")
-            print("---------组合测试完成---------".rjust(100, " "))
-            print("<<<<<自动验证可能存在误差，建议对所有组合测试的 payload 做人工验证！>>>>>".rjust(50, " "))
+            print("\n"+">>> 组合测试完成")
+            print(">>> 自动验证可能存在误差，建议对所有组合测试的 payload 做人工验证！")
             print("\n")
             for e in urldata.unsensitive['combination_close_no']:
-                print("可利用(请手工确认)：", re.sub(re.escape("abcdef1234"), e, urldata.get_url))
+                print("\033[1;31;8m可利用(请手工确认)：\033[0m", "\033[1;31;8m"+re.sub(re.escape("abcdef1234"), e, urldata.get_url)+"\033[0m")
                 time.sleep(0.1)
 
             break
@@ -627,12 +626,11 @@ class CheckStart():
                 mythread = threading.Thread(target=post_start(i))
                 mythread.start()
 
-            # print(">>> "+"组合测试完成，输出组合 payload 结果：")
-            print("---------组合测试完成---------".rjust(100, " "))
-            print("<<<<<自动验证可能存在误差，建议对所有组合测试的 payload 做人工验证！>>>>>".rjust(50, " "))
+            print("\n"+">>> 组合测试完成")
+            print(">>> 自动验证可能存在误差，建议对所有组合测试的 payload 做人工验证！")
             print("\n")
             for e in urldata.unsensitive['combination_close_no']:
-                print("可利用(请手工确认)：", "(POST)", re.sub(re.escape("abcdef1234"), e, urldata.post_data))
+                print("\033[1;31;8m可利用(请手工确认)：\033[0m", "(POST)", "\033[1;31;8m"+re.sub(re.escape("abcdef1234"), e, urldata.post_data)+"\033[0m")
                 time.sleep(0.1)
 
             break
@@ -760,7 +758,7 @@ class CheckStart():
                 except:
                     pass
 
-            print(">>> 组合测试(闭合标签)payload: ")
+            print("\033[1;31;8m>>> 组合测试(闭合标签)payload（可能需要使用 BurpSuite URL解码）: \033[0m")
             for erer in payload.keyword['combination_close_yes']:
                 print(">>> ",erer)
                 time.sleep(0.1)
@@ -794,12 +792,11 @@ class CheckStart():
                     mythread = threading.Thread(target=get_start(i))
                     mythread.start()
 
-                # print(">>> "+"组合测试完成，输出组合 payload 结果：")
-                print("---------组合测试完成---------".rjust(100, " "))
-                print("<<<<<自动验证可能存在误差，建议对所有组合测试的 payload 做人工验证！>>>>>".rjust(50, " "))
+                print("\n"+">>> 组合测试完成")
+                print(">>> 自动验证可能存在误差，建议对所有组合测试的 payload 做人工验证！")
                 print("\n")
                 for e in urldata.unsensitive['combination_close_yes']:
-                    print("可利用 payload(请手工测试)：", re.sub(re.escape("abcdef1234"), e, urldata.get_url))
+                    print("\033[1;31;8m可利用(请手工确认)：\033[0m", "\033[1;31;8m"+re.sub(re.escape("abcdef1234"), e, urldata.get_url)+"\033[0m")
                     print("\n")
                     time.sleep(0.1)
 
@@ -832,12 +829,11 @@ class CheckStart():
                     mythread = threading.Thread(target=post_start(i))
                     mythread.start()
 
-                # print(">>> "+"组合测试完成，输出组合 payload 结果：")
-                print("---------组合测试完成---------".rjust(100, " "))
-                print("<<<<<自动验证可能存在误差，建议对所有组合测试的 payload 做人工验证！>>>>>".rjust(100, " "))
+                print("\n"+">>> 组合测试完成")
+                print(">>> 自动验证可能存在误差，建议对所有组合测试的 payload 做人工验证！")
                 print("\n")
                 for e in urldata.unsensitive['combination_close_yes']:
-                    print("可利用 payload(请手工测试)：", "(POST)", re.sub(re.escape("abcdef1234"), e, urldata.post_data))
+                    print("\033[1;31;8m可利用(请手工确认)：\033[0m", "(POST)", "\033[1;31;8m"+re.sub(re.escape("abcdef1234"), e, urldata.post_data)+"\033[0m")
                     print("\n")
                     time.sleep(0.1)
 
