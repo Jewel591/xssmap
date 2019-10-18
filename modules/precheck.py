@@ -96,7 +96,7 @@ class PreCheck():
                 data = response.read()
                 return data.decode('utf-8')
         except BaseException:
-            print("连接错误")
+            # print("连接错误")
             return "get no Response"
 
     def post_response(self, data, verbose):
@@ -121,7 +121,7 @@ class PreCheck():
             return s2
         # except requests.exceptions.ConnectionError:
         except BaseException:
-            print(">>> 连接错误")
+            # print(">>> 连接错误")
             return "post no Response"
 
     def get_response_burp(self, url):
