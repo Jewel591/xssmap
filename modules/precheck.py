@@ -1,4 +1,5 @@
 import re
+import sys
 import requests
 from data import urldata
 from urllib import request
@@ -67,17 +68,20 @@ class PreCheck():
                     revar1,
                     targetvar + "=" + "abcdef1234&",
                     url_split_list[1])
+                print(">>> 清除敏感字符: ", urldata.post_data)
             else:
                 urldata.post_data = re.sub(
                     revar2,
                     targetvar + "=" + "abcdef1234",
                     url_split_list[1])
+                print(">>> 清除敏感字符: ", urldata.post_data)
 
     def get_response(self, url, verbose):
         if verbose=="yes":
             print("[+] GET : ", url)
         else:
             print(".",end='')
+            sys.stdout.flush()
         r = NoQuoteSession()
         header = {
             'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:65.0) Gecko/20100101 Firefox/65.0',
@@ -96,7 +100,8 @@ class PreCheck():
                 data = response.read()
                 return data.decode('utf-8')
         except BaseException:
-            # print("连接错误")
+            if verbose == "yes":
+                print(">>> 连接错误")
             return "get no Response"
 
     def post_response(self, data, verbose):
@@ -104,6 +109,7 @@ class PreCheck():
             print("[+] POST : ",data)
         else:
             print(".", end='')
+            sys.stdout.flush()
         r = NoQuoteSession()
         header = {
             'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:65.0) Gecko/20100101 Firefox/65.0',
@@ -121,7 +127,8 @@ class PreCheck():
             return s2
         # except requests.exceptions.ConnectionError:
         except BaseException:
-            # print(">>> 连接错误")
+            if verbose == "yes":
+                print(">>> 连接错误")
             return "post no Response"
 
     def get_response_burp(self, url):
