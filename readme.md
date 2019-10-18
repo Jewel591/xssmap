@@ -12,6 +12,9 @@ CheckXSS 提供图形化和命令行两种启动方式（图形界面基于 PyQt
 1. 默认进行请求为 GET ，如果目标参数在 POST 请求中，请使用如下格式输入: url(POST)postdata, 例如：www.example.com/example.do(POST)targatvar=xss
 2. 默认不输出测试细节，如果想查看更详细的输出，可在 /data/urldata.py 中修改verbose = "yes"
 
+# 请求方法支持
+支持 POST 和 GET 请求的检测，默认请求为 GET ，后续增加 Cookie 和 Referer 检测
+
 # 注意点
 1. 使用 Burp Suite 配合进行 url解码
 2. 工具不解析执行 JS 代码，不会检测 payload 是否能弹窗，所以仍然存在误报，请手工测试。
@@ -23,9 +26,10 @@ CheckXSS 提供图形化和命令行两种启动方式（图形界面基于 PyQt
 3. 支持对 HTML 标签属性的值进行 HTML 编码绕过（未上线）
 4. 支持对 ( ) ' " 进行灵活替换进行绕过
 5. 大小写绕过
-
-![CheckXSS1.png](https://i.loli.net/2019/09/30/P5g2NWklJ4mEoqF.png)
-![CheckXSS2.png](https://i.loli.net/2019/09/30/hldfzKnNu9D2twC.png)
+### 命令行
+![CheckXSSTerminal](https://i.loli.net/2019/10/18/IUTh9cFOPoRNtWe.png)
+### 图形化
+![CheckXSSGUI.png](https://i.loli.net/2019/09/30/P5g2NWklJ4mEoqF.png)
 
 ### 闭合字符
 ```
