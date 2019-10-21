@@ -83,7 +83,7 @@ class Worker(QThread):
             if urldata.targeturl.lower() == "c":
                 print("\033[1;30;41mCanceled by the user\033[0m")
                 sys.exit()
-            urldata.targetvar = input("请输入目标参数(Referer直接回车)：")
+            urldata.targetvar = input("请输入目标参数(注入点在 Referer/Cookie 中时可为空)：")
             urldata.targetvar = urldata.targetvar.replace(" ","")
         if urldata.targeturl== "":
             print(">>> 未检测到输入，使用内置链接进行测试")
