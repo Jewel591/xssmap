@@ -61,6 +61,7 @@ class PreCheck():
                 print(">>> 清除敏感字符: ", urldata.get_url)
         else:
             if re.search("(REFERER)", urldata.targeturl):
+                print('\033[1;31;8m[+] REFERER FIND! \033[0m')
                 urldata.HTTP_METHON = "REFERER"
                 url_split_list = re.split(re.escape("(REFERER)"), urldata.targeturl)
                 urldata.referer_url = url_split_list[0]
@@ -69,10 +70,12 @@ class PreCheck():
 
             else:
                 if re.search("(COOKIE)", urldata.targeturl):
+                    print('\033[1;31;8m[+] COOKIE FIND! \033[0m')
                     print("COOKIE 函数还没写")
                     sys.exit(0)
                 else:
                     urldata.HTTP_METHON = "POST"
+                    print('\033[1;31;8m[+] POST FIND! \033[0m')
                     url_split_list = re.split(re.escape("(POST)"), urldata.targeturl)
                     urldata.post_url = url_split_list[0]
                     print(">>> posturl ", urldata.post_url)
