@@ -541,6 +541,7 @@ class CheckStart():
         if ">" not in "".join(urldata.unsensitive['close']) and "%3e" not in "".join(urldata.unsensitive['close']) :
             if "<" not in "".join(urldata.unsensitive['close']) and "%3c" not in "".join(urldata.unsensitive['close']):
                 print('\033[1;31;8m[警告] < > 标签均被过滤, 无法插入标签 \033[0m')
+                return
             else:
                 print('\033[1;31;8m[警告] > 标签被过滤, < 标签[+] 未过滤, 能利用 Payload 可能较少 \033[0m')
 
@@ -707,6 +708,9 @@ class CheckStart():
         else:
             pass
 
+        if len(payload.keyword['combination_close_no'])==0:
+            print("无可用 Payload! ")
+            return
 
         while urldata.HTTP_METHON == "GET":
             def get_start(pd):
@@ -916,7 +920,9 @@ class CheckStart():
                 print(">>> ",erer)
                 time.sleep(0.1)
 
-
+            if len(payload.keyword['combination_close_yes']) == 0:
+                print("无可用 Payload! ")
+                return
 
             while urldata.HTTP_METHON == "GET":
                 def get_start(pd):
