@@ -539,6 +539,12 @@ class CheckStart():
     def check_tag(self):
         format.breakline()
         print("---------标签测试---------".rjust(100, " "))
+        if ">" not in "".join(urldata.unsensitive['close']) and "%3e" not in "".join(urldata.unsensitive['close']) :
+            if "<" not in "".join(urldata.unsensitive['close']) and "%3c" not in "".join(urldata.unsensitive['close']):
+                print('\033[1;31;8m[警告] < > 标签均被过滤, 无法插入标签 \033[0m')
+            else:
+                print('\033[1;31;8m[警告] > 标签被过滤, < 标签未过滤, 能利用 Payload 可能较少 \033[0m')
+
         while urldata.HTTP_METHON == "GET":
             def get_start(pd):
                 if re.search(
