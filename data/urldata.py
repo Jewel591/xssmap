@@ -1,6 +1,8 @@
 urlsuccess = "yes"
 post_url = "url"
 get_url = "url"
+referer_url="url"
+cookie_url="cookie"
 post_data = "data"
 targeturl = "url"
 targetvar = "var"
