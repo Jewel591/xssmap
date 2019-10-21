@@ -1002,7 +1002,7 @@ class CheckStart():
                             re.escape(
                                 urllib.parse.unquote(
                                     urllib.parse.unquote(pd))).replace("\ ", ".*"),
-                            PreCheck.post_response(
+                            PreCheck.referer_response(
                                 self,pd,urldata.verbose)):  # 使用 re.escape()
 
                         urldata.unsensitive['combination_close_yes'].append(pd)
