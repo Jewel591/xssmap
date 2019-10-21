@@ -46,7 +46,7 @@ class PreCheck():
         revar2 = targetvar + "=.*"
         if len(re.findall(revar0, urldata.targeturl)) > 1:
             print("\033[1;31;8m[警告] "+"匹配到 > 1 个"+urldata.targetvar+"，默认使用第一个，请确认目标参数是否替换正确"+"\033[0m")
-        if len(re.findall(revar0, urldata.targeturl)) < 1:
+        if len(re.findall(revar0, urldata.targeturl)) < 1 and "REFERER" not in urldata.targeturl and "COOKIE" not in urldata.targeturl:
             print("\033[1;31;8m[警告] " + "url 中未匹配到" + urldata.targetvar + "，请确认目标参数是否输入正确" + "\033[0m")
             sys.exit(0)
         if not re.search("(POST)", urldata.targeturl) and not re.search("(REFERER)", urldata.targeturl) and not re.search("(COOKIE)", urldata.targeturl):
