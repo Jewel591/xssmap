@@ -160,20 +160,19 @@ class CheckStart():
                     else:
                         urldata.sensitive['close_tag'].append(i)
 
-            # [print("未过滤：", e.replace("591", "")) for e in urldata.unsensitive['close']]
             print("\n")
             for e in urldata.unsensitive['close']:
-                print("未过滤：", e.replace("591", ""))
+                print("[+] 未过滤：", e.replace("591", ""))
                 time.sleep(0.1)
 
-            # 将未过滤的闭合字符整体输出
+            # 将[+] 未过滤的闭合字符整体输出
             str591=""
             for e in urldata.unsensitive['close']:
                 str591+=e.replace("591", "")
-            print("未过滤闭合字符串：", str591)
+            print("[+] 未过滤闭合字符串：", str591)
 
             for e in urldata.sensitive['close']:
-                print("过滤：", e.replace("591", ""))
+                print("[-] 过滤：", e.replace("591", ""))
                 time.sleep(0.1)
             # [print("过滤：", e.replace("591", ""))
 
@@ -220,24 +219,24 @@ class CheckStart():
                     else:
                         urldata.sensitive['close_tag'].append(i)
 
-            # [print("未过滤：", e.replace("591", ""))
+            # [print("[+] 未过滤：", e.replace("591", ""))
             #  for e in urldata.unsensitive['close']]  # .replace("591","")优化输出
             print("\n")
             for e in urldata.unsensitive['close']:
-                print("未过滤：", e.replace("591", ""))
+                print("[+] 未过滤：", e.replace("591", ""))
                 time.sleep(0.1)
 
-            #### 将未过滤的闭合字符整体输出
+            #### 将[+] 未过滤的闭合字符整体输出
             str591 = ""
             for e in urldata.unsensitive['close']:
                 str591 += e.replace("591", "")
-            print("未过滤闭合字符串：", str591)
+            print("[+] 未过滤闭合字符串：", str591)
 
             # human_read.human_read1(url_data.unsensitive)
             # [print("过滤：", e.replace("591", ""))
             #  for e in urldata.sensitive['close']]
             for e in urldata.sensitive['close']:
-                print("过滤：", e.replace("591", ""))
+                print("[-] 过滤：", e.replace("591", ""))
                 time.sleep(0.1)
 
 
@@ -282,17 +281,17 @@ class CheckStart():
 
             print("\n")
             for e in urldata.unsensitive['close']:
-                print("未过滤：", e.replace("591", ""))
+                print("[+] 未过滤：", e.replace("591", ""))
                 time.sleep(0.1)
 
-            # 将未过滤的闭合字符整体输出
+            # 将[+] 未过滤的闭合字符整体输出
             str591 = ""
             for e in urldata.unsensitive['close']:
                 str591 += e.replace("591", "")
-            print("未过滤闭合字符串：", str591)
+            print("[+] 未过滤闭合字符串：", str591)
 
             for e in urldata.sensitive['close']:
-                print("过滤：", e.replace("591", ""))
+                print("[-] 过滤：", e.replace("591", ""))
                 time.sleep(0.1)
             break
 
@@ -330,15 +329,15 @@ class CheckStart():
 
 
 ### 输出结果
-            # [print("未过滤：", e.replace("592", ""))
+            # [print("[+] 未过滤：", e.replace("592", ""))
             print("\n")
             for e in urldata.unsensitive['action']:
-                print("未过滤：", e.replace("592", ""))
+                print("[+] 未过滤：", e.replace("592", ""))
                 time.sleep(0.1)
 
             # [print("过滤：", e.replace("591", ""))
             for e in urldata.sensitive['action']:
-                print("过滤：", e.replace("591", ""))
+                print("[-] 过滤：", e.replace("591", ""))
 
 
             if urldata.unsensitive['action']:
@@ -381,11 +380,11 @@ class CheckStart():
 ### 输出结果
             print("\n")
             for e in urldata.unsensitive['action']:  # .replace("591","")优化输出
-                print("未过滤：", e.replace("592", ""))
+                print("[+] 未过滤：", e.replace("592", ""))
                 time.sleep(0.1)
 
             for e in urldata.sensitive['action']:
-                print("过滤：", e.replace("591", ""))
+                print("[-] 过滤：", e.replace("591", ""))
                 time.sleep(0.1)
             break
 
@@ -409,11 +408,11 @@ class CheckStart():
             ### 输出结果
             print("\n")
             for e in urldata.unsensitive['action']:
-                print("未过滤：", e.replace("592", ""))
+                print("[+] 未过滤：", e.replace("592", ""))
                 time.sleep(0.1)
 
             for e in urldata.sensitive['action']:
-                print("过滤：", e.replace("591", ""))
+                print("[-] 过滤：", e.replace("591", ""))
 
             if urldata.unsensitive['action']:
                 urldata.signal['action'] = 'yes'
@@ -454,10 +453,10 @@ class CheckStart():
                 mythread.start()
             print("\n")
             for e in urldata.unsensitive['onevent']:
-                print("未过滤：", e.replace("591", ""))
+                print("[+] 未过滤：", e.replace("591", ""))
                 time.sleep(0.1)
             for e in urldata.sensitive['onevent']:
-                print("过滤：", e.replace("591", ""))
+                print("[-] 过滤：", e.replace("591", ""))
             break
         while urldata.HTTP_METHON == "POST":
             # if re.search(re.escape("\"'>"),self.post_response(re.sub(re.escape("abcdef1234"), "\"'>", url_data.post_data))):
@@ -483,11 +482,11 @@ class CheckStart():
 
             print("\n")
             for e in urldata.unsensitive['onevent']:  # .replace("591","")优化输出
-                print("未过滤：", e.replace("591", ""))
+                print("[+] 未过滤：", e.replace("591", ""))
                 time.sleep(0.1)
 
             for e in urldata.sensitive['onevent']:
-                print("过滤：", e.replace("591", ""))
+                print("[-] 过滤：", e.replace("591", ""))
                 time.sleep(0.1)
             break
         while urldata.HTTP_METHON == "REFERER":
@@ -507,10 +506,10 @@ class CheckStart():
                 mythread.start()
             print("\n")
             for e in urldata.unsensitive['onevent']:
-                print("未过滤：", e.replace("591", ""))
+                print("[+] 未过滤：", e.replace("591", ""))
                 time.sleep(0.1)
             for e in urldata.sensitive['onevent']:
-                print("过滤：", e.replace("591", ""))
+                print("[-] 过滤：", e.replace("591", ""))
             break
 
 ### 结合输出 on 事件和动作组合
@@ -543,7 +542,7 @@ class CheckStart():
             if "<" not in "".join(urldata.unsensitive['close']) and "%3c" not in "".join(urldata.unsensitive['close']):
                 print('\033[1;31;8m[警告] < > 标签均被过滤, 无法插入标签 \033[0m')
             else:
-                print('\033[1;31;8m[警告] > 标签被过滤, < 标签未过滤, 能利用 Payload 可能较少 \033[0m')
+                print('\033[1;31;8m[警告] > 标签被过滤, < 标签[+] 未过滤, 能利用 Payload 可能较少 \033[0m')
 
         while urldata.HTTP_METHON == "GET":
             def get_start(pd):
@@ -567,12 +566,12 @@ class CheckStart():
                 mythread.start()
             print("\n")
             for e in urldata.unsensitive['tag']:
-                print("未过滤：", e.replace("591", ""))
+                print("[+] 未过滤：", e.replace("591", ""))
                 time.sleep(0.1)
 
 
             for e in urldata.sensitive['tag']:
-                print("过滤：", e.replace("591", ""))
+                print("[-] 过滤：", e.replace("591", ""))
                 time.sleep(0.1)
 
             break
@@ -599,11 +598,11 @@ class CheckStart():
                     urldata.sensitive['tag'].append(i)
             print("\n")
             for e in urldata.unsensitive['tag']:  # .replace("591","")优化输出
-                print("未过滤：", e.replace("591", ""))
+                print("[+] 未过滤：", e.replace("591", ""))
                 time.sleep(0.1)
 
             for e in urldata.sensitive['tag']:
-                print("过滤：", e.replace("591", ""))
+                print("[-] 过滤：", e.replace("591", ""))
                 time.sleep(0.1)
             break
         while urldata.HTTP_METHON == "REFERER":
@@ -623,12 +622,12 @@ class CheckStart():
                 mythread.start()
             print("\n")
             for e in urldata.unsensitive['tag']:
-                print("未过滤：", e.replace("591", ""))
+                print("[+] 未过滤：", e.replace("591", ""))
                 time.sleep(0.1)
 
 
             for e in urldata.sensitive['tag']:
-                print("过滤：", e.replace("591", ""))
+                print("[-] 过滤：", e.replace("591", ""))
                 time.sleep(0.1)
 
             break
@@ -724,7 +723,7 @@ class CheckStart():
                 mythread = threading.Thread(target=get_start(i))
                 mythread.start()
 
-            print("\n"+">>> 组合测试完成")
+            print("\n"+">>> 自动验证完成")
             print(">>> 自动验证可能存在误差，建议对所有组合测试的 payload 做人工验证！")
             print("\n")
             for e in urldata.unsensitive['combination_close_no']:
@@ -758,7 +757,7 @@ class CheckStart():
                 mythread = threading.Thread(target=post_start(i))
                 mythread.start()
 
-            print("\n"+">>> 组合测试完成")
+            print("\n"+">>> 自动验证完成")
             print(">>> 自动验证可能存在误差，建议对所有组合测试的 payload 做人工验证！")
             print("\n")
             for e in urldata.unsensitive['combination_close_no']:
@@ -783,7 +782,7 @@ class CheckStart():
                 mythread = threading.Thread(target=referer_start(i))
                 mythread.start()
 
-            print("\n"+">>> 组合测试完成")
+            print("\n"+">>> 自动验证完成")
             print(">>> 自动验证可能存在误差，建议对所有组合测试的 payload 做人工验证！")
             print("\n")
             for e in urldata.unsensitive['combination_close_no']:
@@ -946,8 +945,8 @@ class CheckStart():
                     mythread = threading.Thread(target=get_start(i))
                     mythread.start()
 
-                print("\n"+">>> 组合测试完成")
-                print(">>> 自动验证可能存在误差，建议对所有组合测试的 payload 做人工验证！")
+                print("\n"+">>> 自动验证完成")
+                print(">>> 自动验证可能存在误差，" + "\033[1;31;8m请利用以上 payload 做人工测试！\033[0m")
                 print("\n")
                 for e in urldata.unsensitive['combination_close_yes']:
                     print("\033[1;31;8m可利用(请手工确认)：\033[0m", "\033[1;31;8m"+re.sub(re.escape("abcdef1234"), e, urldata.get_url)+"\033[0m")
@@ -983,8 +982,8 @@ class CheckStart():
                     mythread = threading.Thread(target=post_start(i))
                     mythread.start()
 
-                print("\n"+">>> 组合测试完成")
-                print(">>> 自动验证可能存在误差，建议对所有组合测试的 payload 做人工验证！")
+                print("\n"+">>> 自动验证完成")
+                print(">>> 自动验证可能存在误差，" + "\033[1;31;8m请利用以上 payload 做人工测试！\033[0m")
                 print("\n")
                 for e in urldata.unsensitive['combination_close_yes']:
                     print("\033[1;31;8m可利用(请手工确认)：\033[0m", "(POST)", "\033[1;31;8m"+re.sub(re.escape("abcdef1234"), e, urldata.post_data)+"\033[0m")
@@ -1014,8 +1013,8 @@ class CheckStart():
                     mythread = threading.Thread(target=referer_start(i))
                     mythread.start()
 
-                print("\n"+">>> 组合测试完成")
-                print(">>> 自动验证可能存在误差，建议对所有组合测试的 payload 做人工验证！")
+                print("\n"+">>> 自动验证完成")
+                print(">>> 自动验证可能存在误差，"+"\033[1;31;8m请利用以上 payload 做人工测试！\033[0m")
                 print("\n")
                 for e in urldata.unsensitive['combination_close_yes']:
                     print("\033[1;31;8m可利用(请手工确认)：\033[0m", "(POST)", "\033[1;31;8m"+ e +"\033[0m")
