@@ -111,12 +111,16 @@ class PreCheck():
             # request.install_opener(opener)
 
             # 使用 urllib 才能解决 url 编码的问题
-            with request.urlopen(url) as response:
+            with request.urlopen(url,timeout=5,capath=None) as response:
                 data = response.read()
-                return data.decode('utf-8')
+                try:
+                    return data.decode('utf-8')
+                except:
+                    return data.decode('gb2312')
         except BaseException:
             if verbose == "yes":
-                print(">>> 连接错误")
+                print(BaseException.__context__)
+                # print(">>> 连接错误")
             return "get no Response"
 
     def post_response(self, data, verbose):
