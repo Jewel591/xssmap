@@ -14,10 +14,13 @@ class NoQuoteSession(requests.Session):
             urllib.parse.quote('>'): '>',
             urllib.parse.quote('"'): '"',
             urllib.parse.quote('`'): '`',
+            urllib.parse.quote('['): '[',
+            urllib.parse.quote(']'): ']',
             urllib.parse.quote('/'): '/',
-            urllib.parse.quote('\\'): '\\',
+            urllib.parse.quote('\\'): '\\'
             # urllib.parse.quote(' '): '%20',
         }
         for old, new in table.items():
             prep.url = prep.url.replace(old, new)
+        # return requests.Session.send(self, prep, **send_kwargs)
         return super().send(prep, **send_kwargs)
