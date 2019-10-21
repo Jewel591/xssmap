@@ -114,7 +114,8 @@ class PreCheck():
             # request.install_opener(opener)
 
             # 使用 urllib 才能解决 url 编码的问题
-            with request.urlopen(url,timeout=5,capath=None) as response:
+
+            with request.urlopen(url.replace(" ","%20"),timeout=5,capath=None) as response:
                 data = response.read()
                 try:
                     return data.decode('utf-8')
