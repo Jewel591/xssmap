@@ -79,11 +79,11 @@ class Worker(QThread):
             urldata.targetvar = myWin.input_arg.text().strip()
             urldata.targeturl = myWin.input_url.text()
         else:
-            urldata.targeturl = input("请输出目标链接(type c/C to exit)：")
+            urldata.targeturl = input("请输入目标链接(type c/C to exit)：")
             if urldata.targeturl.lower() == "c":
                 print("\033[1;30;41mCanceled by the user\033[0m")
                 sys.exit()
-            urldata.targetvar = input("请输出目标参数：")
+            urldata.targetvar = input("请输入目标参数(Referer直接回车)：")
             urldata.targetvar = urldata.targetvar.replace(" ","")
         if urldata.targeturl== "":
             print(">>> 未检测到输入，使用内置链接进行测试")
@@ -248,6 +248,55 @@ class CheckStart():
                         urldata.unsensitive['close_tag']).replace("591", ''))
             break
 
+        while urldata.HTTP_METHON == "REFERER":
+            def referer_start(pd):
+                if re.search(
+                        re.escape(
+                            urllib.parse.unquote(
+                                urllib.parse.unquote(pd))),
+                        PreCheck.referer_response(
+                            self,pd, urldata.verbose)):  # 使用 re.escape()
+                    urldata.unsensitive['close'].append(pd)
+                else:
+                    urldata.sensitive['close'].append(pd)
+
+            for i in payload.keyword['close']:
+                mythread = threading.Thread(target=referer_start(i))
+                mythread.start()
+
+            if re.search(
+                    r"/|%2f",
+                    lists.list_to_str(
+                        urldata.unsensitive['close'])):
+                for i in payload.keyword['close_tag']:
+                    if re.search(
+                            re.escape(
+                                urllib.parse.unquote(
+                                    urllib.parse.unquote(i))),
+                            PreCheck.referer_response(
+                                self,i, urldata.verbose)):
+
+                        urldata.unsensitive['close_tag'].append(i)
+                    else:
+                        urldata.sensitive['close_tag'].append(i)
+
+            print("\n")
+            for e in urldata.unsensitive['close']:
+                print("未过滤：", e.replace("591", ""))
+                time.sleep(0.1)
+
+            # 将未过滤的闭合字符整体输出
+            str591 = ""
+            for e in urldata.unsensitive['close']:
+                str591 += e.replace("591", "")
+            print("未过滤闭合字符串：", str591)
+
+            for e in urldata.sensitive['close']:
+                print("过滤：", e.replace("591", ""))
+                time.sleep(0.1)
+            break
+
+
 
 ### 动作测试
 
@@ -340,6 +389,36 @@ class CheckStart():
                 time.sleep(0.1)
             break
 
+        while urldata.HTTP_METHON == "REFERER":
+
+            ### work 函数
+            def referer_start(pd):
+
+                # replace("\\\\\\\\","\\\\") 是因为 unicode 编码之后，再使用urllib.parse.unquote（）会变成 8 个\，这时候正则匹配的是 4 个\，实际只需匹配 2 个\，所以要做个replace
+                if re.search(re.escape(urllib.parse.unquote(urllib.parse.unquote(pd))).replace("\\\\\\\\", "\\\\"),
+                             PreCheck.referer_response(self, pd, urldata.verbose)):
+                    urldata.unsensitive['action'].append(pd)
+                else:
+                    urldata.sensitive['action'].append(pd)
+
+            ### 执行线程
+            for i in payload.keyword['action']:
+                mythread = threading.Thread(target=referer_start(i))
+                mythread.start()
+
+            ### 输出结果
+            print("\n")
+            for e in urldata.unsensitive['action']:
+                print("未过滤：", e.replace("592", ""))
+                time.sleep(0.1)
+
+            for e in urldata.sensitive['action']:
+                print("过滤：", e.replace("591", ""))
+
+            if urldata.unsensitive['action']:
+                urldata.signal['action'] = 'yes'
+            break
+
         if "eval" in urldata.unsensitive['action']:
             print("eval(591)+onerror 组合使用，例如 <img src=x onerror=eval(\"alert('xss')\")></img>")
 
@@ -410,6 +489,28 @@ class CheckStart():
             for e in urldata.sensitive['onevent']:
                 print("过滤：", e.replace("591", ""))
                 time.sleep(0.1)
+            break
+        while urldata.HTTP_METHON == "REFERER":
+            def referer_start(pd):
+                if re.search(
+                    re.escape(
+                        urllib.parse.unquote(
+                            urllib.parse.unquote(pd))),
+                        PreCheck.referer_response(
+                            self,pd,urldata.verbose)):  # 使用 re.escape()
+                    urldata.unsensitive['onevent'].append(pd)
+                else:
+                    urldata.sensitive['onevent'].append(pd)
+
+            for i in payload.keyword['onevent']:
+                mythread = threading.Thread(target=referer_start(i))
+                mythread.start()
+            print("\n")
+            for e in urldata.unsensitive['onevent']:
+                print("未过滤：", e.replace("591", ""))
+                time.sleep(0.1)
+            for e in urldata.sensitive['onevent']:
+                print("过滤：", e.replace("591", ""))
             break
 
 ### 结合输出 on 事件和动作组合
@@ -499,6 +600,32 @@ class CheckStart():
                 print("过滤：", e.replace("591", ""))
                 time.sleep(0.1)
             break
+        while urldata.HTTP_METHON == "REFERER":
+            def referer_start(pd):
+                if re.search(
+                    re.escape(
+                        urllib.parse.unquote(
+                            urllib.parse.unquote(pd))),
+                        PreCheck.referer_response(
+                            self,pd,urldata.verbose)):  # 使用 re.escape()
+                    urldata.unsensitive['tag'].append(pd)
+                else:
+                    urldata.sensitive['tag'].append(pd)
+
+            for i in payload.keyword['tag']:
+                mythread = threading.Thread(target=referer_start(i))
+                mythread.start()
+            print("\n")
+            for e in urldata.unsensitive['tag']:
+                print("未过滤：", e.replace("591", ""))
+                time.sleep(0.1)
+
+
+            for e in urldata.sensitive['tag']:
+                print("过滤：", e.replace("591", ""))
+                time.sleep(0.1)
+
+            break
         if urldata.unsensitive['tag']:
             urldata.signal['tag'] = 'yes'
         # print("url_data.signal.tag:", urldata.signal['tag'])
@@ -559,7 +686,6 @@ class CheckStart():
         except:
             pass
 
-        # print("输出组合测试（不闭合标签）生成 payload:")
         print("\033[1;31;8m>>> 组合测试(不闭合标签)payload（可能需要使用 BurpSuite URL解码）:\033[0m")
         # print("payload.keyword['combination_close_no']:")
         for erer in payload.keyword['combination_close_no']:
@@ -636,7 +762,29 @@ class CheckStart():
             break
 
 
+        while urldata.HTTP_METHON == "REFERER":
+            def referer_start(pd):
+                if re.search(
+                    re.escape(
+                        urllib.parse.unquote(
+                            urllib.parse.unquote(pd))).replace(" ", ".*").replace("\\\\\\\\","\\\\").replace("\\.*", ".*"),
+                        PreCheck.referer_response(self, pd,urldata.verbose)):  # 使用 re.escape()
+                    urldata.unsensitive['combination_close_no'].append(pd)
+                else:
+                    urldata.sensitive['combination_close_no'].append(pd)
 
+            for i in payload.keyword['combination_close_no']:
+                mythread = threading.Thread(target=referer_start(i))
+                mythread.start()
+
+            print("\n"+">>> 组合测试完成")
+            print(">>> 自动验证可能存在误差，建议对所有组合测试的 payload 做人工验证！")
+            print("\n")
+            for e in urldata.unsensitive['combination_close_no']:
+                print("\033[1;31;8m可利用(请手工确认)：\033[0m", "\033[1;31;8m"+ e +"\033[0m")
+                time.sleep(0.1)
+
+            break
 
 
 ### 组合测试——闭合标签
@@ -834,6 +982,37 @@ class CheckStart():
                 print("\n")
                 for e in urldata.unsensitive['combination_close_yes']:
                     print("\033[1;31;8m可利用(请手工确认)：\033[0m", "(POST)", "\033[1;31;8m"+re.sub(re.escape("abcdef1234"), e, urldata.post_data)+"\033[0m")
+                    print("\n")
+                    time.sleep(0.1)
+
+                break
+
+            while urldata.HTTP_METHON == "REFERER":
+                def referer_start(pd):
+                    #debug
+                    # print(pd)
+                    # print("urllib.parse.unquote(pd):"+urllib.parse.unquote(pd))
+                    # print("after re.escape"+re.escape(urllib.parse.unquote(urllib.parse.unquote(pd))))
+                    if re.search(
+                            re.escape(
+                                urllib.parse.unquote(
+                                    urllib.parse.unquote(pd))).replace("\ ", ".*"),
+                            PreCheck.post_response(
+                                self,pd,urldata.verbose)):  # 使用 re.escape()
+
+                        urldata.unsensitive['combination_close_yes'].append(pd)
+                    else:
+                        urldata.sensitive['combination_close_yes'].append(pd)
+
+                for i in payload.keyword['combination_close_yes']:
+                    mythread = threading.Thread(target=referer_start(i))
+                    mythread.start()
+
+                print("\n"+">>> 组合测试完成")
+                print(">>> 自动验证可能存在误差，建议对所有组合测试的 payload 做人工验证！")
+                print("\n")
+                for e in urldata.unsensitive['combination_close_yes']:
+                    print("\033[1;31;8m可利用(请手工确认)：\033[0m", "(POST)", "\033[1;31;8m"+ e +"\033[0m")
                     print("\n")
                     time.sleep(0.1)
 
