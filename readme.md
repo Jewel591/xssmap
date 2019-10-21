@@ -1,3 +1,6 @@
+# BUG
+某些网站需要使用日下 ua 才能正常检测：（不加该 ua 时访问也正常，但是不存在注入点）
+Content-Type: application/x-www-form-urlencoded
 # 环境
 **请安装 python3.6**，python3.7 字符串转义存在 bug，运行会报错。
 
