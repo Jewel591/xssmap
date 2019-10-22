@@ -33,10 +33,21 @@ class PreCheck():
             except BaseException:
                 print(">>> 站点不可访")
                 urldata.urlsuccess = "no"
-                return 
+                return
+        while urldata.HTTP_METHON == "REFERER":
+            header = {
+                'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:65.0) Gecko/20100101 Firefox/65.0',
+                'Content-Type': 'application/x-www-form-urlencoded'}
+            try:
+                requests.get(urldata.referer_url,headers=header,verify=False,timeout=5)
+                print(">>> 站点可访")
+                break
+            except BaseException:
+                print(">>> 站点不可访")
+                urldata.urlsuccess = "no"
+                return
 
-
-### 去除 url 中目标参数自带的敏感字符
+                ### 去除 url 中目标参数自带的敏感字符
     def rebuildurl(self):
         targetvar = urldata.targetvar #去除参数末尾的空格——输入1
         if targetvar=="":
