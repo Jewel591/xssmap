@@ -72,12 +72,17 @@ class PreCheck():
                 print(">>> 清除敏感字符: ", urldata.get_url)
         else:
             if re.search("(REFERER)", urldata.targeturl):
-                print('\033[1;31;8m[+] REFERER FIND! \033[0m')
-                urldata.HTTP_METHON = "REFERER"
-                url_split_list = re.split(re.escape("(REFERER)"), urldata.targeturl)
-                urldata.referer_url = url_split_list[0]
-                print(">>> refererurl ", urldata.referer_url)
-                print(">>> referer 自动清空")
+                if re.search("(POST)", urldata.targeturl):
+                    print('\033[1;31;8m[警告] 同时检测到 POST 和 REFERER，请手动删除 POST 数据，仅保留 REFERER 数据再尝试! \033[0m')
+                    print('\033[1;31;8m[举个栗子] www.abc.com(POST)data1(REFERER)data2 => www.abc.com(REFERER)data2 \033[0m')
+                    sys.exit(0)
+                else:
+                    print('\033[1;31;8m[+] REFERER FIND! \033[0m')
+                    urldata.HTTP_METHON = "REFERER"
+                    url_split_list = re.split(re.escape("(REFERER)"), urldata.targeturl)
+                    urldata.referer_url = url_split_list[0]
+                    print(">>> refererurl ", urldata.referer_url)
+                    print(">>> referer 自动清空")
 
             else:
                 if re.search("(COOKIE)", urldata.targeturl):
