@@ -72,7 +72,7 @@ class Worker(QThread):
         #         # if not len(myWin.input_arg.text()):
         #         #     print("请输出注入参数...")
         #         #     return
-        print("---------开始进行测试---------".rjust(100," "), "\n")
+        print("---------开始进行测试---------".rjust(50," "), "\n")
         urldata.urldata_init()
         payload.keyword_init()
         if sys.argv[1]=="-x":
@@ -113,7 +113,7 @@ class CheckStart():
 
     def check_close(self):
         format.breakline()
-        print("---------闭合测试---------".rjust(100," "))
+        print("---------闭合测试---------".rjust(50," "))
         while urldata.HTTP_METHON == "GET":
             # if re.search(re.escape("\"'>"),Check_Prepare.get_response(re.sub(re.escape("abcdef1234"), "\"'>", url_data.get_url))):
             #     payload.keyword_expand("\"'>")
@@ -303,7 +303,7 @@ class CheckStart():
 
     def check_action(self):
         format.breakline()
-        print("---------动作测试---------".rjust(100, " "))
+        print("---------动作测试---------".rjust(50, " "))
 
 
 
@@ -432,7 +432,7 @@ class CheckStart():
 
     def check_onevent(self):
         format.breakline()
-        print("---------事件测试---------".rjust(100, " "))
+        print("---------事件测试---------".rjust(50, " "))
         while urldata.HTTP_METHON == "GET":
             def get_start(pd):
                 if re.search(
@@ -514,7 +514,7 @@ class CheckStart():
             break
 
 ### 结合输出 on 事件和动作组合
-        print("---------可利用触发动作(展示前5条)---------):".rjust(100, " "))
+        print("---------可利用触发动作(展示前5条)---------):".rjust(50, " "))
         iiss = 1
         for e1 in urldata.unsensitive['action']:
             for e2 in urldata.unsensitive['onevent']:
@@ -538,7 +538,7 @@ class CheckStart():
 
     def check_tag(self):
         format.breakline()
-        print("---------标签测试---------".rjust(100, " "))
+        print("---------标签测试---------".rjust(50, " "))
         if ">" not in "".join(urldata.unsensitive['close']) and "%3e" not in "".join(urldata.unsensitive['close']) :
             if "<" not in "".join(urldata.unsensitive['close']) and "%3c" not in "".join(urldata.unsensitive['close']):
                 print('\033[1;31;8m[警告] < > 标签均被过滤, 无法插入标签 \033[0m')
@@ -646,7 +646,7 @@ class CheckStart():
 
     def check_combination_close_no(self):
         format.breakline()
-        print("---------组合测试（不闭合标签）---------".rjust(100, " "))
+        print("---------组合测试（不闭合标签）---------".rjust(50, " "))
 
 
 
@@ -801,7 +801,7 @@ class CheckStart():
 
     def check_combination_close_yes(self):
             format.breakline()
-            print("---------组合测试（闭合标签）---------".rjust(100, " "))
+            print("---------组合测试（闭合标签）---------".rjust(50, " "))
 
             ### 判断是否onevent 和 action 都被过滤
 
