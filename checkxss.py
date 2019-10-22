@@ -100,10 +100,11 @@ class Worker(QThread):
         begin2.check_tag()
         begin2.check_combination_close_no()
         begin2.check_combination_close_yes()
+        begin2.checkurlaccessibleInTheEnd()
         # begin2.check_illusion()
         # format.breakline()
         time_end = time.time()
-        print("测试耗时：", time_end - time_start)
+        print("\n"+"测试耗时：", time_end - time_start)
 
 
 class CheckStart():
@@ -956,7 +957,6 @@ class CheckStart():
                 print("\n")
                 for e in urldata.unsensitive['combination_close_yes']:
                     print("\033[1;31;8m可利用(请手工确认)：\033[0m", "\033[1;31;8m"+re.sub(re.escape("abcdef1234"), e, urldata.get_url)+"\033[0m")
-                    print("\n")
                     time.sleep(0.1)
 
                 break
@@ -993,7 +993,6 @@ class CheckStart():
                 print("\n")
                 for e in urldata.unsensitive['combination_close_yes']:
                     print("\033[1;31;8m可利用(请手工确认)：\033[0m", "(POST)", "\033[1;31;8m"+re.sub(re.escape("abcdef1234"), e, urldata.post_data)+"\033[0m")
-                    print("\n")
                     time.sleep(0.1)
 
                 break
@@ -1023,12 +1022,104 @@ class CheckStart():
                 print(">>> 自动验证可能存在误差，"+"\033[1;31;8m请利用以上 payload 做人工测试！\033[0m")
                 print("\n")
                 for e in urldata.unsensitive['combination_close_yes']:
-                    print("\033[1;31;8m可利用(请手工确认)：\033[0m", "(POST)", "\033[1;31;8m"+ e +"\033[0m")
-                    print("\n")
+                    print("\033[1;31;8m可利用(请手工确认)：\033[0m", "(Referer)", "\033[1;31;8m"+ e +"\033[0m")
                     time.sleep(0.1)
 
                 break
 
+
+### 再测试一次闭合字符串，如果和第一次不一样，就会输出可能存在安全策略
+    def checkurlaccessibleInTheEnd(self):
+        format.breakline()
+        print(">>> 正在测试站点是否存在安全策略...")
+        while len(urldata.unsensitive['close']) < 1:
+            return
+        self.security_strategy = 0
+        while urldata.HTTP_METHON == "GET":
+            def get_start(pd):
+                if re.search(
+                    re.escape(
+                        urllib.parse.unquote(
+                            urllib.parse.unquote(pd))),
+                        PreCheck.get_response(
+                            self,
+                            re.sub(
+                        re.escape("abcdef1234"),
+                        pd,
+                                urldata.get_url),urldata.verbose)):  # 使用 re.escape()
+                    pass
+                else:
+                    self.security_strategy +=1
+                    if self.security_strategy > 1:
+                        print("\n"+'\033[1;31;8m[警告] 站点貌似存在安全策略封禁了本机出口 IP，可能因此造成误报! \033[0m')
+                        print('\033[1;31;8m[警告] 站点貌似存在安全策略封禁了本机出口 IP，可能因此造成误报! \033[0m')
+                        print('\033[1;31;8m[警告] 站点貌似存在安全策略封禁了本机出口 IP，可能因此造成误报! \033[0m')
+
+
+            for i in urldata.unsensitive['close']:
+                if self.security_strategy < 2:
+                    get_start(i)
+                else:
+                    pass
+            if self.security_strategy < 2:
+                print("\n"+"没发现有限制~")
+            break
+
+        while urldata.HTTP_METHON == "POST":
+
+            def post_start(pd):
+                if re.search(
+                    re.escape(
+                        urllib.parse.unquote(
+                            urllib.parse.unquote(pd))),
+                        PreCheck.post_response(
+                            self,
+                            re.sub(
+                        re.escape("abcdef1234"),
+                        i,
+                                urldata.post_data),urldata.verbose)):  # 使用 re.escape()
+                    pass
+                else:
+                    self.security_strategy += 1
+                    if self.security_strategy > 1:
+                        print("\n"+'\033[1;31;8m[警告] 站点貌似存在安全策略封禁了本机出口 IP，可能因此造成误报! \033[0m')
+                        print('\033[1;31;8m[警告] 站点貌似存在安全策略封禁了本机出口 IP，可能因此造成误报! \033[0m')
+                        print('\033[1;31;8m[警告] 站点貌似存在安全策略封禁了本机出口 IP，可能因此造成误报! \033[0m')
+
+            for i in urldata.unsensitive['close']:
+                if self.security_strategy < 2:
+                    post_start(i)
+                else:
+                    pass
+            if self.security_strategy < 2:
+                print("\n"+"没发现有限制~")
+            break
+
+
+        while urldata.HTTP_METHON == "REFERER":
+            def referer_start(pd):
+                if re.search(
+                        re.escape(
+                            urllib.parse.unquote(
+                                urllib.parse.unquote(pd))),
+                        PreCheck.referer_response(
+                            self,pd, urldata.verbose)):  # 使用 re.escape()
+                    pass
+                else:
+                    self.security_strategy += 1
+                    if self.security_strategy > 1:
+                        print("\n"+'\033[1;31;8m[警告] 站点貌似存在安全策略封禁了本机出口 IP，可能因此造成误报! \033[0m')
+                        print('\033[1;31;8m[警告] 站点貌似存在安全策略封禁了本机出口 IP，可能因此造成误报! \033[0m')
+                        print('\033[1;31;8m[警告] 站点貌似存在安全策略封禁了本机出口 IP，可能因此造成误报! \033[0m')
+
+            for i in urldata.unsensitive['close']:
+                if self.security_strategy < 2:
+                    referer_start(i)
+                else:
+                    pass
+            if self.security_strategy < 2:
+                print("\n"+"没发现有限制~")
+            break
 
 
 if __name__ == "__main__":
@@ -1044,4 +1135,5 @@ if __name__ == "__main__":
     else:
         print("提示: 启动图形化工具，请输入'python checkxss.py -x'")
         checkxss = Worker()
-        checkxss.run()
+        while True:
+            checkxss.run()
