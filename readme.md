@@ -1,6 +1,10 @@
-# BUG
-某些网站需要使用日下 ua 才能正常检测：（不加该 ua 时访问也正常，但是不存在注入点）
-Content-Type: application/x-www-form-urlencoded
+# 更新
+2019/10/24:
+大版本更新(v2.0.1):
+1. 添加功能：若不输出参数，自动对所有参数进行检测
+2. 添加功能：增加对 ctrl c 信号捕获，增加暂停机制
+3. 优化展示：大幅度调整输出展示信息，更美观、更简洁
+
 # 环境
 **请安装 python3.6**，python3.7 字符串转义存在 bug，运行会报错。
 
@@ -16,7 +20,8 @@ CheckXSS 提供图形化和命令行两种启动方式（图形界面基于 PyQt
 2. 默认不输出测试细节，如果想查看更详细的输出，可在 /data/urldata.py 中修改verbose = "yes"
 
 # 请求方法支持
-支持 POST 和 GET 请求的检测，默认请求为 GET ，后续增加 Cookie 和 Referer 检测
+1. 支持 POST 和 GET 请求的检测，默认请求为 GET 。
+2. 支持注入点 Referer 检测
 
 # 注意点
 1. 使用 Burp Suite 配合进行 url解码
@@ -30,7 +35,11 @@ CheckXSS 提供图形化和命令行两种启动方式（图形界面基于 PyQt
 4. 支持对 ( ) ' " 进行灵活替换进行绕过
 5. 大小写绕过
 ### 命令行
-![CheckXSSTerminal](https://i.loli.net/2019/10/18/IUTh9cFOPoRNtWe.png)
+![CheckXSSTerminal](https://i.loli.net/2019/10/24/N6UfbZiR3WKuBJ1.png)
+
+![CheckXSSTerminal](https://i.loli.net/2019/10/24/K7i4qjVgfxHCJBQ.png)
+
+![CheckXSSTerminal](https://i.loli.net/2019/10/24/DZl2eSBjK9XPWsi.png)
 ### 图形化
 ![CheckXSSGUI.png](https://i.loli.net/2019/09/30/P5g2NWklJ4mEoqF.png)
 
