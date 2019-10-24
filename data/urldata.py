@@ -1,4 +1,5 @@
 urlsuccess = "yes"
+urlxssalbe = "yes"
 post_url = "url"
 get_url = "url"
 referer_url="url"
@@ -6,6 +7,7 @@ cookie_url="cookie"
 post_data = "data"
 targeturl = "url"
 targetvar = "var"
+targetvarlist = [""]
 HTTP_METHON = "nk"
 verbose = "no" # 如果要更详细的输出，可将此处设为 yes
 
@@ -39,9 +41,8 @@ signal = {
 
 def urldata_init():
     global urlsuccess
-    global targeturl
-    global targetvar
     global HTTP_METHON
+    global urlxssalbe
     global post_data
     global post_url
     global get_url
@@ -49,9 +50,9 @@ def urldata_init():
     global unsensitive
     global signal
     global verbose
+    urlxssalbe = "yes"
     urlsuccess = "yes"
     targeturl = ""
-    targetvar = ""
     HTTP_METHON = "nk"
     post_url = "url"
     post_data = "data"
