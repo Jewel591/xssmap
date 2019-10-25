@@ -1,3 +1,5 @@
+介绍：https://zhuanlan.zhihu.com/p/88534569
+
 # 更新
 2019/10/24:
 大版本更新(v2.0.1):
@@ -10,7 +12,7 @@
 
 # 安装
 `
-pip3 install -r requirement.txt`
+pip3 install -r requirement.txt -i https://pypi.douban.com/simple`
 
 # 使用方法
 CheckXSS 提供图形化和命令行两种启动方式（图形界面基于 PyQt5）
