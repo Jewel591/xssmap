@@ -7,7 +7,7 @@ cookie_url="cookie"
 post_data = "data"
 targeturl = "url"
 targetvar = "var"
-targetvarlist = [""]
+targetvarlist = []
 HTTP_METHON = "nk"
 verbose = "no" # 如果要更详细的输出，可将此处设为 yes
 
