@@ -16,17 +16,17 @@ class PreCheck():
                     'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:65.0) Gecko/20100101 Firefox/65.0',
                     'Content-Type': 'application/x-www-form-urlencoded'}
                 requests.get(urldata.get_url, headers=header, verify=False, timeout=5)
-                print("[*] 站点可访",end="")
+                print("[!] 站点可访",end="")
             except BaseException:
-                print("[*] 站点不可访")
+                print("[!] 站点不可访")
                 urldata.urlsuccess = "no"
                 return
 
             if re.search("abcdef1234",self.get_response(urldata.get_url, urldata.verbose)):
-                print("..参数 "+urldata.targetvar+" 可注入\n")
+                print("..\n[!] 参数 "+urldata.targetvar+" 可注入\n")
                 break
             else:
-                print("..参数 "+urldata.targetvar+" 不可注入 EXIT...\n")
+                print("..\n[!] 参数 "+urldata.targetvar+" 不可注入 \n[!] 退出\n")
                 urldata.urlxssalbe = "no"
                 return
 
@@ -36,17 +36,17 @@ class PreCheck():
                     'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:65.0) Gecko/20100101 Firefox/65.0',
                     'Content-Type': 'application/x-www-form-urlencoded'}
                 requests.post(urldata.post_url, data=urldata.post_data, headers=header, verify=False, timeout=5)
-                print("[*] 站点可访",end="")
+                print("[!] 站点可访",end="")
             except BaseException:
-                print("[*] 站点不可访")
+                print("[!] 站点不可访")
                 urldata.urlsuccess = "no"
                 return
             if re.search("abcdef1234",self.post_response(urldata.post_data, urldata.verbose)):
                 # print("测试，postdata",urldata.post_data)
-                print("..参数 "+urldata.targetvar+" 可注入\n")
+                print("..\n[!] 参数 "+urldata.targetvar+" 可注入\n")
                 break
             else:
-                print("..参数 "+urldata.targetvar+" 不可注入 EXIT...\n")
+                print("..\n[!] 参数 "+urldata.targetvar+" 不可注入 \n[!] 退出\n")
                 urldata.urlxssalbe = "no"
                 return
 
@@ -56,9 +56,9 @@ class PreCheck():
                 'Content-Type': 'application/x-www-form-urlencoded'}
             try:
                 requests.get(urldata.referer_url,headers=header,verify=False,timeout=5)
-                print("[*] 站点可访",end="")
+                print("[!] 站点可访",end="")
             except BaseException:
-                print("[*] 站点不可访")
+                print("[!] 站点不可访")
                 urldata.urlsuccess = "no"
                 return
             if re.search("abcdef1234", self.referer_response("abcdef1234", urldata.verbose)):
@@ -66,7 +66,26 @@ class PreCheck():
                 print("..referer 可注入\n")
                 break
             else:
-                print("..referer 不可注入 EXIT...\n")
+                print("..referer 不可注入 \n[!] 退出\n")
+                urldata.urlxssalbe = "no"
+                return
+
+        while urldata.HTTP_METHON == "COOKIE":
+            header = {
+                'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:65.0) Gecko/20100101 Firefox/65.0',
+                'Content-Type': 'application/x-www-form-urlencoded'}
+            try:
+                requests.get(urldata.referer_url, headers=header, verify=False, timeout=5)
+                print("[!] 站点可访", end="")
+            except BaseException:
+                print("[!] 站点不可访")
+                urldata.urlsuccess = "no"
+                return
+            if re.search("abcdef1234", self.cookie_response("abcdef1234", urldata.verbose)):
+                print("..cookie 可注入\n")
+                break
+            else:
+                print("..cookie 不可注入 \n[!] 退出\n")
                 urldata.urlxssalbe = "no"
                 return
 
@@ -88,11 +107,11 @@ class PreCheck():
             if re.search(revar1, urldata.targeturl):
                 urldata.get_url = re.sub(
                     revar1, targetvar + "=" + "abcdef1234&", urldata.targeturl)
-                # print("[*] 清除敏感字符: ", urldata.get_url)
+                # print("[!] 清除敏感字符: ", urldata.get_url)
             else:
                 urldata.get_url = re.sub(
                     revar2, targetvar + "=" + "abcdef1234", urldata.targeturl)
-                # print("[*] 清除敏感字符: ", urldata.get_url)
+                # print("[!] 清除敏感字符: ", urldata.get_url)
         else:
             if re.search("(REFERER)", urldata.targeturl):
                 if re.search("(POST)", urldata.targeturl):
@@ -104,34 +123,35 @@ class PreCheck():
                     urldata.HTTP_METHON = "REFERER"
                     url_split_list = re.split(re.escape("(REFERER)"), urldata.targeturl)
                     urldata.referer_url = url_split_list[0]
-                    # print("[*] refererurl ", urldata.referer_url)
-                    # print("[*] referer 自动清空")
 
             else:
                 if re.search("(COOKIE)", urldata.targeturl):
                     print('\033[1;32;8m[+] COOKIE FIND ! 尝试进行 Cookie 注入 \033[0m'+"\n")
                     print("COOKIE 检测代码还没写，莫慌 ~")
+                    urldata.HTTP_METHON = "COOKIE"
+                    url_split_list = re.split(re.escape("(COOKIE)"), urldata.targeturl)
+                    urldata.referer_url = url_split_list[0]
                     sys.exit(0)
                 else:
                     urldata.HTTP_METHON = "POST"
                     print('\033[1;32;8m[+] POST FIND ! 尝试进行 POST 参数注入 \033[0m'+"\n")
                     url_split_list = re.split(re.escape("(POST)"), urldata.targeturl)
                     urldata.post_url = url_split_list[0]
-                    # print("[*] posturl ", urldata.post_url)
-                    # print("[*] postdata ", url_split_list[1])
+                    # print("[!] posturl ", urldata.post_url)
+                    # print("[!] postdata ", url_split_list[1])
 
                     if re.search(revar1, url_split_list[1]):
                         urldata.post_data = re.sub(
                             revar1,
                             targetvar + "=" + "abcdef1234&",
                             url_split_list[1])
-                        # print("[*] 清除敏感字符: ", urldata.post_data)
+                        # print("[!] 清除敏感字符: ", urldata.post_data)
                     else:
                         urldata.post_data = re.sub(
                             revar2,
                             targetvar + "=" + "abcdef1234",
                             url_split_list[1])
-                        # print("[*] 清除敏感字符: ", urldata.post_data)
+                        # print("[!] 清除敏感字符: ", urldata.post_data)
 
 
 ### 获取所有参数
@@ -144,11 +164,11 @@ class PreCheck():
 
         else:
             if re.search("(REFERER)", urldata.targeturl):
-                pass
+                urldata.targetvarlist.append("Referer")
 
             else:
                 if re.search("(COOKIE)", urldata.targeturl):
-                    pass
+                    print("目前不支持 Cookie 检测")
                 else:
                     url_split_list = re.split(re.escape("(POST)"), urldata.targeturl)
                     urldata.post_url = url_split_list[0]
@@ -187,11 +207,14 @@ class PreCheck():
                 try:
                     return data.decode('utf-8')
                 except:
-                    return data.decode('gb2312')
+                    try:
+                        return data.decode('gb2312')
+                    except:
+                        return data
         except BaseException:
             if verbose == "yes":
                 print(BaseException.__context__)
-                # print("[*] 连接错误")
+                # print("[!] 连接错误")
             return "get no Response"
 
     def post_response(self, data, verbose):
@@ -218,7 +241,7 @@ class PreCheck():
         # except requests.exceptions.ConnectionError:
         except BaseException:
             if verbose == "yes":
-                print("[*] 连接错误")
+                print("[!] 连接错误")
             return "post no Response"
 
     def referer_response(self, data, verbose):
@@ -245,7 +268,7 @@ class PreCheck():
         # except requests.exceptions.ConnectionError:
         except BaseException:
             if verbose == "yes":
-                print("[*] 连接错误")
+                print("[!] 连接错误")
             return "post no Response"
 
 
@@ -258,7 +281,8 @@ class PreCheck():
         r = NoQuoteSession()
         header = {
             'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:65.0) Gecko/20100101 Firefox/65.0',
-            'Content-Type': 'application/x-www-form-urlencoded'}
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'Cookie':data}
         proxy = {"http": "http://127.0.0.1:8080",
                  "https": "http://127.0.0.1:8080"}
         try:
@@ -273,7 +297,7 @@ class PreCheck():
         # except requests.exceptions.ConnectionError:
         except BaseException:
             if verbose == "yes":
-                print("[*] 连接错误")
+                print("[!] 连接错误")
             return "post no Response"
 
 
