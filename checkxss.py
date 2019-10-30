@@ -92,7 +92,7 @@ class Worker(QThread):
                 vardic[num] = var2one
                 num+=1
             while True:
-                vardicKey = input("\n请输入目标参数("+"\033[1;34;8m输入 0 测试 Referer/Cookie 或测试所有参数\033[0m"+")：")
+                vardicKey = input("\n请输入目标参数对应序号("+"\033[1;34;8m输入 0 测试 Referer/Cookie 或测试所有参数\033[0m"+")：")
                 if not vardicKey.isdigit() or int(vardicKey) not in vardic.keys():
                     print('\n\033[1;31;8m[!] 请输出正确的整数！ \033[0m')
                 else:
@@ -708,6 +708,11 @@ class CheckStart():
         for e in urldata.unsensitive['close']:
             if e =="%22591" or e =="%27591" or e =="\"591" or e=="\'591":
                str591 += e.replace("591", "")
+        # 对"和%22 去重
+        if "%22" in str591 and "\"" in str591:
+            str591 = str591.replace("%22","")
+        if "%27" in str591 and "\'" in str591:
+            str591 = str591.replace("%27","")
 
         iiss = 1
         for e1 in urldata.unsensitive['action']:
@@ -735,12 +740,18 @@ class CheckStart():
         try:
             if "/591" in urldata.unsensitive['close']:
                 payload.keyword['combination_close_no'].append(str591 + ";" + urldata.unsensitive['action'][0] + "//")
-            if "%2f591" in urldata.unsensitive['close']:
-                payload.keyword['combination_close_no'].append(str591 + ";" + urldata.unsensitive['action'][0] + "%2f%2f")
+            else:
+                if "%2f591" in urldata.unsensitive['close']:
+                    payload.keyword['combination_close_no'].append(str591 + ";" + urldata.unsensitive['action'][0] + "%2f%2f")
+            # if "/591" in urldata.unsensitive['close']:
+            #     payload.keyword['combination_close_no'].append(str591 + ";" + urldata.unsensitive['action'][1] + "//")
+            # if "%2f591" in urldata.unsensitive['close']:
+            #     payload.keyword['combination_close_no'].append(str591 + ";" + urldata.unsensitive['action'][1] + "%2f%2f")
             if "/591" in urldata.unsensitive['close']:
-                payload.keyword['combination_close_no'].append(str591 + ";" + urldata.unsensitive['action'][1] + "//")
-            if "%2f591" in urldata.unsensitive['close']:
-                payload.keyword['combination_close_no'].append(str591 + ";" + urldata.unsensitive['action'][1] + "%2f%2f")
+                payload.keyword['combination_close_no'].append(str591 + ";}" + urldata.unsensitive['action'][1] + ";{//")
+            else:
+                if "%2f591" in urldata.unsensitive['close']:
+                    payload.keyword['combination_close_no'].append(str591 + ";}" + urldata.unsensitive['action'][1] + ";{%2f%2f")
         except:
             pass
 
