@@ -16,9 +16,9 @@ class PreCheck():
                     'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:65.0) Gecko/20100101 Firefox/65.0',
                     'Content-Type': 'application/x-www-form-urlencoded'}
                 requests.get(urldata.get_url, headers=header, verify=False, timeout=5)
-                print("[!] 站点可访",end="")
+                print("[!] 可访性 : 可访",end="")
             except BaseException:
-                print("[!] 站点不可访")
+                print("[!] 可访性 : 不可访")
                 urldata.urlsuccess = "no"
                 return
 
@@ -36,9 +36,9 @@ class PreCheck():
                     'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:65.0) Gecko/20100101 Firefox/65.0',
                     'Content-Type': 'application/x-www-form-urlencoded'}
                 requests.post(urldata.post_url, data=urldata.post_data, headers=header, verify=False, timeout=5)
-                print("[!] 站点可访",end="")
+                print("[!] 可访性 : 可访",end="")
             except BaseException:
-                print("[!] 站点不可访")
+                print("[!] 可访性 : 不可访")
                 urldata.urlsuccess = "no"
                 return
             if re.search("abcdef1234",self.post_response(urldata.post_data, urldata.verbose)):
@@ -56,9 +56,9 @@ class PreCheck():
                 'Content-Type': 'application/x-www-form-urlencoded'}
             try:
                 requests.get(urldata.referer_url,headers=header,verify=False,timeout=5)
-                print("[!] 站点可访",end="")
+                print("[!] 可访性 : 可访",end="")
             except BaseException:
-                print("[!] 站点不可访")
+                print("[!] 可访性 : 不可访")
                 urldata.urlsuccess = "no"
                 return
             if re.search("abcdef1234", self.referer_response("abcdef1234", urldata.verbose)):
@@ -76,9 +76,9 @@ class PreCheck():
                 'Content-Type': 'application/x-www-form-urlencoded'}
             try:
                 requests.get(urldata.referer_url, headers=header, verify=False, timeout=5)
-                print("[!] 站点可访", end="")
+                print("[!] 可访性 : 可访",end="")
             except BaseException:
-                print("[!] 站点不可访")
+                print("[!] 可访性 : 不可访")
                 urldata.urlsuccess = "no"
                 return
             if re.search("abcdef1234", self.cookie_response("abcdef1234", urldata.verbose)):
