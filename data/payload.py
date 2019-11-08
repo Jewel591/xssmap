@@ -15,10 +15,10 @@ def keyword_init():
     global keyword
     keyword.clear()
     keyword['close'] = [
-        "%22591",
-        "\"591",
         "%27591",
         "\'591",
+        "%22591",
+        "\"591",
         "<591",
         "%3c591",
         "/591",
