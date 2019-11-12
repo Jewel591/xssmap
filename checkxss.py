@@ -718,7 +718,7 @@ class CheckStart():
             payload.keyword['combination_close_no'].append(
                 str591 + " " + "onclick=" + urldata.unsensitive['action'][0] + " " + "AcCESsKeY=\"j\"" + " " + "nsf=" + str591)
         else:
-            print("[!] onclick + accesskey can't use .")
+            print("[!] onclick + accesskey 组合被过滤，如果注入点存在 hidden 属性可能无法触发弹窗")
             iiss = 1
             for e1 in urldata.unsensitive['action']:
                 for e2 in urldata.unsensitive['onevent']:
@@ -886,13 +886,10 @@ class CheckStart():
                     str592 += e.replace("591", "")
             if re.search(re.escape("script"), "".join(urldata.unsensitive['tag']), re.IGNORECASE):
                 str592="</ScRipt>"+str592
-            print(str(urldata.unsensitive['tag']))
-            pdd=[]
             pdd = urldata.unsensitive['tag'][:]
             for pd in pdd:
                 if "/" not in pd and pd.replace("591","").replace(" ","")  +"/591" in urldata.unsensitive['tag']:
                     urldata.unsensitive['tag'].remove(pd)
-            print(str(urldata.unsensitive['tag']))
 
             if ">" not in "".join(urldata.unsensitive['tag']) and "%3e" in "".join(urldata.unsensitive['close']):
                 payload.keyword['combination_close_yes'] = format.payloadReplace(payload.keyword['combination_close_yes'], ">", "%3e")
@@ -1209,7 +1206,7 @@ class CheckStart():
                 else:
                     pass
             if self.security_strategy < 2:
-                print("\n"+"没发现有限制~")
+                print("\n"+"[!] 不存在安全策略!")
             break
 
 
@@ -1235,7 +1232,7 @@ class CheckStart():
                 else:
                     pass
             if self.security_strategy < 2:
-                print("\n"+"没发现有限制~")
+                print("\n"+"[!] 不存在安全策略!")
             break
 
 # ctrl 信号捕获函数
