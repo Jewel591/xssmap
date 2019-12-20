@@ -41,31 +41,31 @@ def iilusion_replace():
     # 下面校验标签
 
     while re.search("<iNpUt>",
-                    str(urldata.sensitive['tag'])
+                    str(urldata.white['tag'])
                     ):
         # print(str(url_data.sensitive['tag']))
         keyword['illusion'] = list_delete(keyword['illusion'], "input")
         break
     while re.search("<BoDy>",
-                    str(urldata.sensitive['tag'])
+                    str(urldata.white['tag'])
                     ):
         # print(str(url_data.sensitive['tag']))
         keyword['illusion'] = list_delete(keyword['illusion'], "body")
         break
     while re.search("<ImG>",
-                    str(urldata.sensitive['tag'])
+                    str(urldata.white['tag'])
                     ):
         # print(str(url_data.sensitive['tag']))
         keyword['illusion'] = list_delete(keyword['illusion'], "img")
         break
     while re.search("<IfrAme>591</IfrAme>",
-                    str(urldata.sensitive['tag'])
+                    str(urldata.white['tag'])
                     ):
         # print(str(url_data.sensitive['tag']))
         keyword['illusion'] = list_delete(keyword['illusion'], "iframe")
         break
     while re.search("<A>591</A>",
-                    str(urldata.sensitive['tag'])
+                    str(urldata.white['tag'])
                     ):
         # print(str(url_data.sensitive['tag']))
         keyword['illusion'] = list_delete(keyword['illusion'], "/A")
@@ -73,38 +73,38 @@ def iilusion_replace():
     print("标签校验：", keyword['illusion'])
     # 下面校验闭合字符
     while not re.search("\"",
-            str(urldata.unsensitive['close'])
+            str(urldata.black['close'])
             ):
         if not re.search(
                 "\"",
-                str(urldata.unsensitive['close'])) and re.search("'",
-                                                                 str(urldata.unsensitive['close'])):
+                str(urldata.black['close'])) and re.search("'",
+                                                           str(urldata.black['close'])):
             keyword['illusion']=list_replace_two(keyword['illusion'], "\"", "'")
         else:
             if not re.search(
                     "\"",
-                    str(urldata.unsensitive['close'])) and re.search(
+                    str(urldata.black['close'])) and re.search(
                     "%22",
-                    str(urldata.unsensitive['close'])):
+                    str(urldata.black['close'])):
                 keyword['illusion']=list_replace_two(keyword['illusion'], "\"", "%22")
             else:
                 if not re.search(
                         str(
-                        "\"", urldata.unsensitive['close'])) and re.search("%27",
-                                                                           str(urldata.unsensitive['close'])
-                                                                           ):
+                        "\"", urldata.black['close'])) and re.search("%27",
+                                                                     str(urldata.black['close'])
+                                                                     ):
                     keyword['illusion']=list_replace_two(keyword['illusion'], "\"", "%27")
                 else:  # 如果找不到代替的字符，就将该 payload 删除
 
                     keyword['illusion']=list_delete(keyword['illusion'],"\"")
         break
     while not re.search("<",
-            str(urldata.unsensitive['close'])
+            str(urldata.black['close'])
             ):
         if not bool(re.search("<",
-                str(urldata.unsensitive['close'])
+                str(urldata.black['close'])
             )) and bool(re.search("%3c",
-                str(urldata.unsensitive['close'])
+                str(urldata.black['close'])
                 )):
             keyword['illusion']=list_replace_two(keyword['illusion'], "<", "%3c")
         else:
@@ -113,24 +113,24 @@ def iilusion_replace():
 
     while not re.search(
             ">",
-            str(urldata.unsensitive['close'])):
+            str(urldata.black['close'])):
         if not re.search(
                 ">",
-                str(urldata.unsensitive['close'])) and re.search("%3e",
-                                                                 str(urldata.unsensitive['close'])
-                                                                 ):
+                str(urldata.black['close'])) and re.search("%3e",
+                                                           str(urldata.black['close'])
+                                                           ):
             keyword['illusion']=list_replace_two(keyword['illusion'], ">", "%3e")
         else:
             keyword['illusion'] = list_delete(keyword['illusion'], ">")
         break
 
     while not re.search("/",
-            str(urldata.unsensitive['close'])
+            str(urldata.black['close'])
             ):
         if not re.search("/",
-                str(urldata.unsensitive['close'])
+                str(urldata.black['close'])
                 ) and re.search("%2f",
-                str(urldata.unsensitive['close'])
+                str(urldata.black['close'])
                 ):
             keyword['illusion']=list_replace_two(keyword['illusion'], "/", "%2f")
         else:
@@ -139,20 +139,20 @@ def iilusion_replace():
     print("闭合字符校验：", keyword['illusion'])
 
     #下面对 pauload 添加闭合字符
-    if urldata.unsensitive['close_tag']:
+    if urldata.black['close_tag']:
         keyword['illusion'] = list_add_start(
             keyword['illusion'],
             list_to_str(
-                urldata.unsensitive['close_tag']).replace("591", ''))
+                urldata.black['close_tag']).replace("591", ''))
     print("添加闭合字符串：", keyword['illusion'])
 
     # 下面校验动作函数
     while re.search("prompt(591)",
-            str(urldata.sensitive['action'])
+            str(urldata.white['action'])
             ):
 
-        if urldata.unsensitive['action']:
-            keyword['illusion'] = list_replace_two(keyword['illusion'], "prompt(591)", urldata.unsensitive['action'][0])
+        if urldata.black['action']:
+            keyword['illusion'] = list_replace_two(keyword['illusion'], "prompt(591)", urldata.black['action'][0])
         else:
             keyword['illusion'] = list_delete(keyword['illusion'], "prompt(591)")
         break

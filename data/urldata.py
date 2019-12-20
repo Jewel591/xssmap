@@ -11,7 +11,7 @@ targetvarlist = []
 HTTP_METHON = "nk"
 verbose = "no" # 如果要更详细的输出，可将此处设为 yes
 
-sensitive = {
+white = {
     'close': [],
     'close_tag': [],
     'action': [],
@@ -21,7 +21,7 @@ sensitive = {
     'illusion': [],
     'combination_close_no': [],
     'combination_close_yes': []}
-unsensitive = {
+black = {
     'close': [],
     'close_tag': [],
     'action': [],
@@ -46,8 +46,8 @@ def urldata_init():
     global post_data
     global post_url
     global get_url
-    global sensitive
-    global unsensitive
+    global white
+    global black
     global signal
     global verbose
     urlxssalbe = "yes"
@@ -57,7 +57,7 @@ def urldata_init():
     post_url = "url"
     post_data = "data"
     get_url = "url"
-    sensitive = {
+    white = {
         'close': [],
         'close_tag': [],
         'action': [],
@@ -67,7 +67,7 @@ def urldata_init():
         'illusion': [],
         'combination_close_no': [],
         'combination_close_yes': []}
-    unsensitive = {
+    black = {
         'close': [],
         'close_tag': [],
         'action': [],

@@ -1,95 +1,133 @@
 import re
 import sys
+import time
 import requests
 from data import urldata
 from urllib import request
-from modules import format
 from modules.noquote import NoQuoteSession
-import urllib.parse
+from urllib import parse
+from modules.argsparse import argsparse
+import ssl # 关闭 ssl 证书验证
+ssl._create_default_https_context = ssl._create_unverified_context
+
 
 
 class PreCheck():
+    def responsebyurl(self, payload):
+        argss = argsparse().args()
+
+        # 初始化部分变量
+        urlafter=argss.url
+        dataafter=argss.postdata
+        cookieafter=argss.cookie
+        refererafter=argss.referer
+        useragentafter=argss.useragent
+
+        param_replace = {urldata.targetvar: payload}
+
+
+        #  distinguish POST / GET
+
+        argsInUrl=parse.parse_qs(parse.urlparse(argss.url).query)
+        argsInPostdata=parse.parse_qs(argss.postdata) if argss.postdata else {}
+        argsInCookie=parse.parse_qs(argss.cookie) if argss.cookie else {}
+        argsInUsergent=parse.parse_qs(argss.useragent) if argss.useragent else {}
+        argsInReferer=parse.parse_qs(argss.referer) if argss.referer else {}
+
+        def encoder(mydict):
+            return ("&".join("{}={}".format(*i) for i in mydict.items()))
+
+        if urldata.targetvar in argsInUrl:
+            url_parts=list(parse.urlparse(argss.url))
+            query_url=dict(parse.parse_qsl(url_parts[4]))
+            query_url.update(param_replace)
+            url_parts[4]=encoder(query_url)
+            urlafter = parse.urlunparse(url_parts)
+
+
+        if urldata.targetvar in argsInPostdata:
+            query_postdata=dict(parse.parse_qsl(argss.postdata))
+            query_postdata.update(param_replace)
+            dataafter=encoder(query_postdata)
+
+        if urldata.targetvar in argsInCookie:
+            query_cookie = dict(parse.parse_qsl(argss.cookie))
+            query_cookie.update(param_replace)
+            cookieafter = encoder(query_cookie)
+
+        if urldata.targetvar in argsInReferer:
+            query_referer = dict(parse.parse_qsl(argss.referer))
+            query_referer.update(param_replace)
+            refererafter = encoder(query_referer)
+
+        if urldata.targetvar in argsInUsergent:
+            query_useragent = dict(parse.parse_qsl(argss.useragent))
+            query_useragent.update(param_replace)
+            useragentafter = encoder(query_useragent)
+
+
+
+        # set proxy http/https
+        if argss.proxy and "https" in urlafter:
+            proxy_support_https = request.ProxyHandler({'https': argss.proxy})
+            opener = request.build_opener(proxy_support_https)
+            request.install_opener(opener)
+        elif argss.proxy and "http" in urlafter:
+            proxy_support_http = request.ProxyHandler({'http': argss.proxy})
+            opener = request.build_opener(proxy_support_http)
+            request.install_opener(opener)
+
+        # set header
+        header = {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            }
+        if argss.cookie : header['Cookie'] = cookieafter
+        if argss.referer: header['Referer'] = refererafter
+        header['User-Agent'] = useragentafter if argss.useragent else "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:65.0) Gecko/20100101 Firefox/65.0"
+        url_request = request.Request(url=urlafter.replace(" ","%20"), data=dataafter.encode('utf-8'),headers=header) if argss.postdata else request.Request(url=urlafter.replace(" ","%20"),headers=header)
+
+        try:
+            url_response = request.urlopen(url_request, timeout=int(argss.timeout), capath=None)  # capath 不解析 https 证书
+            try:
+                return url_response.read().decode('utf-8')
+            except:
+                try:
+                    return url_response.read().decode('gb2312')
+                except:
+                    print("\033[1;34m["+str(time.strftime("%H:%M:%S", time.localtime()))+"]\033[0m "+"\033[1;33m[WARNING]\033[0m"+"Unrecognized response encoding, force bytes-to-string")
+                    return str(url_response.read())
+        except Exception as e:
+            if argss.verbose : print("\033[1;34m["+str(time.strftime("%H:%M:%S", time.localtime()))+"]\033[0m "+"\033[1;30m[ERROR] \033[0m"+"\033[1;30m"+str(e)+"\033[0m")
+
+            # if argss.verbose : print("\033[1;34m["+str(time.strftime("%H:%M:%S", time.localtime()))+"]\033[0m "+"\033[1;31m[ERROR]\033[0m unable to connect to the target URL. May be due to a security policy")
+            return "NoResponse"
+
+    @staticmethod
+    def getallparameter():
+        # print("\033[1;34m["+str(time.strftime("%H:%M:%S", time.localtime()))+"]\033[0m "+"test")
+        args2 = argsparse().args()
+
+        argsInUrl = parse.parse_qs(parse.urlparse(args2.url).query)
+        argsInPostdata = parse.parse_qs(args2.postdata) if args2.postdata else {}
+        argsInCookie = parse.parse_qs(args2.cookie) if args2.cookie else {}
+        argsInUsergent = parse.parse_qs(args2.useragent) if args2.useragent else {}
+        argsInReferer = parse.parse_qs(args2.referer) if args2.referer else {}
+        allargs = {**argsInUrl,**argsInPostdata,**argsInUsergent,**argsInReferer,**argsInCookie}
+
+        return allargs
+
+
     def checkurlaccessible(self):
-        while urldata.HTTP_METHON == "GET":
-            try:
-                header = {
-                    'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:65.0) Gecko/20100101 Firefox/65.0',
-                    'Content-Type': 'application/x-www-form-urlencoded'}
-                requests.get(urldata.get_url, headers=header, verify=False, timeout=5)
-                print("[!] 可访性 : 可访",end="")
-            except BaseException:
-                print("[!] 可访性 : 不可访")
-                urldata.urlsuccess = "no"
-                return
+        print("\033[1;34m[" + str(time.strftime("%H:%M:%S",
+                                                time.localtime())) + "]\033[0m " + "\033[1;32m[INFO]\033[0m testing connection to the target URL")
+        if self.responsebyurl("591") =="NoResponse":
+            print("\033[1;34m["+str(time.strftime("%H:%M:%S", time.localtime()))+"]\033[0m "+"\033[1;33m[WARNING] site can't connected\033[0m"+"\033[1;30m (eg.. use -v get information)\033[0m")
+            print("\033[1;34m[" + str(time.strftime("%H:%M:%S", time.localtime())) + "]\033[0m " + "exiting...")
+            return 0
+        else:
+            print("\033[1;34m["+str(time.strftime("%H:%M:%S", time.localtime()))+"]\033[0m "+"\033[1;32m[INFO] site connected success \033[0m ")
+            return 1
 
-            if re.search("abcdef1234",self.get_response(urldata.get_url, urldata.verbose)):
-                print("..\n[!] 参数 "+urldata.targetvar+" 可注入\n")
-                break
-            else:
-                print("..\n[!] 参数 "+urldata.targetvar+" 不可注入 \n[!] 退出\n")
-                urldata.urlxssalbe = "no"
-                return
-
-        while urldata.HTTP_METHON == "POST":
-            try:
-                header = {
-                    'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:65.0) Gecko/20100101 Firefox/65.0',
-                    'Content-Type': 'application/x-www-form-urlencoded'}
-                requests.post(urldata.post_url, data=urldata.post_data, headers=header, verify=False, timeout=5)
-                print("[!] 可访性 : 可访",end="")
-            except BaseException:
-                print("[!] 可访性 : 不可访")
-                urldata.urlsuccess = "no"
-                return
-            if re.search("abcdef1234",self.post_response(urldata.post_data, urldata.verbose)):
-                # print("测试，postdata",urldata.post_data)
-                print("..\n[!] 参数 "+urldata.targetvar+" 可注入\n")
-                break
-            else:
-                print("..\n[!] 参数 "+urldata.targetvar+" 不可注入 \n[!] 退出\n")
-                urldata.urlxssalbe = "no"
-                return
-
-        while urldata.HTTP_METHON == "REFERER":
-            header = {
-                'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:65.0) Gecko/20100101 Firefox/65.0',
-                'Content-Type': 'application/x-www-form-urlencoded'}
-            try:
-                requests.get(urldata.referer_url,headers=header,verify=False,timeout=5)
-                print("[!] 可访性 : 可访",end="")
-            except BaseException:
-                print("[!] 可访性 : 不可访")
-                urldata.urlsuccess = "no"
-                return
-            if re.search("abcdef1234", self.referer_response("abcdef1234", urldata.verbose)):
-                # print("测试，postdata",urldata.post_data)
-                print("..referer 可注入\n")
-                break
-            else:
-                print("..referer 不可注入 \n[!] 退出\n")
-                urldata.urlxssalbe = "no"
-                return
-
-        while urldata.HTTP_METHON == "COOKIE":
-            header = {
-                'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:65.0) Gecko/20100101 Firefox/65.0',
-                'Content-Type': 'application/x-www-form-urlencoded'}
-            try:
-                requests.get(urldata.referer_url, headers=header, verify=False, timeout=5)
-                print("[!] 可访性 : 可访",end="")
-            except BaseException:
-                print("[!] 可访性 : 不可访")
-                urldata.urlsuccess = "no"
-                return
-            if re.search("abcdef1234", self.cookie_response("abcdef1234", urldata.verbose)):
-                print("..cookie 可注入\n")
-                break
-            else:
-                print("..cookie 不可注入 \n[!] 退出\n")
-                urldata.urlxssalbe = "no"
-                return
-
-                ### 去除 url 中目标参数自带的敏感字符
     def rebuildurl(self):
         targetvar = urldata.targetvar #去除参数末尾的空格——输入1
         if len(targetvar)==0:
@@ -98,241 +136,53 @@ class PreCheck():
         revar1 = targetvar + "=.*?&"
         revar2 = targetvar + "=.*"
         if len(re.findall(revar0, urldata.targeturl)) > 1:
-            print("\033[1;32;8m[警告] "+"匹配到 > 1 个"+urldata.targetvar+"，默认使用第一个，请确认目标参数是否替换正确"+"\033[0m")
+            print("\033[1;34m["+str(time.strftime("%H:%M:%S", time.localtime()))+"]\033[0m "+"\033[1;32;8m[警告] "+"匹配到 > 1 个"+urldata.targetvar+"，默认使用第一个，请确认目标参数是否替换正确"+"\033[0m")
         if len(re.findall(revar0, urldata.targeturl)) < 1 and "REFERER" not in urldata.targeturl and "COOKIE" not in urldata.targeturl:
-            print("\033[1;32;8m[警告] " + "url 中未匹配到" + urldata.targetvar + "，请确认目标参数是否输入正确" + "\033[0m")
+            print("\033[1;34m["+str(time.strftime("%H:%M:%S", time.localtime()))+"]\033[0m "+"\033[1;32;8m[警告] " + "url 中未匹配到" + urldata.targetvar + "，请确认目标参数是否输入正确" + "\033[0m")
             sys.exit(0)
         if not re.search("(POST)", urldata.targeturl) and not re.search("(REFERER)", urldata.targeturl) and not re.search("(COOKIE)", urldata.targeturl):
             urldata.HTTP_METHON = "GET"
             if re.search(revar1, urldata.targeturl):
                 urldata.get_url = re.sub(
                     revar1, targetvar + "=" + "abcdef1234&", urldata.targeturl)
-                # print("[!] 清除敏感字符: ", urldata.get_url)
+                # print("\033[1;34m["+str(time.strftime("%H:%M:%S", time.localtime()))+"]\033[0m "+"[!] 清除敏感字符: ", urldata.get_url)
             else:
                 urldata.get_url = re.sub(
                     revar2, targetvar + "=" + "abcdef1234", urldata.targeturl)
-                # print("[!] 清除敏感字符: ", urldata.get_url)
+                # print("\033[1;34m["+str(time.strftime("%H:%M:%S", time.localtime()))+"]\033[0m "+"[!] 清除敏感字符: ", urldata.get_url)
         else:
             if re.search("(REFERER)", urldata.targeturl):
                 if re.search("(POST)", urldata.targeturl):
-                    print('\033[1;32;8m[警告] 同时检测到 POST 和 REFERER，请手动删除 POST 数据，仅保留 REFERER 数据再尝试! \033[0m')
-                    print('\033[1;32;8m[举个栗子] www.abc.com(POST)data1(REFERER)data2 => www.abc.com(REFERER)data2 \033[0m')
+                    print("\033[1;34m["+str(time.strftime("%H:%M:%S", time.localtime()))+"]\033[0m "+'\033[1;32;8m[警告] 同时检测到 POST 和 REFERER，请手动删除 POST 数据，仅保留 REFERER 数据再尝试! \033[0m')
+                    print("\033[1;34m["+str(time.strftime("%H:%M:%S", time.localtime()))+"]\033[0m "+'\033[1;32;8m[举个栗子] www.abc.com(POST)data1(REFERER)data2 => www.abc.com(REFERER)data2 \033[0m')
                     sys.exit(0)
                 else:
-                    print('\033[1;32;8m[+] REFERER FIND ! 尝试进行 Referer 注入 \033[0m')
+                    print("\033[1;34m["+str(time.strftime("%H:%M:%S", time.localtime()))+"]\033[0m "+'\033[1;32;8m[+] REFERER FIND ! 尝试进行 Referer 注入 \033[0m')
                     urldata.HTTP_METHON = "REFERER"
                     url_split_list = re.split(re.escape("(REFERER)"), urldata.targeturl)
                     urldata.referer_url = url_split_list[0]
 
             else:
                 if re.search("(COOKIE)", urldata.targeturl):
-                    print('\033[1;32;8m[+] COOKIE FIND ! 尝试进行 Cookie 注入 \033[0m'+"\n")
-                    print("COOKIE 检测代码还没写，莫慌 ~")
+                    print("\033[1;34m["+str(time.strftime("%H:%M:%S", time.localtime()))+"]\033[0m "+'\033[1;32;8m[+] COOKIE FIND ! 尝试进行 Cookie 注入 \033[0m'+"\n")
+                    print("\033[1;34m["+str(time.strftime("%H:%M:%S", time.localtime()))+"]\033[0m "+"COOKIE 检测代码还没写，莫慌 ~")
                     urldata.HTTP_METHON = "COOKIE"
                     url_split_list = re.split(re.escape("(COOKIE)"), urldata.targeturl)
                     urldata.referer_url = url_split_list[0]
                     sys.exit(0)
                 else:
                     urldata.HTTP_METHON = "POST"
-                    print('\033[1;32;8m[+] POST FIND ! 尝试进行 POST 参数注入 \033[0m'+"\n")
+                    print("\033[1;34m["+str(time.strftime("%H:%M:%S", time.localtime()))+"]\033[0m "+'\033[1;32;8m[+] POST FIND ! 尝试进行 POST 参数注入 \033[0m'+"\n")
                     url_split_list = re.split(re.escape("(POST)"), urldata.targeturl)
                     urldata.post_url = url_split_list[0]
-                    # print("[!] posturl ", urldata.post_url)
-                    # print("[!] postdata ", url_split_list[1])
 
                     if re.search(revar1, url_split_list[1]):
                         urldata.post_data = re.sub(
                             revar1,
                             targetvar + "=" + "abcdef1234&",
                             url_split_list[1])
-                        # print("[!] 清除敏感字符: ", urldata.post_data)
                     else:
                         urldata.post_data = re.sub(
                             revar2,
                             targetvar + "=" + "abcdef1234",
                             url_split_list[1])
-                        # print("[!] 清除敏感字符: ", urldata.post_data)
-
-
-### 获取所有参数
-    def getvars(self):
-        if not re.search("(POST)", urldata.targeturl) and not re.search("(REFERER)", urldata.targeturl) and not re.search(
-                "(COOKIE)", urldata.targeturl):
-
-            targetvarget = urllib.parse.urlparse(urldata.targeturl)
-            urldata.targetvarlist = list(urllib.parse.parse_qs(targetvarget.query).keys())
-
-        else:
-            if re.search("(REFERER)", urldata.targeturl):
-                urldata.targetvarlist.append("Referer")
-
-            else:
-                if re.search("(COOKIE)", urldata.targeturl):
-                    print("目前不支持 Cookie 检测")
-                else:
-                    url_split_list = re.split(re.escape("(POST)"), urldata.targeturl)
-                    urldata.post_url = url_split_list[0]
-
-                    url2one = "www.example.com/?"+url_split_list[1]
-                    targetvarget = urllib.parse.urlparse(url2one)
-                    urldata.targetvarlist = list(urllib.parse.parse_qs(targetvarget.query).keys())
-
-
-
-
-
-    def get_response(self, url, verbose):
-        if verbose=="yes":
-            print("[+] GET : ", url)
-        else:
-            print(".",end='')
-            sys.stdout.flush()
-        r = NoQuoteSession()
-        header = {
-            'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:65.0) Gecko/20100101 Firefox/65.0',
-            'Content-Type': 'application/x-www-form-urlencoded'}
-        proxy = {"http": "http://127.0.0.1:8080",
-                 "https": "http://127.0.0.1:8080"}
-
-        try:
-            ### 这三行开启代理
-            # proxy_support = request.ProxyHandler({'http': '127.0.0.1:8080'})
-            # opener = request.build_opener(proxy_support)
-            # request.install_opener(opener)
-
-            # 使用 urllib 才能解决 url 编码的问题
-
-            with request.urlopen(url.replace(" ","%20"),timeout=5,capath=None) as response:
-                data = response.read()
-                try:
-                    return data.decode('utf-8')
-                except:
-                    try:
-                        return data.decode('gb2312')
-                    except:
-                        return data
-        except BaseException:
-            if verbose == "yes":
-                print(BaseException.__context__)
-                # print("[!] 连接错误")
-            return "get no Response"
-
-    def post_response(self, data, verbose):
-        if verbose == "yes":
-            print("[+] POST : ",data)
-        else:
-            print(".", end='')
-            sys.stdout.flush()
-        r = NoQuoteSession()
-        header = {
-            'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:65.0) Gecko/20100101 Firefox/65.0',
-            'Content-Type': 'application/x-www-form-urlencoded'}
-        proxy = {"http": "http://127.0.0.1:8080",
-                 "https": "http://127.0.0.1:8080"}
-        try:
-            s2=r.post(
-                urldata.post_url,
-                data=data,
-                # proxies = proxy,
-                headers=header,
-                verify=False,
-                timeout=5).text
-            return s2
-        # except requests.exceptions.ConnectionError:
-        except BaseException:
-            if verbose == "yes":
-                print("[!] 连接错误")
-            return "post no Response"
-
-    def referer_response(self, data, verbose):
-        if verbose == "yes":
-            print("[+] Referer : ",data)
-        else:
-            print(".", end='')
-            sys.stdout.flush()
-        # r = NoQuoteSession()
-        header = {
-            'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:65.0) Gecko/20100101 Firefox/65.0',
-            'Content-Type': 'application/x-www-form-urlencoded',
-            'Referer': data}
-        proxy = {"http": "http://127.0.0.1:8080",
-                 "https": "http://127.0.0.1:8080"}
-        try:
-            response2referer=requests.get(
-                urldata.referer_url,
-                # proxies = proxy,
-                headers=header,
-                verify=False,
-                timeout=5).text
-            return response2referer
-        # except requests.exceptions.ConnectionError:
-        except BaseException:
-            if verbose == "yes":
-                print("[!] 连接错误")
-            return "post no Response"
-
-
-    def cookie_response(self, data, verbose):
-        if verbose == "yes":
-            print("[+] Cookie : ",data)
-        else:
-            print(".", end='')
-            sys.stdout.flush()
-        r = NoQuoteSession()
-        header = {
-            'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:65.0) Gecko/20100101 Firefox/65.0',
-            'Content-Type': 'application/x-www-form-urlencoded',
-            'Cookie':data}
-        proxy = {"http": "http://127.0.0.1:8080",
-                 "https": "http://127.0.0.1:8080"}
-        try:
-            s2=r.post(
-                urldata.post_url,
-                data=data,
-                # proxies = proxy,
-                headers=header,
-                verify=False,
-                timeout=5).text
-            return s2
-        # except requests.exceptions.ConnectionError:
-        except BaseException:
-            if verbose == "yes":
-                print("[!] 连接错误")
-            return "post no Response"
-
-
-
-    def get_response_burp(self, url):
-        r = NoQuoteSession()
-        header = {
-            'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:65.0) Gecko/20100101 Firefox/65.0',
-            'Content-Type': 'application/x-www-form-urlencoded'}
-        proxy = {"http": "http://127.0.0.1:8080",
-                 "https": "http://127.0.0.1:8080"}
-        try:
-            return r.get(
-                url,
-                headers=header,
-                proxies=proxy,
-                verify=False,
-                timeout=3).text
-        except requests.exceptions.ConnectionError:
-            return "get no Response"
-
-    def post_response_burp(self, data):
-        r = NoQuoteSession()
-        header = {
-            'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:65.0) Gecko/20100101 Firefox/65.0',
-            'Content-Type': 'application/x-www-form-urlencoded'}
-        proxy = {"http": "http://127.0.0.1:8080",
-                 "https": "http://127.0f.0.1:8080"}
-        try:
-            return r.post(
-                urldata.post_url,
-                data=data,
-                headers=header,
-                proxies=proxy,
-                verify=False,
-                timeout=3).text
-        except requests.exceptions.ConnectionError:
-            return "post no Response"

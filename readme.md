@@ -6,8 +6,20 @@
 介绍：https://zhuanlan.zhihu.com/p/88534569
 
 # 更新
+2019/12/20:
+
+大版本更新(v1.2.1)
+
+本次更新完全重构了代码，更新了使用方式（使用大家熟悉的指定args 的方式，不再是交互式获取数据），删除了图形化运行模式，以后都用命令行交互，添加了众多功能：
+1. 自定义 Cookie
+2. 自定义 Timeout
+3. 自定义 UserAgent
+4. 指定 http/https 代理
+5. 增加了 verbose 模式
+
 2019/10/24:
-大版本更新(v2.0.1):
+
+大版本更新(v1.1.1):
 1. 添加功能：若不输出参数，自动对所有参数进行检测
 2. 添加功能：增加对 ctrl c 信号捕获，增加暂停机制
 3. 优化展示：大幅度调整输出展示信息，更美观、更简洁
@@ -20,20 +32,14 @@
 pip3 install -r requirement.txt -i https://pypi.douban.com/simple`
 
 # 使用方法
-CheckXSS 提供图形化和命令行两种启动方式（图形界面基于 PyQt5）
-- 图形化界面启动：`python3.6 checkxss.py -x`
-- 命令行模式：`python3.6 checkxss.py`
-1. 默认进行请求为 GET ，如果目标参数在 POST 请求中，请使用如下格式输入: url(POST)postdata, 例如：www.example.com/example.do(POST)targatvar=xss
-2. 默认不输出测试细节，如果想查看更详细的输出，可在 /data/urldata.py 中修改verbose = "yes"
+`python3.6 checkxss.py -h`
 
-# 请求方法支持
-1. 支持 POST 和 GET 请求的检测，默认请求为 GET 。
-2. 支持注入点 Referer 检测
+![help information](https://i.loli.net/2019/12/20/orA92adSUWv7Ofm.png)
 
-# 注意点
-1. 使用 Burp Suite 配合进行 url解码
-2. 工具不解析执行 JS 代码，不会检测 payload 是否能弹窗，所以仍然存在误报，请手工测试。
-3. 如果  ---------组合测试（闭合标签）--------- 有结果，可优先测试该 payload，准确性最高。
+支持 POST 和 GET 请求方法，支持 cookie、referer、useragent 字段中的参数注入检测
+
+
+
 # 介绍
 
 1. 支持 url 编码绕过
@@ -41,14 +47,17 @@ CheckXSS 提供图形化和命令行两种启动方式（图形界面基于 PyQt
 3. 支持对 HTML 标签属性的值进行 HTML 编码绕过（未上线）
 4. 支持对 ( ) ' " 进行灵活替换进行绕过
 5. 大小写绕过
-### 命令行
-![CheckXSSTerminal](https://i.loli.net/2019/10/24/N6UfbZiR3WKuBJ1.png)
+### 举个栗子
+1. 测试 POST 数据中的 returnUrl 参数：
 
-![CheckXSSTerminal](https://i.loli.net/2019/10/24/K7i4qjVgfxHCJBQ.png)
+`python3.6 checkxss.py -u "https://example.com/login.do" --data="returnUrl=utest" -p returnUrl` 
 
-![CheckXSSTerminal](https://i.loli.net/2019/10/24/DZl2eSBjK9XPWsi.png)
-### 图形化
-![CheckXSSGUI.png](https://i.loli.net/2019/09/30/P5g2NWklJ4mEoqF.png)
+![](https://i.loli.net/2019/12/20/8Nct5Zay3f1RDHz.png)
+
+也可以不使用`-p` 指定参数，checkxss 会自动列出所有参数让你选择，输入*遍历所有参数：
+
+![](https://i.loli.net/2019/12/20/8fNpzW5Z4VuJPmi.png)
+
 
 ### 闭合字符
 ```
