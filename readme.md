@@ -1,5 +1,5 @@
 # CheckXSS
-![default.png](https://i.loli.net/2020/04/12/IfOp5NswRixUMq7.png)
+![image.png](https://i.loli.net/2020/04/12/VjIqezP26tUhBun.png)
 
 **Detect XSS vulnerability in  Web Applications**
 
