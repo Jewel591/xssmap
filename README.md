@@ -6,7 +6,7 @@
 
 **Detect XSS vulnerability in  Web Applications**
 
-![](https://img.shields.io/badge/version-0.1.1-bule.svg) ![](https://img.shields.io/badge/python-3.6-bule.svg)
+![](https://img.shields.io/badge/version-0.1.1-bule.svg)  ![](https://img.shields.io/badge/python-3.6-bule.svg)  ![](https://img.shields.io/github/license/Jewel591/CheckXSS)
 
 
 
