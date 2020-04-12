@@ -1,1 +1,1 @@
-1. just go
+1. 添加 build|pass badge
