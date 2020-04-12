@@ -1,33 +1,17 @@
-新版本正在开发中~~~
+# CheckXSS
+
+**Detect XSS vulnerability in  Web Applications**
 
 
-# 更新
-2019/12/20:
-
-大版本更新(v1.2.1)
-
-本次更新完全重构了代码，更新了使用方式（使用大家熟悉的指定args 的方式，不再是交互式获取数据），删除了图形化运行模式，以后都用命令行交互，添加了众多功能：
-1. 自定义 Cookie
-2. 自定义 Timeout
-3. 自定义 UserAgent
-4. 指定 http/https 代理
-5. 增加了 verbose 模式
-
-2019/10/24:
-
-大版本更新(v1.1.1):
-1. 添加功能：若不输出参数，自动对所有参数进行检测
-2. 添加功能：增加对 ctrl c 信号捕获，增加暂停机制
-3. 优化展示：大幅度调整输出展示信息，更美观、更简洁
-
+![](https://img.shields.io/badge/version-0.1.1-bule.svg) ![](https://img.shields.io/badge/python-3.6-bule.svg)
 # 环境
 **请安装 python3.6**，python3.7 字符串转义存在 bug，运行会报错。
 
-# 安装
+# 
 `
 pip3 install -r requirement.txt -i https://pypi.douban.com/simple`
 
-# 使用方法
+# Start Guide
 `python3.6 checkxss.py -h`
 
 ![help information](https://i.loli.net/2019/12/20/orA92adSUWv7Ofm.png)
@@ -54,48 +38,3 @@ pip3 install -r requirement.txt -i https://pypi.douban.com/simple`
 
 ![](https://i.loli.net/2019/12/20/8fNpzW5Z4VuJPmi.png)
 
-
-### 闭合字符
-```
-1. >
-2. <
-3. "
-4. '
-5. /
-```
-
-### 动作
-```
-1. prompt()
-2. confirm()
-3. alert()
-4. window[action]()
-5. eval(action)
-```
-### 事件
-```
-1. onwheel
-2. onclick
-3. onmouseover
-4. onfocus
-5. onload
-6. onerror
-7. src
-8. href=javascript:
-9. ontoggle
-```
-### HTML 标签
-```
-1. <a>
-2. <script>
-3. <iframe>
-4. <input>
-5. <body>
-6. <img>
-7. <details>
-8. <svg>
-9. <select>
-10. <video>
-11. <audio>
-12. <textarea> 
-```
