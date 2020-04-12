@@ -1,13 +1,16 @@
 # CheckXSS
+![default.png](https://i.loli.net/2020/04/12/IfOp5NswRixUMq7.png)
 
 **Detect XSS vulnerability in  Web Applications**
 
 
 ![](https://img.shields.io/badge/version-0.1.1-bule.svg) ![](https://img.shields.io/badge/python-3.6-bule.svg)
-# 环境
+
+
+# Install
 **请安装 python3.6**，python3.7 字符串转义存在 bug，运行会报错。
 
-# 
+# Usage
 `
 pip3 install -r requirement.txt -i https://pypi.douban.com/simple`
 
