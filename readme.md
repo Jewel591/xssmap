@@ -1,36 +1,41 @@
-# CheckXSS
-![image.png](https://i.loli.net/2020/04/12/VjIqezP26tUhBun.png)
+# [CheckXSS](https://github.com/Jewel591/CheckXSS.git)
+
+
+
+![image.png](https://i.loli.net/2020/04/12/zv9iC3UXGfTutkK.png)
 
 **Detect XSS vulnerability in  Web Applications**
-
 
 ![](https://img.shields.io/badge/version-0.1.1-bule.svg) ![](https://img.shields.io/badge/python-3.6-bule.svg)
 
 
-# Install
-**请安装 python3.6**，python3.7 字符串转义存在 bug，运行会报错。
 
-# Usage
-`
-pip3 install -r requirement.txt -i https://pypi.douban.com/simple`
+# Installation
 
-# Start Guide
+```
+git clone https://github.com/Jewel591/CheckXSS.git && cd CheckXSS
+pip3 install -r requirement.txt -i https://pypi.douban.com/simple
+```
+
+# Usage Instructions
 `python3.6 checkxss.py -h`
 
 ![help information](https://i.loli.net/2019/12/20/orA92adSUWv7Ofm.png)
 
 支持 POST 和 GET 请求方法，支持 cookie、referer、useragent 字段中的参数注入检测
 
+# Contributing
+Contributions, issues and feature requests are welcome!
+Feel to check [issues page](https://github.com/Jewel591/CheckXSS/issues)
 
-
-# 介绍
+# Author
 
 1. 支持 url 编码绕过
 2. 支持对 HTML 标签属性的值进行 unicode 编码绕过
 3. 支持对 HTML 标签属性的值进行 HTML 编码绕过（未上线）
 4. 支持对 ( ) ' " 进行灵活替换进行绕过
 5. 大小写绕过
-### 举个栗子
+# License
 1. 测试 POST 数据中的 returnUrl 参数：
 
 `python3.6 checkxss.py -u "https://example.com/login.do" --data="returnUrl=utest" -p returnUrl` 
