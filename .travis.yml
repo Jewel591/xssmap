@@ -1,3 +1,5 @@
+sudo: false
+
 notifications:
   email: false
   
@@ -7,10 +9,14 @@ python:
   - "3.7"
   - "3.8"
 
-install: pip3 install -r requirements.txt
+install: 
+  - pip3 install -r requirements.txt
+  - pip3 install codecov
   
 script:
   - python checkxss.py -h
-env: CODECOV_TOKEN="a860674a-3287-4722-b846-63526ca3ab6d"
+  - coverage run checkxss.py -h
 
-CODECOV_TOKEN="a860674a-3287-4722-b846-63526ca3ab6d"
+after_success:
+  - codecov
+  
