@@ -2,4 +2,4 @@ notifications:
   email: false
   
 language: python
-install: pip3 install -r requirements.txt
+install: pip install -r requirements.txt
