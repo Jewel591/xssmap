@@ -14,8 +14,7 @@ install:
   - pip3 install codecov
   
 script:
-  - python checkxss.py -h
-  - coverage run checkxss.py -h
+  - coverage run ./docs/example.sh 
 
 after_success:
   - codecov
