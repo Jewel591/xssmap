@@ -2,8 +2,8 @@
 
 ![image.png](https://i.loli.net/2020/04/12/zv9iC3UXGfTutkK.png)
 
-[![](https://img.shields.io/travis/com/Jewel591/CheckXSS)](https://travis-ci.com/github/Jewel591/CheckXSS) [![](https://img.shields.io/badge/version-0.1.1-bule.svg)](https://img.shields.io/github/license/Jewel591/CheckXSS)
-[![](https://img.shields.io/badge/python-3.6-bule.svg)](https://www.python.org/) [![](https://img.shields.io/github/license/Jewel591/CheckXSS)](https://github.com/Jewel591/CheckXSS/tree/master) ![](https://img.shields.io/github/repo-size/Jewel591/CheckXSS) ![](https://img.shields.io/github/commit-activity/m/Jewel591/CheckXSS?label=commit)
+[![](https://img.shields.io/travis/com/Jewel591/CheckXSS)](https://travis-ci.com/github/Jewel591/CheckXSS) [![codecov](https://codecov.io/gh/Jewel591/CheckXSS/branch/master/graph/badge.svg)](https://codecov.io/gh/Jewel591/CheckXSS) [![](https://img.shields.io/badge/version-0.1.1-bule.svg)](https://img.shields.io/github/license/Jewel591/CheckXSS)
+[![](https://img.shields.io/badge/python-3.6-bule.svg)](https://www.python.org/) [![](https://img.shields.io/github/license/Jewel591/CheckXSS)](https://github.com/Jewel591/CheckXSS/tree/master) ![](https://img.shields.io/github/repo-size/Jewel591/CheckXSS) 
 
 **Detect XSS vulnerability in  Web Applications**
 
