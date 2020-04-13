@@ -11,5 +11,6 @@ install: pip3 install -r requirements.txt
   
 script:
   - python checkxss.py -h
+env: CODECOV_TOKEN="a860674a-3287-4722-b846-63526ca3ab6d"
 
 CODECOV_TOKEN="a860674a-3287-4722-b846-63526ca3ab6d"
