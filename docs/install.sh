@@ -1,13 +1,15 @@
-echo -e ""
-echo -e "\033[34m==>  \033[0m\033[1mCloning Repository ... \033[0m"
-git clone https://github.com/Jewel591/CheckXSS.git 
-if [ "$?"!= "0" ]; then
-   echo "[error] git clone failed ..."
+#!/bin/bash
+echo -e "\n\033[34m==>  \033[0m\033[1mCloning Repository ... \033[0m"
+git clone https://github.com/Jewel591/CheckXSS.git -v
+if [ "$?" != "0" ]; then
+   echo "Error: git clone failed ..."
    exit 1
+fi
 cd CheckXSS
-echo -e "\033[34m==>  \033[0m\033[1mInstall Python3 module ... \033[0m"
-pip3 install -r requirement.txt -i https://pypi.douban.com/simple 
-if [ "$?"!= "0" ]; then
-   echo "[error] pip3 install failed "
+echo -e "\n\033[34m==>  \033[0m\033[1mInstall Python3 module ... \033[0m"
+pip3 install -r requirement.txt
+if [ "$?" != "0" ]; then
+   echo "error: pip3 install failed "
    exit 1
-echo "Successful installation, thanks"
+fi
+echo -e "\n\033[34m==>  \033[0m\033[1mSuccessful installation, thanks \033[0m"
