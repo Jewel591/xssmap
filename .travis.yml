@@ -14,7 +14,7 @@ install:
   - pip3 install codecov
   
 script:
-  - coverage run python3 checkxss.py -u "http://demo.testfire.net/search.jsp?query=windws" --ua="checkxss" --cookie="JSESSIONID=9B7ADB9D3DB7FC018F9FE641612558BE" -p query
+  - coverage run checkxss.py -u "http://demo.testfire.net/search.jsp?query=windws" --ua="checkxss" --cookie="JSESSIONID=9B7ADB9D3DB7FC018F9FE641612558BE" -p query
 
 after_success:
   - codecov
