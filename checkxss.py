@@ -16,50 +16,43 @@ requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
 from modules import format, lists
 from modules.precheck import PreCheck
-from ui.start import Ui_MainWindow
-try:
-    from PyQt5 import QtCore, QtGui
-    from PyQt5.QtCore import *
-    from PyQt5.QtWidgets import QApplication, QMainWindow
-except:
-    print("\033[1;34m["+str(time.strftime("%H:%M:%S", time.localtime()))+"]\033[0m "+"未安装 PyQt5，无法启动图形化工具")
 from data import payload, urldata
 
 time_start = time_end = ""
 
 
 
-class MyMainWindow(QMainWindow, Ui_MainWindow):
-    def __init__(self, parent=None):
-        super(MyMainWindow, self).__init__(parent)
-        self.setupUi(self)
-        # 如果不加 self，tt 只是一个局部变量，当初始化完成，该变量的生命周期就结束了，所以会报 QThread: Destroyed
-        self.myworker = Worker()
-        self.startx.clicked.connect(lambda: self.myworker.start())
-        # 获取控制台输出
-        sys.stdout = EmittingStream(textWritten=self.normalOutputWritten)
+# class MyMainWindow(QMainWindow, Ui_MainWindow):
+#     def __init__(self, parent=None):
+#         super(MyMainWindow, self).__init__(parent)
+#         self.setupUi(self)
+#         # 如果不加 self，tt 只是一个局部变量，当初始化完成，该变量的生命周期就结束了，所以会报 QThread: Destroyed
+#         self.myworker = Worker()
+#         self.startx.clicked.connect(lambda: self.myworker.start())
+#         # 获取控制台输出
+#         sys.stdout = EmittingStream(textWritten=self.normalOutputWritten)
+#
+#     def __del__(self):
+#         # Restore sys.stdout
+#         sys.stdout = sys.__stdout__
+#
+#     def normalOutputWritten(self, text):
+#         """Append text to the QTextEdit."""
+#         # Maybe QTextEdit.append() works as well, but this is how I do it:
+#         # cursor = self.textEdit.textCursor()
+#         cursor = self.output.textCursor()
+#         # print("\033[1;34m["+str(time.strftime("%H:%M:%S", time.localtime()))+"]\033[0m "+cursor)
+#         cursor.movePosition(QtGui.QTextCursor.End)
+#         cursor.insertText(text)
+#         self.output.setTextCursor(cursor)
+#         self.output.ensureCursorVisible()
 
-    def __del__(self):
-        # Restore sys.stdout
-        sys.stdout = sys.__stdout__
 
-    def normalOutputWritten(self, text):
-        """Append text to the QTextEdit."""
-        # Maybe QTextEdit.append() works as well, but this is how I do it:
-        # cursor = self.textEdit.textCursor()
-        cursor = self.output.textCursor()
-        # print("\033[1;34m["+str(time.strftime("%H:%M:%S", time.localtime()))+"]\033[0m "+cursor)
-        cursor.movePosition(QtGui.QTextCursor.End)
-        cursor.insertText(text)
-        self.output.setTextCursor(cursor)
-        self.output.ensureCursorVisible()
-
-
-class EmittingStream(QtCore.QObject):
-    textWritten = QtCore.pyqtSignal(str)
-
-    def write(self, text):
-        self.textWritten.emit(str(text))
+# class EmittingStream(QtCore.QObject):
+#     textWritten = QtCore.pyqtSignal(str)
+#
+#     def write(self, text):
+#         self.textWritten.emit(str(text))
 
 
 # class Worker(QThread):
@@ -159,28 +152,29 @@ def Go():
     istargetvarnull = 0 if args.parameter=="*" else 1
     if not args.parameter :
         allparameter = PreCheck.getallparameter()
-        print("\033[1;34m["+str(time.strftime("%H:%M:%S", time.localtime()))+"]\033[0m "+"未指定测试参数，请指定参数：(共 "+str(len(allparameter))+" 个参数）")
+        print("\033[1;34m["+str(time.strftime("%H:%M:%S", time.localtime()))+"]\033[0m "+"parameter list("+str(len(allparameter))+"):")
         # print("\033[1;34m["+str(time.strftime("%H:%M:%S", time.localtime()))+"]\033[0m "+"所有参数：")
         # for sss in list(allparameter.keys()):
         #     print("\033[1;34m["+str(time.strftime("%H:%M:%S", time.localtime()))+"]\033[0m "+sss)
 
         for p,i in zip(allparameter.keys(),range(1,100)):
-            print("\033[1;34m["+str(time.strftime("%H:%M:%S", time.localtime()))+"]\033[0m "+"[{}] {}".format(i,p))
+            #print("\033[1;34m["+str(time.strftime("%H:%M:%S", time.localtime()))+"]\033[0m "+"[{}] {}".format(i,p))
+            print("[{}] ==> {}".format(i, p))
             intfromstr.update({i:p})
 
         while True:
-            paradicKey = input("\n请输入目标参数对应序号("+"\033[1;34;8m输入 * 测试所有参数\033[0m"+")：")
+            paradicKey = input("\nWhich parameter do you want to test?("+"\033[1;34;8minput * for all\033[0m"+")：")
             if paradicKey == "*":
                 print("\033[1;34m["+str(time.strftime("%H:%M:%S", time.localtime()))+"]\033[0m "+" 检测到 *，测试所有参数")
                 break
             if not paradicKey.isnumeric() or intfromstr.get(int(paradicKey)) ==None:
-                print("\033[1;34m["+str(time.strftime("%H:%M:%S", time.localtime()))+"]\033[0m "+'\n\033[1;31;8m[!] 输入不合法，请重新输入参数对应的序号： \033[0m')
+                print("\033[1;34m["+str(time.strftime("%H:%M:%S", time.localtime()))+"]\033[0m "+'\n\033[1;31;8m[!] Invalid input, Please choose the number. \033[0m')
             else:
                 break
 
         if paradicKey!="*":
             urldata.targetvar=intfromstr.get(int(paradicKey))
-            print("\033[1;34m["+str(time.strftime("%H:%M:%S", time.localtime()))+"]\033[0m "+"目标参数: ", urldata.targetvar)
+            print("\033[1;34m["+str(time.strftime("%H:%M:%S", time.localtime()))+"]\033[0m "+"Target Parameter: ", urldata.targetvar)
 
         if paradicKey=="*":
             print("\033[1;34m["+str(time.strftime("%H:%M:%S", time.localtime()))+"]\033[0m "+"测试所有参数的功能还没写！")
@@ -715,7 +709,7 @@ def exit_gracefully(signum, frame):
 if __name__ == "__main__":
     args = argsparse().args()
     print("======================================================================================\n"
-     "CheckXSS v1.2.1 by Jewel591\n"
+     "CheckXSS v0.1.1 by Jewel591\n"
      "======================================================================================\n"
      " Url:       "," ".ljust(15), args.url,"\n"
      " Post DATA: "," ".ljust(15),args.postdata,"\n"
@@ -729,12 +723,5 @@ if __name__ == "__main__":
 
     original_sigint = signal.getsignal(signal.SIGINT)
     signal.signal(signal.SIGINT, exit_gracefully)
-    #*************************************************
-    # if args.gui:
-    #     app = QApplication(sys.argv)  # the standard way to init QT
-    #     MyMainWindow().show()
-    #     sys.exit(app.exec_())
-    # else:
-        # checkxss = WWWW()
     while True:
         Go()
