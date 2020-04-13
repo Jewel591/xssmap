@@ -7,8 +7,7 @@ python:
   - "3.7"
   - "3.8"
 
-install: 
-  - pip3 install -r requirements.txt
+install: pip3 install -r requirements.txt
   
 script:
-  - python checkxss.py
+  - python checkxss.py -h
