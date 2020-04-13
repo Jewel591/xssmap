@@ -16,11 +16,6 @@ As simple as below, Just one line of code:
 curl -L -s https://raw.githubusercontent.com/Jewel591/CheckXSS/master/docs/install.sh|bash
 ```
 
-```
-git clone https://github.com/Jewel591/CheckXSS.git && cd CheckXSS
-pip3 install -r requirement.txt -i https://pypi.douban.com/simple
-```
-
 ## Usage Instructions
 `python3.6 checkxss.py -h`
 
