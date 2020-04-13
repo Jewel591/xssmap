@@ -11,7 +11,10 @@
 ![](https://i.loli.net/2019/12/20/8fNpzW5Z4VuJPmi.png)
 
 ## Easy Installation
-As simple as below:
+As simple as below, Just one line of code:
+```
+curl -L -s https://raw.githubusercontent.com/Jewel591/CheckXSS/master/docs/install.sh|bash
+```
 
 ```
 git clone https://github.com/Jewel591/CheckXSS.git && cd CheckXSS
