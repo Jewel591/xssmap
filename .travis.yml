@@ -1,0 +1,21 @@
+sudo: false
+
+notifications:
+  email: false
+  
+language: python
+python:
+  - "3.6"
+  - "3.7"
+  - "3.8"
+
+install: 
+  - pip3 install -r requirements.txt
+  - pip3 install codecov
+  
+script:
+  - coverage run checkxss.py -u "http://demo.testfire.net/search.jsp?query=windws" --ua="checkxss" --cookie="JSESSIONID=9B7ADB9D3DB7FC018F9FE641612558BE" -p query
+
+after_success:
+  - codecov
+  
