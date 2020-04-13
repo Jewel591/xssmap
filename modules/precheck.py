@@ -1,13 +1,10 @@
 import re
 import sys
-import time
-import requests
 from data import urldata
 from urllib import request
-from modules.noquote import NoQuoteSession
 from urllib import parse
 from modules.argsparse import argsparse
-import ssl # 关闭 ssl 证书验证
+import ssl # disable ssl checking
 ssl._create_default_https_context = ssl._create_unverified_context
 
 
@@ -16,7 +13,7 @@ class PreCheck():
     def responsebyurl(self, payload):
         argss = argsparse().args()
 
-        # 初始化部分变量
+        # init args
         urlafter=argss.url
         dataafter=argss.postdata
         cookieafter=argss.cookie
@@ -94,17 +91,17 @@ class PreCheck():
                 try:
                     return url_response.read().decode('gb2312')
                 except:
-                    print("\033[1;34m["+str(time.strftime("%H:%M:%S", time.localtime()))+"]\033[0m "+"\033[1;33m[WARNING]\033[0m"+"Unrecognized response encoding, force bytes-to-string")
+                    print("\033[1;33m[WARNING]\033[0m"+"Unrecognized response encoding, force bytes-to-string")
                     return str(url_response.read())
         except Exception as e:
-            if argss.verbose : print("\033[1;34m["+str(time.strftime("%H:%M:%S", time.localtime()))+"]\033[0m "+"\033[1;30m[ERROR] \033[0m"+"\033[1;30m"+str(e)+"\033[0m")
+            if argss.verbose : print("\033[1;30m[ERROR] \033[0m"+"\033[1;30m"+str(e)+"\033[0m")
 
-            # if argss.verbose : print("\033[1;34m["+str(time.strftime("%H:%M:%S", time.localtime()))+"]\033[0m "+"\033[1;31m[ERROR]\033[0m unable to connect to the target URL. May be due to a security policy")
+            # if argss.verbose : print("\033[1;31m[ERROR]\033[0m unable to connect to the target URL. May be due to a security policy")
             return "NoResponse"
 
     @staticmethod
     def getallparameter():
-        # print("\033[1;34m["+str(time.strftime("%H:%M:%S", time.localtime()))+"]\033[0m "+"test")
+        # print("test")
         args2 = argsparse().args()
 
         argsInUrl = parse.parse_qs(parse.urlparse(args2.url).query)
@@ -118,71 +115,11 @@ class PreCheck():
 
 
     def checkurlaccessible(self):
-        print("\033[1;34m[" + str(time.strftime("%H:%M:%S",
-                                                time.localtime())) + "]\033[0m " + "\033[1;32m[INFO]\033[0m testing connection to the target URL")
+        print("\033[1;32m[INFO]\033[0m testing connection to the target URL")
         if self.responsebyurl("591") =="NoResponse":
-            print("\033[1;34m["+str(time.strftime("%H:%M:%S", time.localtime()))+"]\033[0m "+"\033[1;33m[WARNING] site can't connected\033[0m"+"\033[1;30m (eg.. use -v get information)\033[0m")
-            print("\033[1;34m[" + str(time.strftime("%H:%M:%S", time.localtime())) + "]\033[0m " + "exiting...")
+            print("\033[1;33m[WARNING] site can't connected\033[0m"+"\033[1;30m (eg.. use -v get information)\033[0m")
+            print("exiting...")
             return 0
         else:
-            print("\033[1;34m["+str(time.strftime("%H:%M:%S", time.localtime()))+"]\033[0m "+"\033[1;32m[INFO] site connected success \033[0m ")
+            print("\033[1;32m[INFO] site connected success \033[0m ")
             return 1
-
-    def rebuildurl(self):
-        targetvar = urldata.targetvar #去除参数末尾的空格——输入1
-        if len(targetvar)==0:
-            targetvar = "不存在的参数"
-        revar0 = targetvar + "="
-        revar1 = targetvar + "=.*?&"
-        revar2 = targetvar + "=.*"
-        if len(re.findall(revar0, urldata.targeturl)) > 1:
-            print("\033[1;34m["+str(time.strftime("%H:%M:%S", time.localtime()))+"]\033[0m "+"\033[1;32;8m[警告] "+"匹配到 > 1 个"+urldata.targetvar+"，默认使用第一个，请确认目标参数是否替换正确"+"\033[0m")
-        if len(re.findall(revar0, urldata.targeturl)) < 1 and "REFERER" not in urldata.targeturl and "COOKIE" not in urldata.targeturl:
-            print("\033[1;34m["+str(time.strftime("%H:%M:%S", time.localtime()))+"]\033[0m "+"\033[1;32;8m[警告] " + "url 中未匹配到" + urldata.targetvar + "，请确认目标参数是否输入正确" + "\033[0m")
-            sys.exit(0)
-        if not re.search("(POST)", urldata.targeturl) and not re.search("(REFERER)", urldata.targeturl) and not re.search("(COOKIE)", urldata.targeturl):
-            urldata.HTTP_METHON = "GET"
-            if re.search(revar1, urldata.targeturl):
-                urldata.get_url = re.sub(
-                    revar1, targetvar + "=" + "abcdef1234&", urldata.targeturl)
-                # print("\033[1;34m["+str(time.strftime("%H:%M:%S", time.localtime()))+"]\033[0m "+"[!] 清除敏感字符: ", urldata.get_url)
-            else:
-                urldata.get_url = re.sub(
-                    revar2, targetvar + "=" + "abcdef1234", urldata.targeturl)
-                # print("\033[1;34m["+str(time.strftime("%H:%M:%S", time.localtime()))+"]\033[0m "+"[!] 清除敏感字符: ", urldata.get_url)
-        else:
-            if re.search("(REFERER)", urldata.targeturl):
-                if re.search("(POST)", urldata.targeturl):
-                    print("\033[1;34m["+str(time.strftime("%H:%M:%S", time.localtime()))+"]\033[0m "+'\033[1;32;8m[警告] 同时检测到 POST 和 REFERER，请手动删除 POST 数据，仅保留 REFERER 数据再尝试! \033[0m')
-                    print("\033[1;34m["+str(time.strftime("%H:%M:%S", time.localtime()))+"]\033[0m "+'\033[1;32;8m[举个栗子] www.abc.com(POST)data1(REFERER)data2 => www.abc.com(REFERER)data2 \033[0m')
-                    sys.exit(0)
-                else:
-                    print("\033[1;34m["+str(time.strftime("%H:%M:%S", time.localtime()))+"]\033[0m "+'\033[1;32;8m[+] REFERER FIND ! 尝试进行 Referer 注入 \033[0m')
-                    urldata.HTTP_METHON = "REFERER"
-                    url_split_list = re.split(re.escape("(REFERER)"), urldata.targeturl)
-                    urldata.referer_url = url_split_list[0]
-
-            else:
-                if re.search("(COOKIE)", urldata.targeturl):
-                    print("\033[1;34m["+str(time.strftime("%H:%M:%S", time.localtime()))+"]\033[0m "+'\033[1;32;8m[+] COOKIE FIND ! 尝试进行 Cookie 注入 \033[0m'+"\n")
-                    print("\033[1;34m["+str(time.strftime("%H:%M:%S", time.localtime()))+"]\033[0m "+"COOKIE 检测代码还没写，莫慌 ~")
-                    urldata.HTTP_METHON = "COOKIE"
-                    url_split_list = re.split(re.escape("(COOKIE)"), urldata.targeturl)
-                    urldata.referer_url = url_split_list[0]
-                    sys.exit(0)
-                else:
-                    urldata.HTTP_METHON = "POST"
-                    print("\033[1;34m["+str(time.strftime("%H:%M:%S", time.localtime()))+"]\033[0m "+'\033[1;32;8m[+] POST FIND ! 尝试进行 POST 参数注入 \033[0m'+"\n")
-                    url_split_list = re.split(re.escape("(POST)"), urldata.targeturl)
-                    urldata.post_url = url_split_list[0]
-
-                    if re.search(revar1, url_split_list[1]):
-                        urldata.post_data = re.sub(
-                            revar1,
-                            targetvar + "=" + "abcdef1234&",
-                            url_split_list[1])
-                    else:
-                        urldata.post_data = re.sub(
-                            revar2,
-                            targetvar + "=" + "abcdef1234",
-                            url_split_list[1])
