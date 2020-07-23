@@ -7,7 +7,7 @@ if [ "$?" != "0" ]; then
 fi
 cd CheckXSS
 echo -e "\n\033[34m==>  \033[0m\033[1mInstall Python3 module ... \033[0m"
-pip3 install -r requirement.txt
+pip3 install -r requirements.txt
 if [ "$?" != "0" ]; then
    echo "error: pip3 install failed "
    exit 1
