@@ -9,6 +9,8 @@
 
 *交互模块参考自 sqlmap，如果你熟悉 sqlmap，那么一定可以轻松上手 xssmap！*
 
+- [英文介绍](https://github.com/Jewel591/xssmap/blob/master/README.md)
+
 ## 截图
 ![image.png](https://i.loli.net/2020/08/16/dAWR9LIlFK2JS1Z.png)
 
