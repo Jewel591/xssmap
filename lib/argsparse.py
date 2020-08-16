@@ -4,7 +4,7 @@ class argsparse:
     def args(self):
         parser = argparse.ArgumentParser()
         parser.description="Detect XSS vulnerability in Web Applications "
-        parser.add_argument("-u",dest="url",type=str,help="target URL (e.g. \"http://www.site.com/vuln.php?id=1\")")
+        parser.add_argument("-u",dest="url",type=str,help="target URL (e.g. \"http://www.site.com/vuln.php?id=1\")",required=True)
         parser.add_argument("-p", dest="parameter", metavar="PARAMETER",help="testable parameter(s)")
         parser.add_argument("--version",action="version", version="checkxss version 0.1.1 ")
         parser.add_argument("--cookie", dest="cookie", help="HTTP cookie header value (e.g. \"PHPSESSID=a8d127e..\")")
