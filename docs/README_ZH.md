@@ -2,8 +2,8 @@
 
 ![image.png](https://i.loli.net/2020/08/16/AxjZF1HVKT6RdBD.png)
 
-[![](https://img.shields.io/travis/com/Jewel591/CheckXSS)](https://travis-ci.com/github/Jewel591/CheckXSS) [![codecov](https://codecov.io/gh/Jewel591/CheckXSS/branch/master/graph/badge.svg)](https://codecov.io/gh/Jewel591/CheckXSS) [![](https://img.shields.io/badge/version-0.1.1-bule.svg)](https://img.shields.io/github/license/Jewel591/CheckXSS)
-[![](https://img.shields.io/badge/python-3.6-bule.svg)](https://www.python.org/) [![](https://img.shields.io/github/license/Jewel591/CheckXSS)](https://github.com/Jewel591/CheckXSS/tree/master) ![](https://img.shields.io/github/repo-size/Jewel591/CheckXSS) 
+[![](https://img.shields.io/travis/com/Jewel591/xssmap)](https://travis-ci.com/github/Jewel591/xssmap) [![codecov](https://codecov.io/gh/Jewel591/xssmap/branch/master/graph/badge.svg)](https://codecov.io/gh/Jewel591/xssmap) [![](https://img.shields.io/badge/version-0.1.1-bule.svg)](https://img.shields.io/github/license/Jewel591/xssmap)
+[![](https://img.shields.io/badge/python-3.6-bule.svg)](https://www.python.org/) [![](https://img.shields.io/github/license/Jewel591/xssmap)](https://github.com/Jewel591/xssmap/tree/master) ![](https://img.shields.io/github/repo-size/Jewel591/xssmap) 
 
 **检测Web应用程序中的XSS漏洞**
 
@@ -17,11 +17,11 @@
 ## 快速安装
 只需一行代码，就是如此简单:
 ```
-curl -L -s https://raw.githubusercontent.com/Jewel591/CheckXSS/master/docs/install.sh|bash
+curl -L -s https://raw.githubusercontent.com/Jewel591/xssmap/master/docs/install.sh|bash
 ```
 
 ## 用法介绍
-`python3.6 checkxss.py -h`
+`python3.6 xssmap.py -h`
 
 ![image.png](https://i.loli.net/2020/08/16/ynsxozhfCp2wYLX.png)
 
@@ -29,7 +29,7 @@ curl -L -s https://raw.githubusercontent.com/Jewel591/CheckXSS/master/docs/insta
 
 例如，测试 POST 数据中的 returnUrl 参数。:
 
-`python3.6 checkxss.py -u "https://example.com/login.do" --data="returnUrl=utest" -p returnUrl` 
+`python3.6 xssmap.py -u "https://example.com/login.do" --data="returnUrl=utest" -p returnUrl` 
 
 不指定参数，默认对所有参数进行测试。
 
@@ -42,7 +42,7 @@ curl -L -s https://raw.githubusercontent.com/Jewel591/CheckXSS/master/docs/insta
 
 ## 贡献
 
-欢迎通过[issues 页面](https://github.com/Jewel591/CheckXSS/issues) 提交 Contributions、issues 和功能需求！
+欢迎通过[issues 页面](https://github.com/Jewel591/xssmap/issues) 提交 Contributions、issues 和功能需求！
 
 ## 维护者
 
