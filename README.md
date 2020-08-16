@@ -9,6 +9,8 @@
 
 *Usage mimics sqlmap, and if you know sqlmap, you can easily handle xssmap!*
 
+- [中文介绍](https://github.com/Jewel591/xssmap/blob/master/docs/README_ZH.md)
+
 ## Screenshots
 ![image.png](https://i.loli.net/2020/08/16/dAWR9LIlFK2JS1Z.png)
 
