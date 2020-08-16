@@ -15,5 +15,4 @@ class argsparse:
         parser.add_argument("--proxy", help="Use a http proxy to connect to the target URL（e.g. \"127.0.0.1:8080\"）")
         parser.add_argument("--random-agent", metavar="", help="Use randomly selected HTTP User-Agent header value")
         parser.add_argument("-v", dest="verbose", action="store_true", help="verbose mode")
-        parser.add_argument("--gui", dest="gui",action="store_true",help="Launch graphical interface powered by PyQt5")
         return parser.parse_args()
