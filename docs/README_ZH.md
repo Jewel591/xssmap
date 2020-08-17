@@ -20,6 +20,14 @@
 curl -L -s https://raw.githubusercontent.com/Jewel591/xssmap/master/docs/install.sh|bash
 ```
 
+如果提示网络错误，例如 Connection refused，使用 git clone 安装：
+
+```
+git clone -b master https://github.com/Jewel591/xssmap.git
+cd xssmap
+pip3 install -r requirements.txt
+```
+
 ## 用法介绍
 `python3.6 xssmap.py -h`
 
