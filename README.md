@@ -50,6 +50,10 @@ thanks for [@dwisiswant0](https://github.com/dwisiswant0)
 
 [@Jewel591](https://github.com/Jewel591)
 
+## Todo
+
+- [ ] DOM XSS Detect
+- [ ] Json XSS Detect
 
 
 ## License
