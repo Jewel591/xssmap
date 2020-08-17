@@ -44,7 +44,7 @@ def main():
         checkByParameter(args.parameter)
     else:
         allparameter = connect.getParameters()
-        print(output.colour_blue(get_time()), output.colour_green("[INFO]") + " there are " + str(len(allparameter)) + " parameters detected from the input: ", end="")
+        print(output.colour_blue(get_time()), output.colour_green("[INFO]"), "there are " + str(len(allparameter)) + " parameters detected from the input: ", end="")
         for key in allparameter.keys():
             print(key.strip(), end=" ")
         print("")
@@ -331,7 +331,7 @@ class XssMap():
 
     def check_combination_close_no(self):
 
-        print(output.colour_blue(get_time()),output.colour_green("[INFO]")+
+        print(output.colour_blue(get_time()),output.colour_green("[INFO]"),
             "generating payload - unClosed Labels (-v for More Info)")
 
 
@@ -523,7 +523,7 @@ class XssMap():
 
     def check_combination_close_yes(self):
 
-        print(output.colour_blue(get_time()),output.colour_green("[INFO]") +
+        print(output.colour_blue(get_time()),output.colour_green("[INFO]"),
             "generating payload - Closed Labels (-v for More Info..)")
 
         if test_result.signal['action'] == test_result.signal['onevent'] == 'no':
