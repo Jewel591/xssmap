@@ -44,6 +44,8 @@ Contributions, issues and feature requests are welcome!
 
 Feel to check [issues page](https://github.com/Jewel591/xssmap/issues)
 
+thanks for [@dwisiswant0](https://github.com/dwisiswant0)
+
 ## Maintainers
 
 [@Jewel591](https://github.com/Jewel591)
