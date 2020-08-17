@@ -2,7 +2,7 @@
 
 ![image.png](https://i.loli.net/2020/08/16/AxjZF1HVKT6RdBD.png)
 
-[![](https://img.shields.io/travis/com/Jewel591/xssmap)](https://travis-ci.com/github/Jewel591/xssmap) [![codecov](https://codecov.io/gh/Jewel591/xssmap/branch/master/graph/badge.svg)](https://codecov.io/gh/Jewel591/xssmap) [![](https://img.shields.io/badge/version-0.1.1-bule.svg)](https://img.shields.io/github/license/Jewel591/xssmap)
+[![](https://img.shields.io/travis/com/Jewel591/CheckXSS)](https://travis-ci.com/github/Jewel591/CheckXSS) [![codecov](https://codecov.io/gh/Jewel591/CheckXSS/branch/master/graph/badge.svg)](https://codecov.io/gh/Jewel591/CheckXSS) [![](https://img.shields.io/badge/version-0.1.1-bule.svg)](https://img.shields.io/github/license/Jewel591/xssmap)
 [![](https://img.shields.io/badge/python-3.6-bule.svg)](https://www.python.org/) [![](https://img.shields.io/github/license/Jewel591/xssmap)](https://github.com/Jewel591/xssmap/tree/master) ![](https://img.shields.io/github/repo-size/Jewel591/xssmap) 
 
 **检测Web应用程序中的XSS漏洞**
