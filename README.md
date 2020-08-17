@@ -17,7 +17,15 @@
 ## Easy Installation
 As simple as below, Just one line of code:
 ```
-curl -L -s https://raw.githubusercontent.com/Jewel591/xssmap/master/docs/install.sh|bash
+curl -L https://raw.githubusercontent.com/Jewel591/xssmap/master/docs/install.sh|bash
+```
+
+If you get a network error, such as Connection refused, use git clone to install：
+
+```
+git clone -b master https://github.com/Jewel591/xssmap.git
+cd xssmap
+pip3 install -r requirements.txt
 ```
 
 ## Usage Instructions
