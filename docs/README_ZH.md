@@ -1,3 +1,5 @@
+2020.08.20 update
+小 bug 还比较多，最近会抽时间来修改，请保持 update
 # XSSMAP
 
 ![image.png](https://i.loli.net/2020/08/16/AxjZF1HVKT6RdBD.png)
